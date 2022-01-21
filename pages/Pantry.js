@@ -1,26 +1,28 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Button,Text, View } from 'react-native';
-import NavBar from '../components/NavBar'
-
+import { StyleSheet, Text, View } from "react-native";
+import NavBar from "../components/NavBar";
 
 const Pantry = ({ navigation }) => {
-    return (
-      <View style={styles.container}>
-        <NavBar navigation={navigation}/>
-
-        <StatusBar style="auto" />
+  return (
+    <>
+      <View style={styles.main}>
+        <Text>test</Text>
       </View>
-  
-    );
-  };
+      <View style={styles.NavBar}>
+        <NavBar navigation={navigation} page={"pantry"} />
+      </View>
+    </>
+  );
+};
 
-  export default Pantry;
+export default Pantry;
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-  });
+const styles = StyleSheet.create({
+  main: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  NavBar: {
+    height: "10%",
+  },
+});
