@@ -3,11 +3,12 @@ import AppLoading from "expo-app-loading";
 
 import { useFonts } from "expo-font";
 
-import NavBar from "../components/NavBar";
 import Header from "../components/Header";
+import SearchBar from "../components/SearchBar";
+import NavBar from "../components/NavBar";
 import ButtonBar from "../components/ButtonBar";
 
-const List = ({ navigation }) => {
+const Ingredients = ({ navigation }) => {
   let [fontsLoaded, error] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
     "Meddon-Regular": require("../assets/fonts/Meddon-Regular.ttf"),
@@ -18,19 +19,25 @@ const List = ({ navigation }) => {
   }
   return (
     <>
+      {/* ~~~~~~~ Header ~~~~~~~~~~ */}
+
       <View style={styles.header}>
         <Header
           navigation={navigation}
-          title={["List", 40]}
-          icons={[
-            ["edit", "edit"],
-            ["trash", "trash"],
-          ]}
+          title={["Ingredients", 30]}
+          icons={[["edit", "edit"]]}
         />
       </View>
-      <View style={styles.container}>
-        <Text style={styles.text}>test</Text>
+      {/* ~~~~~~~ Body ~~~~~~~~~~ */}
+
+      <View style={styles.body}>
+        <View style={styles.searchBar}>
+          <SearchBar />
+        </View>
+        <View style={styles.categorySelection}></View>
       </View>
+
+      {/* ~~~~~~~ Footer ~~~~~~~~~~ */}
 
       <View style={styles.buttonBar}>
         <ButtonBar
@@ -45,21 +52,22 @@ const List = ({ navigation }) => {
   );
 };
 
-export default List;
+export default Ingredients;
 
 const styles = StyleSheet.create({
-  container: {
+  header: {
+    justifyContent: "flex-end",
+    backgroundColor: "#fff",
+    height: "15%",
+  },
+
+  body: {
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
 
-  header: {
-    justifyContent: "flex-end",
-    backgroundColor: "#fff",
-    height: "15%",
-  },
   text: { fontFamily: "Poppins-Regular", fontSize: 50 },
 
   buttonBar: {
