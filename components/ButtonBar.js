@@ -2,6 +2,10 @@ import { View } from "react-native";
 import { Icon } from "react-native-elements";
 
 const Header = ({ navigation, buttonInfo }) => {
+  const changeOnPress = (info) => {
+    info[1] != "buttonFunction" ? navigation.navigate(info[1]) : info[2]();
+  };
+
   const DisplayIcon = () =>
     buttonInfo.map((info) => (
       <Icon
@@ -10,13 +14,19 @@ const Header = ({ navigation, buttonInfo }) => {
         type="materialicons"
         size={55}
         onPress={() => {
-          navigation.navigate(info[1]);
+          changeOnPress(info);
         }}
       />
     ));
 
   return (
-    <View style={{ flexDirection: "row", paddingLeft: "15%" }}>
+    <View
+      style={{
+        width: "85%",
+        flexDirection: "row-reverse",
+        justifyContent: "space-between",
+      }}
+    >
       {DisplayIcon()}
     </View>
   );

@@ -8,10 +8,10 @@ import SearchBar from "../components/SearchBar";
 import NavBar from "../components/NavBar";
 import ButtonBar from "../components/ButtonBar";
 
-const Ingredients = ({ navigation }) => {
+const Add_Items = ({ navigation }) => {
   let [fontsLoaded, error] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "Meddon-Regular": require("../assets/fonts/Meddon-Regular.ttf"),
+    "DancingScript-Regular": require("../assets/fonts/DancingScript-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -24,7 +24,7 @@ const Ingredients = ({ navigation }) => {
       <View style={styles.header}>
         <Header
           navigation={navigation}
-          title={["Ingredients", 30]}
+          title={["Add Items", 50]}
           icons={[["edit", "edit"]]}
         />
       </View>
@@ -42,7 +42,7 @@ const Ingredients = ({ navigation }) => {
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "Ingredients"]]}
+          buttonInfo={[["add-circle-outline", "Create_Item"]]}
         />
       </View>
       <View style={styles.NavBar}>
@@ -52,7 +52,7 @@ const Ingredients = ({ navigation }) => {
   );
 };
 
-export default Ingredients;
+export default Add_Items;
 
 const styles = StyleSheet.create({
   header: {

@@ -1,22 +1,38 @@
+import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
 const DisplayIcon = (listOfIcons) => {
-  return listOfIcons.map((icon) => (
-    <View key={icon[1]} style={{ paddingLeft: "15%" }}>
-      <Icon
-        name={icon[0]}
-        type="feather"
-        size={30}
-        onPress={() => {
-          navigation.navigate(icon[1]);
-        }}
-      />
-    </View>
-  ));
+  if (listOfIcons != null) {
+    return listOfIcons.map((icon, navigation) => (
+      <View key={icon[1]} style={{ paddingLeft: "15%" }}>
+        <Icon
+          name={icon[0]}
+          type="feather"
+          size={30}
+          onPress={() => {
+            navigation.navigate(icon[1]);
+          }}
+        />
+      </View>
+    ));
+  }
 };
 
 const Header = ({ navigation, title, icons }) => {
+  const [widthSize, setWidthSize] = useState();
+  const Test = () => {
+    if (icons != null) {
+      setWidthSize("75%");
+    } else {
+      setWidthSize("100%");
+    }
+  };
+
+  useEffect(() => {
+    Test();
+  }, []);
+
   return (
     <View style={styles.header}>
       <View
@@ -33,10 +49,15 @@ const Header = ({ navigation, title, icons }) => {
             flexWrap: "nowrap",
             overflow: "visible",
             justifyContent: "flex-end",
-            width: "75%",
+            width: widthSize,
           }}
         >
-          <Text style={{ fontFamily: "Meddon-Regular", fontSize: title[1] }}>
+          <Text
+            style={{
+              fontFamily: "DancingScript-Regular",
+              fontSize: title[1],
+            }}
+          >
             {title[0]}
           </Text>
         </View>
@@ -47,7 +68,7 @@ const Header = ({ navigation, title, icons }) => {
             width: "25%",
           }}
         >
-          {DisplayIcon(icons)}
+          {DisplayIcon(icons, navigation)}
         </View>
       </View>
     </View>

@@ -6,7 +6,8 @@ const Stack = createNativeStackNavigator();
 import List from "./pages/List";
 import Pantry from "./pages/Pantry";
 import Recipe from "./pages/Recipe";
-import Ingredients from "./pages/Ingredients";
+import Add_Items from "./pages/Add_Items";
+import Create_Item from "./pages/Create_Item";
 import Category from "./pages/Category";
 
 export default function App() {
@@ -19,8 +20,13 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Ingredients"
-          component={Ingredients}
+          name="Add_Items"
+          component={Add_Items}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Create_Item"
+          component={Create_Item}
           options={{ headerShown: false }}
         />
         <Stack.Screen

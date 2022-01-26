@@ -10,7 +10,7 @@ import ButtonBar from "../components/ButtonBar";
 const List = ({ navigation }) => {
   let [fontsLoaded, error] = useFonts({
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "Meddon-Regular": require("../assets/fonts/Meddon-Regular.ttf"),
+    "DancingScript-Regular": require("../assets/fonts/DancingScript-Regular.ttf"),
   });
 
   if (!fontsLoaded) {
@@ -21,7 +21,7 @@ const List = ({ navigation }) => {
       <View style={styles.header}>
         <Header
           navigation={navigation}
-          title={["List", 40]}
+          title={[" List", 50]}
           icons={[
             ["edit", "edit"],
             ["trash", "trash"],
@@ -35,7 +35,7 @@ const List = ({ navigation }) => {
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "Ingredients"]]}
+          buttonInfo={[["add-circle-outline", "Add_Items"]]}
         />
       </View>
       <View style={styles.NavBar}>
