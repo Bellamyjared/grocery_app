@@ -1,22 +1,23 @@
 import axios from "axios";
 
-export async function GetIngredient() {
-  const result = await axios("http://localhost:5000/ingredient");
+export async function GetItem() {
+  const result = await axios("http://172.17.96.170:5000/item");
   return result.data;
 }
 
-export async function PostIngredient(ingredient) {
+export async function PostItem(Item) {
   const result = await axios
-    .post("http://localhost:5000/ingredient/add", ingredient)
+    .post("http://172.17.96.170:5000/item/add", Item)
     .catch((error) => {
       console.log(error.response);
     });
+  console.log(result);
   return result.data;
 }
 
-export async function UpdateIngredient(id, ingredient) {
+export async function UpdateItem(id, Item) {
   const result = await axios
-    .post(`http://localhost:5000/ingredient/update/${id}`, ingredient)
+    .post(`http://localhost:5000/item/update/${id}`, Item)
     .catch((error) => {
       console.log(error.response);
     });
@@ -24,9 +25,9 @@ export async function UpdateIngredient(id, ingredient) {
   return result;
 }
 
-export async function DeleteIngredient(id) {
+export async function DeleteItem(id) {
   const result = await axios
-    .delete(`http://localhost:5000/ingredient/${id}`)
+    .delete(`http://localhost:5000/item/${id}`)
     .catch((error) => {
       console.log(error.response);
     });

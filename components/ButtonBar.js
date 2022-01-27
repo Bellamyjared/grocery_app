@@ -9,7 +9,7 @@ const Header = ({ navigation, buttonInfo }) => {
   const DisplayIcon = () =>
     buttonInfo.map((info) => (
       <Icon
-        key={Math.floor(Math.random() * 100)} // just to give a random unique id for now
+        key={Math.floor(Math.random() * 100) + info[0]} // just to give a random unique id for now
         name={info[0]}
         type="materialicons"
         size={55}

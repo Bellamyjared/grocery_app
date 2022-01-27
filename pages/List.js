@@ -21,7 +21,7 @@ const List = ({ navigation }) => {
       <View style={styles.header}>
         <Header
           navigation={navigation}
-          title={[" List", 50]}
+          title={["List", 50]}
           icons={[
             ["edit", "edit"],
             ["trash", "trash"],

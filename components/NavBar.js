@@ -34,6 +34,7 @@ const NavBar = ({ navigation, page, disabled }) => {
     if (disabled != true) {
       return infoList.map((info) => (
         <Icon
+          key={Math.floor(Math.random() * 100) + info[0]}
           name={info[0]}
           type="materialicons"
           size={40}
@@ -46,6 +47,7 @@ const NavBar = ({ navigation, page, disabled }) => {
     } else {
       return infoList.map((info) => (
         <Icon
+          key={Math.floor(Math.random() * 100) + info[0]}
           name={info[0]}
           type="materialicons"
           size={40}

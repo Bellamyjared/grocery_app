@@ -5,7 +5,10 @@ import { Icon } from "react-native-elements";
 const DisplayIcon = (listOfIcons) => {
   if (listOfIcons != null) {
     return listOfIcons.map((icon, navigation) => (
-      <View key={icon[1]} style={{ paddingLeft: "15%" }}>
+      <View
+        key={Math.floor(Math.random() * 100) + icon[0]}
+        style={{ paddingLeft: "15%" }}
+      >
         <Icon
           name={icon[0]}
           type="feather"
@@ -58,7 +61,8 @@ const Header = ({ navigation, title, icons }) => {
               fontSize: title[1],
             }}
           >
-            {title[0]}
+            {/* added space to buffer title padding as the font is to large for the actual font spacing */}
+            {" " + title[0]}
           </Text>
         </View>
         <View

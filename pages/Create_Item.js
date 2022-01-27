@@ -1,15 +1,41 @@
+//  TO DO
+// subclass
+// category selection
+
 import { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
 import { Button } from "react-native-elements";
 
 import Header from "../components/Header";
 import NavBar from "../components/NavBar";
 import ButtonBar from "../components/ButtonBar";
+import { PostItem } from "../dbRequests/Item";
 
 const Add_Ingredient = ({ navigation }) => {
-  const [ingredient_text, setIngredient_text] = useState("test");
+  const [item, setItem] = useState();
+  const [categoryId, setCategoryId] = useState();
+  const [subItem, setSubItem] = useState(["test1"]);
 
-  const onSubmit = () => console.log("submit");
+  const handleSubmit = async () => {
+    let newItem = {
+      item: item,
+      categoryId: categoryId,
+    };
+
+    if (subItem != undefined) {
+      newItem = { ...newItem, subItem: subItem };
+    }
+
+    const ItemId = PostItem(newItem);
+    if ((await ItemId) === undefined) {
+      Alert.alert(
+        "ERROR",
+        "An error occurred while creating your item. Please try again later"
+      );
+    } else {
+      navigation.goBack();
+    }
+  };
 
   const onCancel = () => navigation.goBack();
 
@@ -18,25 +44,25 @@ const Add_Ingredient = ({ navigation }) => {
       {/* ~~~~~~~ Header ~~~~~~~~~~ */}
 
       <View style={styles.header}>
-        <Header navigation={navigation} title={["Add Ingredient", 30]} />
+        <Header navigation={navigation} title={["Create Item", 30]} />
       </View>
       {/* ~~~~~~~ Body ~~~~~~~~~~ */}
 
       <View style={styles.body}>
         <View style={{ paddingTop: 15 }}>
-          <Text style={styles.form_Lable}>Ingredient</Text>
+          <Text style={styles.form_Lable}>Item</Text>
           <TextInput
             style={styles.form_Input}
-            onChangeText={setIngredient_text}
-            value={ingredient_text}
+            onChangeText={setItem}
+            value={item}
           />
         </View>
         <View style={{ paddingTop: 15 }}>
-          <Text style={styles.form_Lable}>Ingredient</Text>
+          <Text style={styles.form_Lable}>Category</Text>
           <TextInput
             style={styles.form_Input}
-            onChangeText={setIngredient_text}
-            value={ingredient_text}
+            onChangeText={setCategoryId}
+            value={categoryId}
           />
         </View>
         <View style={{ paddingTop: 15, width: 300 }}>
@@ -48,11 +74,12 @@ const Add_Ingredient = ({ navigation }) => {
             buttonStyle={{
               backgroundColor: "#97FFDA",
               borderRadius: 15,
-              width: 125,
+              width: 115,
+              height: 50,
             }}
             titleStyle={{
               color: "black",
-              fontSize: 20,
+              fontSize: 25,
             }}
           />
         </View>
@@ -64,7 +91,7 @@ const Add_Ingredient = ({ navigation }) => {
         <ButtonBar
           navigation={navigation}
           buttonInfo={[
-            ["check-circle-outline", "buttonFunction", onSubmit],
+            ["check-circle-outline", "buttonFunction", handleSubmit],
             ["exit-to-app", "buttonFunction", onCancel],
           ]}
         />
@@ -89,7 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center",
   },
 
   form_Lable: { margin: 10, fontSize: 20 },
