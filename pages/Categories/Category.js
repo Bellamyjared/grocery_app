@@ -1,50 +1,45 @@
 import { StyleSheet, Text, View } from "react-native";
-import AppLoading from "expo-app-loading";
-import { useFonts } from "expo-font";
+import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
+import ButtonBar from "../../components/ButtonBar";
 
-import NavBar from "../components/NavBar";
-import Header from "../components/Header";
-import ButtonBar from "../components/ButtonBar";
+const Category = ({ navigation }) => {
+  const handleBack = () => navigation.goBack();
+  const handleSubmit = async () => {
+    console.log("submit");
+  };
 
-const List = ({ navigation }) => {
-  let [fontsLoaded, error] = useFonts({
-    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "DancingScript-Regular": require("../assets/fonts/DancingScript-Regular.ttf"),
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
   return (
     <>
       <View style={styles.header}>
         <Header
           navigation={navigation}
-          title={["List", 50]}
-          icons={[
-            ["edit", "Category"],
-            ["trash", "trash"],
-          ]}
+          title={["Category", 50]}
+          icons={[["trash", "trash"]]}
         />
       </View>
       <View style={styles.container}>
-        <Text style={styles.text}>test 12</Text>
+        <Text style={styles.text}>Cetasd</Text>
       </View>
 
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "Add_Items"]]}
+          buttonInfo={[
+            ["check-circle-outline", "buttonFunction", handleSubmit],
+            ["add-circle-outline", "Create_Category"],
+            ["exit-to-app", "buttonFunction", handleBack],
+          ]}
         />
       </View>
       <View style={styles.NavBar}>
-        <NavBar navigation={navigation} page={"list"} />
+        <NavBar navigation={navigation} page={"list"} disabled={true} />
       </View>
     </>
   );
 };
 
-export default List;
+export default Category;
 
 const styles = StyleSheet.create({
   container: {

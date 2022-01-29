@@ -1,3 +1,5 @@
+// go through and change any % based heights and widths because that was a dumb idea
+
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -6,9 +8,10 @@ const Stack = createNativeStackNavigator();
 import List from "./pages/List";
 import Pantry from "./pages/Pantry";
 import Recipe from "./pages/Recipe";
-import Add_Items from "./pages/Add_Items";
-import Create_Item from "./pages/Create_Item";
-import Category from "./pages/Category";
+import Add_Items from "./pages/Items/Add_Items";
+import Create_Item from "./pages/Items/Create_Item";
+import Category from "./pages/Categories/Category";
+import Create_Category from "./pages/Categories/Create_Category";
 
 export default function App() {
   return (
@@ -19,6 +22,7 @@ export default function App() {
           component={List}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="Add_Items"
           component={Add_Items}
@@ -32,6 +36,11 @@ export default function App() {
         <Stack.Screen
           name="Category"
           component={Category}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Create_Category"
+          component={Create_Category}
           options={{ headerShown: false }}
         />
 

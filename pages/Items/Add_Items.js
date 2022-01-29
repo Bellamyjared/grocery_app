@@ -3,16 +3,18 @@ import AppLoading from "expo-app-loading";
 
 import { useFonts } from "expo-font";
 
-import Header from "../components/Header";
-import SearchBar from "../components/SearchBar";
-import NavBar from "../components/NavBar";
-import ButtonBar from "../components/ButtonBar";
+import Header from "../../components/Header";
+import SearchBar from "../../components/SearchBar";
+import NavBar from "../../components/NavBar";
+import ButtonBar from "../../components/ButtonBar";
 
 const Add_Items = ({ navigation }) => {
   let [fontsLoaded, error] = useFonts({
-    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "DancingScript-Regular": require("../assets/fonts/DancingScript-Regular.ttf"),
+    "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
+    "DancingScript-Regular": require("../../assets/fonts/DancingScript-Regular.ttf"),
   });
+
+  const handleBack = () => navigation.goBack();
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -42,7 +44,10 @@ const Add_Items = ({ navigation }) => {
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "Create_Item"]]}
+          buttonInfo={[
+            ["add-circle-outline", "Create_Item"],
+            ["exit-to-app", "buttonFunction", handleBack],
+          ]}
         />
       </View>
       <View style={styles.NavBar}>
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "flex-end",
     backgroundColor: "#fff",
-    height: "15%",
+    height: 115,
   },
 
   body: {

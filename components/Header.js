@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Icon } from "react-native-elements";
 
-const DisplayIcon = (listOfIcons) => {
+const DisplayIcon = (listOfIcons, navigation) => {
   if (listOfIcons != null) {
-    return listOfIcons.map((icon, navigation) => (
+    return listOfIcons.map((icon) => (
       <View
         key={Math.floor(Math.random() * 100) + icon[0]}
         style={{ paddingLeft: "15%" }}

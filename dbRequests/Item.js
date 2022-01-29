@@ -7,11 +7,10 @@ export async function GetItem() {
 
 export async function PostItem(Item) {
   const result = await axios
-    .post("http://172.17.96.170:5000/item/add", Item)
+    .post("http://172.30.185.182:5000/item/add", Item)
     .catch((error) => {
       console.log(error.response);
     });
-  console.log(result);
   return result.data;
 }
 
