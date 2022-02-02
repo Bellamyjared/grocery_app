@@ -13,9 +13,13 @@ const Create_Category = ({ navigation }) => {
     "DancingScript-Regular": require("../../assets/fonts/DancingScript-Regular.ttf"),
   });
 
-  const [category, setCategory] = useState();
+  const [categoryText, setCategoryText] = useState();
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    let newCategory = {
+      category: categoryText,
+    };
+  };
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -30,8 +34,8 @@ const Create_Category = ({ navigation }) => {
           <Text style={styles.form_Lable}>Category Name</Text>
           <TextInput
             style={styles.form_Input}
-            onChangeText={setCategory}
-            value={category}
+            onChangeText={setCategoryText}
+            value={categoryText}
           />
         </View>
       </View>

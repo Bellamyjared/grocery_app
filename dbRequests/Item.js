@@ -1,13 +1,14 @@
 import axios from "axios";
+const ip = "http://172.30.189.11:5000";
 
 export async function GetItem() {
-  const result = await axios("http://172.17.96.170:5000/item");
+  const result = await axios(`${ip}/item`);
   return result.data;
 }
 
 export async function PostItem(Item) {
   const result = await axios
-    .post("http://172.30.185.182:5000/item/add", Item)
+    .post(`http://172.30.189.11:5000/item/add`, Item)
     .catch((error) => {
       console.log(error.response);
     });

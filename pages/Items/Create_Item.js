@@ -33,11 +33,11 @@ const Add_Ingredient = ({ navigation }) => {
   let final = [];
   const handleSubItemText = (subText, count) => {
     if (subText != undefined) {
-      let test = subItems;
-      let test2 = [subItems[count]];
-      test2 = subText;
-      test[count] = test2;
-      final = test;
+      let ItemList = subItems;
+      let subItem = [subItems[count]];
+      subItem = subText;
+      ItemList[count] = subItem;
+      final = ItemList;
     }
   };
 
@@ -61,12 +61,14 @@ const Add_Ingredient = ({ navigation }) => {
       item: item,
       categoryId: categoryId,
     };
+    // need to create actual text handling, but machanics work for now
     if (subItems.length != 0) {
-      // NEED FIXING
       if (final.length != 0 && final != [""]) {
         newItem = { ...newItem, subItems: final };
+        console.log("test");
       } else {
         Alert.alert("ERROR", "format issue sub Item");
+        test = false;
       }
     }
     if ((await PostItem(newItem)) === undefined) {

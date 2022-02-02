@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import AppLoading from "expo-app-loading";
 
 import { useFonts } from "expo-font";
 
+import { GetItem } from "../../dbRequests/Item";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 import NavBar from "../../components/NavBar";
@@ -13,6 +15,17 @@ const Add_Items = ({ navigation }) => {
     "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
     "DancingScript-Regular": require("../../assets/fonts/DancingScript-Regular.ttf"),
   });
+
+  const [Items, setItems] = useState([]);
+
+  useEffect(() => {
+    handleGetItems();
+  }, []);
+
+  const handleGetItems = async () => {
+    data = await GetItem();
+    setItems(data);
+  };
 
   const handleBack = () => navigation.goBack();
 
@@ -35,6 +48,11 @@ const Add_Items = ({ navigation }) => {
       <View style={styles.body}>
         <View style={styles.searchBar}>
           <SearchBar />
+          <View>
+            {Items.map((item) => (
+              <Text>{item.item}</Text>
+            ))}
+          </View>
         </View>
         <View style={styles.categorySelection}></View>
       </View>
