@@ -1,11 +1,29 @@
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+
+import { GetCategory } from "../../dbRequests/Category";
 import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
 
 const Category = ({ navigation }) => {
+  const [categories, setCategories] = useState([]);
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    handleGetItems();
+  }, [isFocused]);
+
+  const handleGetItems = async () => {
+    data = await GetCategory();
+    setCategories(data);
+  };
+
   const handleBack = () => navigation.goBack();
-  const handleSubmit = async () => {
+
+  const handleSubmit = () => {
     console.log("submit");
   };
 
@@ -19,7 +37,9 @@ const Category = ({ navigation }) => {
         />
       </View>
       <View style={styles.container}>
-        <Text style={styles.text}>Cetasd</Text>
+        {categories.map((category) => (
+          <Text>{category.category}</Text>
+        ))}
       </View>
 
       <View style={styles.buttonBar}>

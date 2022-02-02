@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
+
 import AppLoading from "expo-app-loading";
 
 import { useFonts } from "expo-font";
@@ -16,11 +18,13 @@ const Add_Items = ({ navigation }) => {
     "DancingScript-Regular": require("../../assets/fonts/DancingScript-Regular.ttf"),
   });
 
+  const isFocused = useIsFocused();
+
   const [Items, setItems] = useState([]);
 
   useEffect(() => {
     handleGetItems();
-  }, []);
+  }, [isFocused]);
 
   const handleGetItems = async () => {
     data = await GetItem();

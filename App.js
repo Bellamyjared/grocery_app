@@ -22,7 +22,6 @@ export default function App() {
           component={List}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="Add_Items"
           component={Add_Items}

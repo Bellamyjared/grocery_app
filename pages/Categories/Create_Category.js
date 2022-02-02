@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
+import { PostCategory } from "../../dbRequests/Category";
 import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
@@ -15,10 +16,15 @@ const Create_Category = ({ navigation }) => {
 
   const [categoryText, setCategoryText] = useState();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     let newCategory = {
       category: categoryText,
     };
+    if ((await PostCategory(newCategory)) != undefined) {
+      navigation.navigate("Category");
+    } else {
+      Alert.alert("ERROR", "format issue sub Item");
+    }
   };
 
   if (!fontsLoaded) {
@@ -43,7 +49,7 @@ const Create_Category = ({ navigation }) => {
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "Category", handleSubmit]]}
+          buttonInfo={[["add-circle-outline", "buttonFunction", handleSubmit]]}
         />
       </View>
       <View style={styles.NavBar}>
