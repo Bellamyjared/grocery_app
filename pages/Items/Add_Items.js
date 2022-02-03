@@ -38,8 +38,7 @@ const Add_Items = ({ navigation }) => {
   }
   return (
     <>
-      {/* ~~~~~~~ Header ~~~~~~~~~~ */}
-
+      {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.header}>
         <Header
           navigation={navigation}
@@ -47,8 +46,7 @@ const Add_Items = ({ navigation }) => {
           icons={[["edit", "edit"]]}
         />
       </View>
-      {/* ~~~~~~~ Body ~~~~~~~~~~ */}
-
+      {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.body}>
         <View style={styles.searchBar}>
           <SearchBar />
@@ -61,8 +59,7 @@ const Add_Items = ({ navigation }) => {
         <View style={styles.categorySelection}></View>
       </View>
 
-      {/* ~~~~~~~ Footer ~~~~~~~~~~ */}
-
+      {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
@@ -72,6 +69,7 @@ const Add_Items = ({ navigation }) => {
           ]}
         />
       </View>
+      {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
       </View>

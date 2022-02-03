@@ -4,9 +4,12 @@ import NavBar from "../components/NavBar";
 const Pantry = ({ navigation }) => {
   return (
     <>
+      {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+      {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.main}>
         <Text>test</Text>
       </View>
+      {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"pantry"} />
       </View>

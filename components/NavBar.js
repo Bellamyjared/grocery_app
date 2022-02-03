@@ -31,31 +31,18 @@ const NavBar = ({ navigation, page, disabled }) => {
       ["book", recipeUnderLine, "Recipe"],
     ];
 
-    if (disabled != true) {
-      return infoList.map((info) => (
-        <Icon
-          key={Math.floor(Math.random() * 100) + info[0]}
-          name={info[0]}
-          type="materialicons"
-          size={40}
-          containerStyle={info[1]}
-          onPress={() => {
-            navigation.navigate(info[2]);
-          }}
-        />
-      ));
-    } else {
-      return infoList.map((info) => (
-        <Icon
-          key={Math.floor(Math.random() * 100) + info[0]}
-          name={info[0]}
-          type="materialicons"
-          size={40}
-          containerStyle={info[1]}
-          color="#BBBBBB"
-        />
-      ));
-    }
+    return infoList.map((info) => (
+      <Icon
+        key={Math.floor(Math.random() * 100) + info[0]}
+        name={info[0]}
+        type="materialicons"
+        size={40}
+        containerStyle={info[1]}
+        onPress={() => {
+          navigation.navigate(info[2]);
+        }}
+      />
+    ));
   };
 
   return <View style={[styles.container]}>{disableIcons()}</View>;

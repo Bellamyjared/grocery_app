@@ -88,13 +88,11 @@ const Add_Ingredient = ({ navigation }) => {
   return (
     <>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {/* ~~~~~~~ Header ~~~~~~~~~~ */}
-
+        {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.header}>
           <Header navigation={navigation} title={["Create Item", 50]} />
         </View>
-        {/* ~~~~~~~ Body ~~~~~~~~~~ */}
-
+        {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.body}>
           <View style={{ paddingTop: 15 }}>
             <Text style={styles.form_Lable}>Item</Text>
@@ -112,7 +110,7 @@ const Add_Ingredient = ({ navigation }) => {
               value={categoryId}
             />
           </View>
-          <View style={{ paddingTop: 15, width: 300 }}>
+          <View style={{ paddingTop: 15, paddingBottom: 30, width: 300 }}>
             <Text style={styles.form_Lable}>Sub Item</Text>
             {subItemCount.map((count) => (
               <SubItemForm
@@ -143,20 +141,16 @@ const Add_Ingredient = ({ navigation }) => {
           </View>
         </View>
 
-        {/* ~~~~~~~ Footer ~~~~~~~~~~ */}
-
-        <View style={styles.buttonBar}>
-          <ButtonBar
-            navigation={navigation}
-            buttonInfo={[
-              ["check-circle-outline", "buttonFunction", formValidation],
-              ["exit-to-app", "buttonFunction", handleBack],
-            ]}
-          />
-        </View>
+        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       </ScrollView>
-      <View style={styles.NavBar}>
-        <NavBar navigation={navigation} page={"list"} disabled={true} />
+      <View style={styles.buttonBar}>
+        <ButtonBar
+          navigation={navigation}
+          buttonInfo={[
+            ["check-circle-outline", "buttonFunction", formValidation],
+            ["exit-to-app", "buttonFunction", handleBack],
+          ]}
+        />
       </View>
     </>
   );
@@ -195,13 +189,14 @@ const styles = StyleSheet.create({
   },
 
   buttonBar: {
-    height: 95,
-    paddingTop: 20,
+    height: 80,
+    paddingTop: 10,
     paddingRight: 40,
     alignItems: "flex-end",
     backgroundColor: "#fff",
-  },
-  NavBar: {
-    height: "10%",
+    borderColor: "#E7E7E7",
+    borderStyle: "solid",
+    borderTopWidth: 2,
+    backgroundColor: "#fff",
   },
 });

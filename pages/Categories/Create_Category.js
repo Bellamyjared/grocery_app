@@ -1,40 +1,44 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
-import AppLoading from "expo-app-loading";
-import { useFonts } from "expo-font";
 
 import { PostCategory } from "../../dbRequests/Category";
 import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
 
-const Create_Category = ({ navigation }) => {
-  let [fontsLoaded, error] = useFonts({
-    "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-    "DancingScript-Regular": require("../../assets/fonts/DancingScript-Regular.ttf"),
-  });
-
+const Create_Category = ({ route, navigation }) => {
+  const { categoryOrder } = route.params; // grab props from route
   const [categoryText, setCategoryText] = useState();
 
+  const handleBack = () => navigation.goBack();
   const handleSubmit = async () => {
-    let newCategory = {
-      category: categoryText,
-    };
-    if ((await PostCategory(newCategory)) != undefined) {
-      navigation.navigate("Category");
+    // validation ~~~ NEEDS TO BE REPLACES WITH IN-APP ALERT AND UNDERLINE-TEXT ALERT
+    if (categoryText === undefined) {
+      Alert.alert(
+        "Text Input Error",
+        "Please fill category text before submitting"
+      );
     } else {
-      Alert.alert("ERROR", "format issue sub Item");
+      //create new category and send it to dbRequests, if error alert
+      let newCategory = {
+        category: categoryText,
+        categoryOrder: categoryOrder,
+      };
+      if ((await PostCategory(newCategory)) != undefined) {
+        navigation.navigate("Category");
+      } else {
+        Alert.alert("ERROR", "format issue sub Item");
+      }
     }
   };
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
   return (
     <>
+      {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.header}>
         <Header navigation={navigation} title={["Create Category", 45]} />
       </View>
+      {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.body}>
         <View>
           <Text style={styles.form_Lable}>Category Name</Text>
@@ -45,13 +49,17 @@ const Create_Category = ({ navigation }) => {
           />
         </View>
       </View>
-
+      {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "buttonFunction", handleSubmit]]}
+          buttonInfo={[
+            ["check-circle-outline", "buttonFunction", handleSubmit],
+            ["exit-to-app", "buttonFunction", handleBack],
+          ]}
         />
       </View>
+      {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
       </View>

@@ -17,6 +17,7 @@ const List = ({ navigation }) => {
   }
   return (
     <>
+      {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.header}>
         <Header
           navigation={navigation}
@@ -27,16 +28,18 @@ const List = ({ navigation }) => {
           ]}
         />
       </View>
+      {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.container}>
         <Text style={styles.text}>test 12</Text>
       </View>
-
+      {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
           buttonInfo={[["add-circle-outline", "Add_Items"]]}
         />
       </View>
+      {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
       </View>
