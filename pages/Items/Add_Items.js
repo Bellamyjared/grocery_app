@@ -64,8 +64,8 @@ const Add_Items = ({ navigation }) => {
         <ButtonBar
           navigation={navigation}
           buttonInfo={[
-            ["add-circle-outline", "Create_Item"],
-            ["exit-to-app", "buttonFunction", handleBack],
+            ["plus_circle", "Create_Item"],
+            ["back_circle", "buttonFunction", handleBack],
           ]}
         />
       </View>

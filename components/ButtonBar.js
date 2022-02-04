@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Icon } from "react-native-elements";
+import Icon from "../assets/icons/icon";
 
 const Header = ({ navigation, buttonInfo }) => {
   // passes a function or button to navigation depending on whats in the given array info
@@ -18,7 +18,6 @@ const Header = ({ navigation, buttonInfo }) => {
       <Icon
         key={Math.floor(Math.random() * 100) + info[0]} // just to give a random unique id for now
         name={info[0]}
-        type="materialicons"
         size={55}
         onPress={() => {
           changeOnPress(info);

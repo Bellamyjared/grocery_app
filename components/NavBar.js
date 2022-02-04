@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { StyleSheet, View } from "react-native";
-import { Icon } from "react-native-elements";
+import Icon from "../assets/icons/icon";
 
 const NavBar = ({ navigation, page, disabled }) => {
   const [listUnderLine, setListUnderLine] = useState();
@@ -26,16 +26,15 @@ const NavBar = ({ navigation, page, disabled }) => {
 
   const disableIcons = () => {
     const infoList = [
-      ["format-list-bulleted", listUnderLine, "List"],
-      ["fastfood", pantryUnderLine, "Pantry"],
-      ["book", recipeUnderLine, "Recipe"],
+      ["list", listUnderLine, "List"],
+      ["fridge", pantryUnderLine, "Pantry"],
+      ["recipe", recipeUnderLine, "Recipe"],
     ];
 
     return infoList.map((info) => (
       <Icon
         key={Math.floor(Math.random() * 100) + info[0]}
         name={info[0]}
-        type="materialicons"
         size={40}
         containerStyle={info[1]}
         onPress={() => {

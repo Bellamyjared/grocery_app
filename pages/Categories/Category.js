@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
-import { Icon } from "react-native-elements";
+import Icon from "../../assets/icons/icon";
 
 import { GetCategory } from "../../dbRequests/Category";
 import { DeleteCategory } from "../../dbRequests/Category";
@@ -47,7 +47,10 @@ const Category = ({ navigation }) => {
           <Header
             navigation={navigation}
             title={["Category", 50]}
-            icons={[["trash", "trash"]]}
+            icons={[
+              ["edit", "edit"],
+              ["trash", "trash"],
+            ]}
           />
         </View>
         {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -58,8 +61,7 @@ const Category = ({ navigation }) => {
               <View styles={styles.categoryDelete}>
                 <Icon
                   key={category.categoryOrder}
-                  name="remove-circle-outline"
-                  type="materialicons"
+                  name="x_circle"
                   size={30}
                   onPress={() => {
                     handleDelete(category._id);
@@ -75,14 +77,14 @@ const Category = ({ navigation }) => {
         <ButtonBar
           navigation={navigation}
           buttonInfo={[
-            ["check-circle-outline", "buttonFunction", handleSubmit],
+            ["check_mark_circle", "buttonFunction", handleSubmit],
             [
-              "add-circle-outline",
+              "plus_circle",
               "Create_Category",
               "passProps",
               { categoryOrder: categoryOrder },
             ],
-            ["exit-to-app", "buttonFunction", handleBack],
+            ["back_circle", "buttonFunction", handleBack],
           ]}
         />
       </View>

@@ -147,8 +147,8 @@ const Add_Ingredient = ({ navigation }) => {
         <ButtonBar
           navigation={navigation}
           buttonInfo={[
-            ["check-circle-outline", "buttonFunction", formValidation],
-            ["exit-to-app", "buttonFunction", handleBack],
+            ["check_mark_circle", "buttonFunction", formValidation],
+            ["back_circle", "buttonFunction", handleBack],
           ]}
         />
       </View>

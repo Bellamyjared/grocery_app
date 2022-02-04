@@ -54,8 +54,8 @@ const Create_Category = ({ route, navigation }) => {
         <ButtonBar
           navigation={navigation}
           buttonInfo={[
-            ["check-circle-outline", "buttonFunction", handleSubmit],
-            ["exit-to-app", "buttonFunction", handleBack],
+            ["check_mark_circle", "buttonFunction", handleSubmit],
+            ["x_circle", "buttonFunction", handleBack],
           ]}
         />
       </View>

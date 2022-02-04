@@ -1,18 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
-import NavBar from "../components/NavBar";
+import { StyleSheet, View } from "react-native";
+
+import Icon from "../assets/icons/icon";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 
 const Pantry = ({ navigation }) => {
+  let [fontsLoaded, error] = useFonts({
+    icomoon: require("../assets/fonts/icomoon.ttf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <>
-      {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.main}>
-        <Text>test</Text>
-      </View>
-      {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.NavBar}>
-        <NavBar navigation={navigation} page={"pantry"} />
-      </View>
+      <View></View>
     </>
   );
 };

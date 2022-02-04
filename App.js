@@ -5,6 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 const Stack = createNativeStackNavigator();
 
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+
 import List from "./pages/List";
 import Pantry from "./pages/Pantry";
 import Recipe from "./pages/Recipe";
@@ -14,6 +17,14 @@ import Category from "./pages/Categories/Category";
 import Create_Category from "./pages/Categories/Create_Category";
 
 export default function App() {
+  let [fontsLoaded, error] = useFonts({
+    icomoon: require("./assets/fonts/icomoon.ttf"),
+    "Poppins-Regular": require("./assets/fonts/Poppins-Regular.ttf"),
+    "DancingScript-Regular": require("./assets/fonts/DancingScript-Regular.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -38,14 +49,13 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Create_Category"
-          component={Create_Category}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
           name="Pantry"
           component={Pantry}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Create_Category"
+          component={Create_Category}
           options={{ headerShown: false }}
         />
 

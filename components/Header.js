@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Icon } from "react-native-elements";
+import Icon from "../assets/icons/icon";
 
 const DisplayIcon = (listOfIcons, navigation) => {
   if (listOfIcons != null) {
@@ -11,7 +11,6 @@ const DisplayIcon = (listOfIcons, navigation) => {
       >
         <Icon
           name={icon[0]}
-          type="feather"
           size={30}
           onPress={() => {
             navigation.navigate(icon[1]);

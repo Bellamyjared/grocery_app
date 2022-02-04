@@ -1,4 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
+import Icon from "../assets/icons/icon";
+
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
@@ -31,12 +33,13 @@ const List = ({ navigation }) => {
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.container}>
         <Text style={styles.text}>test 12</Text>
+        <Icon name="drop_down" size={50} />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["add-circle-outline", "Add_Items"]]}
+          buttonInfo={[["plus_circle", "Add_Items"]]}
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
