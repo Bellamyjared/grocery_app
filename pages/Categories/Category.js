@@ -14,6 +14,8 @@ import ButtonBar from "../../components/ButtonBar";
 const Category = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [categoryOrder, setCategoryOrder] = useState();
+  const [backOrX, setBackOrX] = useState("back_circle");
+  const [categoryIcon, setCategoryIcon] = useState("Blank");
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -25,7 +27,7 @@ const Category = ({ navigation }) => {
     setCategories(data);
     setCategoryOrder(data.length);
   };
-  const handleBack = () => navigation.goBack();
+
   const handleSubmit = () => {
     console.log("submit");
     console.log(data);
@@ -39,6 +41,44 @@ const Category = ({ navigation }) => {
     }
   };
 
+  // back button doesn't work, need to fix
+  const handleBackOrX = () =>
+    backOrX === "back"
+      ? navigation.goBack()
+      : setBackOrX("back_circle") + setCategoryIcon("Blank");
+
+  const handleEditIcon = () => {
+    setBackOrX("x_circle");
+    setCategoryIcon("Edit");
+  };
+  const handleDeleteIcon = () => {
+    setBackOrX("x_circle");
+    setCategoryIcon("Delete");
+  };
+
+  const changeView = (category) => {
+    const handleIcon = () => {
+      if (categoryIcon === "Edit") {
+        return "drop_down";
+      }
+      if (categoryIcon === "Delete") {
+        return "x_circle";
+      }
+    };
+    if (categoryIcon === "Edit" || "Delete") {
+      return (
+        <Icon
+          key={category.categoryOrder}
+          name={handleIcon()}
+          size={30}
+          onPress={() => {
+            handleDelete(category._id);
+          }}
+        />
+      );
+    }
+  };
+
   return (
     <>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -48,8 +88,8 @@ const Category = ({ navigation }) => {
             navigation={navigation}
             title={["Category", 50]}
             icons={[
-              ["edit", "edit"],
-              ["trash", "trash"],
+              ["edit", "buttonFunction", handleEditIcon],
+              ["trash", "buttonFunction", handleDeleteIcon],
             ]}
           />
         </View>
@@ -58,16 +98,7 @@ const Category = ({ navigation }) => {
           {categories.map((category) => (
             <View style={styles.container}>
               <Text style={styles.categoryText}>{category.category}</Text>
-              <View styles={styles.categoryDelete}>
-                <Icon
-                  key={category.categoryOrder}
-                  name="x_circle"
-                  size={30}
-                  onPress={() => {
-                    handleDelete(category._id);
-                  }}
-                />
-              </View>
+              <View styles={styles.categoryIcon}>{changeView(category)}</View>
             </View>
           ))}
         </View>
@@ -84,7 +115,7 @@ const Category = ({ navigation }) => {
               "passProps",
               { categoryOrder: categoryOrder },
             ],
-            ["back_circle", "buttonFunction", handleBack],
+            [backOrX, "buttonFunction", handleBackOrX],
           ]}
         />
       </View>

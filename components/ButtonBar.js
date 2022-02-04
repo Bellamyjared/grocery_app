@@ -1,18 +1,8 @@
 import { View } from "react-native";
 import Icon from "../assets/icons/icon";
+import IconOnPress from "./IconOnPress";
 
-const Header = ({ navigation, buttonInfo }) => {
-  // passes a function or button to navigation depending on whats in the given array info
-  const changeOnPress = (info) => {
-    if (info[1] === "buttonFunction") {
-      info[2]();
-    } else if (info[2] === "passProps") {
-      navigation.navigate(info[1], info[3]);
-    } else {
-      navigation.navigate(info[1]);
-    }
-  };
-
+const ButtonBar = ({ navigation, buttonInfo }) => {
   const DisplayIcon = () =>
     buttonInfo.map((info) => (
       <Icon
@@ -20,7 +10,7 @@ const Header = ({ navigation, buttonInfo }) => {
         name={info[0]}
         size={55}
         onPress={() => {
-          changeOnPress(info);
+          IconOnPress(info, navigation);
         }}
       />
     ));
@@ -38,4 +28,4 @@ const Header = ({ navigation, buttonInfo }) => {
   );
 };
 
-export default Header;
+export default ButtonBar;

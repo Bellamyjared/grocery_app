@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import Icon from "../assets/icons/icon";
+import IconOnPress from "./IconOnPress";
 
 const DisplayIcon = (listOfIcons, navigation) => {
   if (listOfIcons != null) {
@@ -13,7 +14,7 @@ const DisplayIcon = (listOfIcons, navigation) => {
           name={icon[0]}
           size={30}
           onPress={() => {
-            navigation.navigate(icon[1]);
+            IconOnPress(icon, navigation);
           }}
         />
       </View>
