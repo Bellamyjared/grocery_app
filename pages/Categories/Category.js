@@ -32,7 +32,21 @@ const Category = ({ navigation }) => {
     console.log("submit");
     console.log(data);
   };
-  const handleDelete = async (id) => {
+
+  const handleDelete = (category, id) => {
+    Alert.alert(
+      `Delete ${category}?`,
+      `Are you sure you want to delete ${category}`,
+      [
+        {
+          text: "Cancel",
+        },
+        { text: "OK", onPress: () => OnDelete(id) },
+      ]
+    );
+  };
+
+  const OnDelete = async (id) => {
     let deleteStatus = await DeleteCategory(id);
     if ((await deleteStatus) != undefined) {
       handleGetItems();
@@ -43,7 +57,7 @@ const Category = ({ navigation }) => {
 
   // back button doesn't work, need to fix
   const handleBackOrX = () =>
-    backOrX === "back"
+    backOrX === "back_circle"
       ? navigation.goBack()
       : setBackOrX("back_circle") + setCategoryIcon("Blank");
 
@@ -65,6 +79,14 @@ const Category = ({ navigation }) => {
         return "x_circle";
       }
     };
+    const handleOnPress = (category, id) => {
+      if (categoryIcon === "Edit") {
+        return handleEdit(category, id);
+      }
+      if (categoryIcon === "Delete") {
+        return handleDelete(category, id);
+      }
+    };
     if (categoryIcon === "Edit" || "Delete") {
       return (
         <Icon
@@ -72,7 +94,7 @@ const Category = ({ navigation }) => {
           name={handleIcon()}
           size={30}
           onPress={() => {
-            handleDelete(category._id);
+            handleOnPress(category.category, category._id);
           }}
         />
       );
