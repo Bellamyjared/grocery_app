@@ -3,18 +3,6 @@ import Icon from "../assets/icons/icon";
 import IconOnPress from "./IconOnPress";
 
 const ButtonBar = ({ navigation, buttonInfo }) => {
-  const DisplayIcon = () =>
-    buttonInfo.map((info) => (
-      <Icon
-        key={Math.floor(Math.random() * 100) + info[0]} // just to give a random unique id for now
-        name={info[0]}
-        size={55}
-        onPress={() => {
-          IconOnPress(info, navigation);
-        }}
-      />
-    ));
-
   return (
     <View
       style={{
@@ -23,7 +11,16 @@ const ButtonBar = ({ navigation, buttonInfo }) => {
         justifyContent: "space-between",
       }}
     >
-      {DisplayIcon()}
+      {buttonInfo.map((info) => (
+        <Icon
+          key={Math.floor(Math.random() * 100) + info[0]} // just to give a random unique id for now
+          name={info[0]}
+          size={55}
+          onPress={() => {
+            IconOnPress(info, navigation);
+          }}
+        />
+      ))}
     </View>
   );
 };

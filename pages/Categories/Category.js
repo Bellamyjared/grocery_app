@@ -8,6 +8,7 @@ import Icon from "../../assets/icons/icon";
 
 import { GetCategory } from "../../dbRequests/Category";
 import { DeleteCategory } from "../../dbRequests/Category";
+import { DeleteValidation } from "../../components/DeleteValidation";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
 
@@ -16,6 +17,7 @@ const Category = ({ navigation }) => {
   const [categoryOrder, setCategoryOrder] = useState();
   const [backOrX, setBackOrX] = useState("back_circle");
   const [categoryIcon, setCategoryIcon] = useState("Blank");
+  const [disableHeader, setDisableHeader] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -29,24 +31,11 @@ const Category = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
+    // place holder for editing the order of categories
     console.log("submit");
-    console.log(data);
   };
 
-  const handleDelete = (category, id) => {
-    Alert.alert(
-      `Delete ${category}?`,
-      `Are you sure you want to delete ${category}`,
-      [
-        {
-          text: "Cancel",
-        },
-        { text: "OK", onPress: () => OnDelete(id) },
-      ]
-    );
-  };
-
-  const OnDelete = async (id) => {
+  const handleDelete = async (id) => {
     let deleteStatus = await DeleteCategory(id);
     if ((await deleteStatus) != undefined) {
       handleGetItems();
@@ -55,46 +44,46 @@ const Category = ({ navigation }) => {
     }
   };
 
-  // back button doesn't work, need to fix
   const handleBackOrX = () =>
     backOrX === "back_circle"
       ? navigation.goBack()
-      : setBackOrX("back_circle") + setCategoryIcon("Blank");
+      : setBackOrX("back_circle") +
+        setCategoryIcon("Blank") +
+        setDisableHeader(false);
 
   const handleEditIcon = () => {
     setBackOrX("x_circle");
     setCategoryIcon("Edit");
+    setDisableHeader(true);
   };
   const handleDeleteIcon = () => {
     setBackOrX("x_circle");
     setCategoryIcon("Delete");
+    setDisableHeader(true);
   };
 
   const changeView = (category) => {
-    const handleIcon = () => {
-      if (categoryIcon === "Edit") {
-        return "drop_down";
-      }
-      if (categoryIcon === "Delete") {
-        return "x_circle";
-      }
-    };
-    const handleOnPress = (category, id) => {
-      if (categoryIcon === "Edit") {
-        return handleEdit(category, id);
-      }
-      if (categoryIcon === "Delete") {
-        return handleDelete(category, id);
-      }
-    };
-    if (categoryIcon === "Edit" || "Delete") {
+    if (categoryIcon === "Delete") {
       return (
         <Icon
           key={category.categoryOrder}
-          name={handleIcon()}
+          name="x_circle"
           size={30}
           onPress={() => {
-            handleOnPress(category.category, category._id);
+            DeleteValidation(category.category, category._id, handleDelete);
+          }}
+        />
+      );
+    }
+
+    if (categoryIcon === "Edit") {
+      return (
+        <Icon
+          key={category.categoryOrder}
+          name="drop_down"
+          size={30}
+          onPress={() => {
+            handleEdit();
           }}
         />
       );
@@ -109,6 +98,7 @@ const Category = ({ navigation }) => {
           <Header
             navigation={navigation}
             title={["Category", 50]}
+            disabled={disableHeader}
             icons={[
               ["edit", "buttonFunction", handleEditIcon],
               ["trash", "buttonFunction", handleDeleteIcon],
@@ -118,7 +108,7 @@ const Category = ({ navigation }) => {
         {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.body}>
           {categories.map((category) => (
-            <View style={styles.container}>
+            <View key={category._id} style={styles.container}>
               <Text style={styles.categoryText}>{category.category}</Text>
               <View styles={styles.categoryIcon}>{changeView(category)}</View>
             </View>
@@ -164,6 +154,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     height: 115,
   },
+
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
