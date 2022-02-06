@@ -15,8 +15,7 @@ import ButtonBar from "../../components/ButtonBar";
 const Category = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [categoryOrder, setCategoryOrder] = useState();
-  const [backOrX, setBackOrX] = useState("back_circle");
-  const [categoryIcon, setCategoryIcon] = useState("Blank");
+  const [headerIcon, setHeaderIcon] = useState("Blank");
   const [disableHeader, setDisableHeader] = useState(false);
   const isFocused = useIsFocused();
 
@@ -32,6 +31,7 @@ const Category = ({ navigation }) => {
 
   const handleSubmit = () => {
     // place holder for editing the order of categories
+    // make the submit button greyd out until the categories have been edited
     console.log("submit");
   };
 
@@ -44,26 +44,43 @@ const Category = ({ navigation }) => {
     }
   };
 
-  const handleBackOrX = () =>
-    backOrX === "back_circle"
-      ? navigation.goBack()
-      : setBackOrX("back_circle") +
-        setCategoryIcon("Blank") +
+  const handleNavBar = () => {
+    const handleBack = () => {
+      if (disableHeader === true) {
+        setHeaderIcon("Blank");
         setDisableHeader(false);
+      } else {
+        return navigation.goBack();
+      }
+    };
+    if (disableHeader === true) {
+      return [["x_circle", "buttonFunction", handleBack]];
+    } else {
+      return [
+        ["check_mark_circle", "buttonFunction", handleSubmit],
+        [
+          "plus_circle",
+          "Create_Category",
+          "passProps",
+          { categoryOrder: categoryOrder },
+        ],
+        ["back_circle", "buttonFunction", handleBack],
+      ];
+    }
+  };
 
   const handleEditIcon = () => {
-    setBackOrX("x_circle");
-    setCategoryIcon("Edit");
+    setHeaderIcon("Edit");
     setDisableHeader(true);
   };
   const handleDeleteIcon = () => {
-    setBackOrX("x_circle");
-    setCategoryIcon("Delete");
+    setHeaderIcon("Delete");
     setDisableHeader(true);
   };
 
+  //can be made better, but works for now.
   const changeView = (category) => {
-    if (categoryIcon === "Delete") {
+    if (headerIcon === "Delete") {
       return (
         <Icon
           key={category.categoryOrder}
@@ -76,7 +93,7 @@ const Category = ({ navigation }) => {
       );
     }
 
-    if (categoryIcon === "Edit") {
+    if (headerIcon === "Edit") {
       return (
         <Icon
           key={category.categoryOrder}
@@ -117,19 +134,7 @@ const Category = ({ navigation }) => {
       </ScrollView>
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>
-        <ButtonBar
-          navigation={navigation}
-          buttonInfo={[
-            ["check_mark_circle", "buttonFunction", handleSubmit],
-            [
-              "plus_circle",
-              "Create_Category",
-              "passProps",
-              { categoryOrder: categoryOrder },
-            ],
-            [backOrX, "buttonFunction", handleBackOrX],
-          ]}
-        />
+        <ButtonBar navigation={navigation} buttonInfo={handleNavBar()} />
       </View>
     </>
   );
