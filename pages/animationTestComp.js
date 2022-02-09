@@ -1,23 +1,53 @@
-import React, { useRef as useState } from "react";
-import { Animated, View, StyleSheet, PanResponder, Text } from "react-native";
+import React, { useRef } from "react";
+import { Animated, View, StyleSheet, PanResponder } from "react-native";
 
-const animationTestComp = () => {
-  const pan = useState(new Animated.ValueXY()).current;
+const order = 1;
 
-  const panResponder = useState(
+const AnimationTestComp = ({ movingCude, setMovingCude, count }) => {
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  const panResponder = useRef(
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onPanResponderGrant: () => {
+        console.log(pan.y);
         pan.setOffset({
-          x: pan.x._value,
           y: pan.y._value,
         });
       },
-      onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
-        useNativeDriver: false,
-      }),
+      onPanResponderMove: (e, gestureState) => {
+        setMovingCude(pan.y);
+        Animated.event(
+          [
+            null,
+            {
+              dy: pan.y,
+            },
+          ],
+          {
+            useNativeDriver: false,
+          }
+        )(e, gestureState);
+      },
+
       onPanResponderRelease: () => {
         pan.flattenOffset();
+
+        if (pan.y._value >= 100) {
+          Animated.spring(pan.y, {
+            toValue: 200,
+            speed: 15,
+            useNativeDriver: false,
+          }).start();
+        } else {
+          Animated.spring(pan.y, {
+            toValue: 0,
+            speed: 15,
+            useNativeDriver: false,
+          }).start();
+        }
+
+        console.log(pan.y);
       },
     })
   ).current;
@@ -26,7 +56,7 @@ const animationTestComp = () => {
     <View style={styles.container}>
       <Animated.View
         style={{
-          transform: [{ translateX: pan.x }, { translateY: pan.y }],
+          transform: [{ translateY: pan.y }],
         }}
         {...panResponder.panHandlers}
       >
@@ -55,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default animationTestComp;
+export default AnimationTestComp;

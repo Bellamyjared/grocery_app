@@ -26,7 +26,7 @@ const List = ({ navigation }) => {
           title={["List", 50]}
           icons={[
             ["edit", "Category"],
-            ["trash", "animationTest"],
+            ["trash", "AnimationTest"],
           ]}
         />
       </View>

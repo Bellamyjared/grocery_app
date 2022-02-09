@@ -15,7 +15,7 @@ import Add_Items from "./pages/Items/Add_Items";
 import Create_Item from "./pages/Items/Create_Item";
 import Category from "./pages/Categories/Category";
 import Create_Category from "./pages/Categories/Create_Category";
-import animationTest from "./pages/animationTest";
+import AnimationTest from "./pages/AnimationTest";
 
 export default function App() {
   let [fontsLoaded, error] = useFonts({
@@ -50,8 +50,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="animationTest"
-          component={animationTest}
+          name="AnimationTest"
+          component={AnimationTest}
           options={{ headerShown: false }}
         />
         <Stack.Screen
