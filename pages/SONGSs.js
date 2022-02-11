@@ -1,8 +1,3 @@
-// Expo SDK40
-// react-native-gesture-handler: ~1.8.0
-// react-native-reanimated: ^2.0.0-rc.0
-// react-native-safe-area-context: 3.1.9
-
 import React, { useState } from "react";
 import {
   Image,
@@ -11,11 +6,7 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import {
-  SafeAreaProvider,
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
   cancelAnimation,
   runOnJS,
@@ -321,7 +312,7 @@ function MovableSong({
   );
 }
 
-export default function App() {
+export default function MoveAbleList() {
   const positions = useSharedValue(listToObject(SONGS));
   const scrollY = useSharedValue(0);
   const scrollViewRef = useAnimatedRef();
@@ -368,12 +359,7 @@ export default function App() {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaProvider>
-        <SafeAreaView style={{ flex: 1 }}>
-          <ExampleWithHoc />
-        </SafeAreaView>
-      </SafeAreaProvider>
+      <ExampleWithHoc />
     </>
   );
 }

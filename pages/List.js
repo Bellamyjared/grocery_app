@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, StatusBar } from "react-native";
 import Icon from "../assets/icons/icon";
 
 import AppLoading from "expo-app-loading";
@@ -25,7 +25,7 @@ const List = ({ navigation }) => {
           navigation={navigation}
           title={["List", 50]}
           icons={[
-            ["edit", "Category"],
+            ["edit", "MoveAbleList"],
             ["trash", ""],
           ]}
         />
@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "flex-end",
     backgroundColor: "#fff",
-    height: 115,
   },
   text: { fontFamily: "Poppins-Regular", fontSize: 50 },
 

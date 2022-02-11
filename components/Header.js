@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, StatusBar } from "react-native";
 import Icon from "../assets/icons/icon";
 import IconOnPress from "./IconOnPress";
 
@@ -46,40 +46,43 @@ const Header = ({ navigation, title, icons, disabled }) => {
   }, []);
 
   return (
-    <View style={styles.header}>
-      <View
-        style={{
-          backgroundColor: "#fff",
-          flexDirection: "row",
-          borderColor: "#E7E7E7",
-          borderStyle: "solid",
-          borderBottomWidth: 2,
-        }}
-      >
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <View style={styles.header}>
         <View
           style={{
-            flexWrap: "nowrap",
-            overflow: "visible",
-            justifyContent: "flex-end",
-            width: widthSize,
+            backgroundColor: "#fff",
+            flexDirection: "row",
+            borderColor: "#E7E7E7",
+            borderStyle: "solid",
+            borderBottomWidth: 2,
           }}
         >
-          <Text style={handleHeaderText(title[1], disabled)}>
-            {/* added space to buffer title padding as the font is to large for the actual font spacing */}
-            {" " + title[0]}
-          </Text>
-        </View>
-        <View
-          style={{
-            flexDirection: "row-reverse",
-            alignItems: "center",
-            width: "25%",
-          }}
-        >
-          {HandleIcon(icons, navigation, disabled)}
+          <View
+            style={{
+              flexWrap: "nowrap",
+              overflow: "visible",
+              justifyContent: "flex-end",
+              width: widthSize,
+            }}
+          >
+            <Text style={handleHeaderText(title[1], disabled)}>
+              {/* added space to buffer title padding as the font is to large for the actual font spacing */}
+              {" " + title[0]}
+            </Text>
+          </View>
+          <View
+            style={{
+              flexDirection: "row-reverse",
+              alignItems: "center",
+              width: "25%",
+            }}
+          >
+            {HandleIcon(icons, navigation, disabled)}
+          </View>
         </View>
       </View>
-    </View>
+    </>
   );
 };
 
@@ -87,6 +90,7 @@ export default Header;
 
 const styles = StyleSheet.create({
   header: {
+    marginTop: 0,
     paddingLeft: "5%",
     paddingRight: "5%",
   },
