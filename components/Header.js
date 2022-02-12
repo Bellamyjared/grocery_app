@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, StatusBar } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import Icon from "../assets/icons/icon";
 import IconOnPress from "./IconOnPress";
 
@@ -47,7 +47,7 @@ const Header = ({ navigation, title, icons, disabled }) => {
 
   return (
     <>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      {/* <StatusBar barStyle="dark-content" backgroundColor="#fff" /> */}
       <View style={styles.header}>
         <View
           style={{

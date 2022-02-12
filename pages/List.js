@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
   },
 
   header: {
+    height: 100,
     justifyContent: "flex-end",
     backgroundColor: "#fff",
   },
