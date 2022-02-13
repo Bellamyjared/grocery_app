@@ -11,14 +11,24 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import Icon from "../../assets/icons/icon";
 
-const ITEM_HEIGHT = 75;
-const SCROLL_HEIGHT_THRESHOLD = ITEM_HEIGHT;
-
-const MoveableItem = ({ id, item, positions, scrollY, itemCount }) => {
+const MoveableItem = ({
+  id,
+  item,
+  positions,
+  scrollY,
+  itemCount,
+  item_Height,
+  header_Height,
+  icons,
+  disabled,
+  handleIconPress,
+}) => {
   const [moving, setMoving] = useState(false);
-  const top = useSharedValue(positions.value[id] * ITEM_HEIGHT);
+  const top = useSharedValue(positions.value[id] * item_Height);
   const screenDimensions = useWindowDimensions();
+  const SCROLL_HEIGHT_THRESHOLD = item_Height;
 
   // ~~~~~~~~~~~~~~~functions used in gestureHandler~~~~~~~~~~~~~~~~~
   const boundary = (value, lowerBound, upperBound) => {
@@ -48,7 +58,7 @@ const MoveableItem = ({ id, item, positions, scrollY, itemCount }) => {
     (currentPosition, previousPosition) => {
       if (currentPosition !== previousPosition) {
         if (!moving) {
-          top.value = withSpring(currentPosition * ITEM_HEIGHT);
+          top.value = withSpring(currentPosition * item_Height);
         }
       }
     },
@@ -60,50 +70,61 @@ const MoveableItem = ({ id, item, positions, scrollY, itemCount }) => {
 
   const gestureHandler = useAnimatedGestureHandler({
     onStart(e) {
-      runOnJS(setMoving)(true);
+      if (disabled != true) {
+        runOnJS(setMoving)(true);
+      }
     },
     onActive(e) {
-      const positionY = e.absoluteY + scrollY.value;
+      if (disabled != true) {
+        const positionY = e.absoluteY + scrollY.value - header_Height;
 
-      if (positionY <= scrollY.value + SCROLL_HEIGHT_THRESHOLD) {
-        //scroll up
-        scrollY.value = withTiming(0, { duration: 70 });
-      } else if (
-        positionY >=
-        scrollY.value + screenDimensions.height - SCROLL_HEIGHT_THRESHOLD
-      ) {
-        //scroll down
-        const contentHeight = itemCount * ITEM_HEIGHT;
-        const maxScroll = contentHeight - screenDimensions.height;
-        scrollY.value = withTiming(maxScroll, {
-          duration: 70,
+        if (positionY <= scrollY.value + SCROLL_HEIGHT_THRESHOLD) {
+          //scroll up
+          scrollY.value = withTiming(0, { duration: 70 });
+        } else if (
+          positionY >=
+          scrollY.value +
+            screenDimensions.height -
+            SCROLL_HEIGHT_THRESHOLD -
+            header_Height
+        ) {
+          //scroll down
+          const contentHeight = itemCount * item_Height;
+          const maxScroll = contentHeight - screenDimensions.height;
+          scrollY.value = withTiming(maxScroll, {
+            duration: 70,
+          });
+        } else {
+          cancelAnimation(scrollY);
+        }
+
+        // added padding of the category item at the end to get it to align better on drag start
+        top.value = withTiming(positionY - item_Height + 25, {
+          duration: 1,
         });
-      } else {
-        cancelAnimation(scrollY);
-      }
 
-      // added padding of the category item at the end to get it to align better on drag start
-      top.value = withTiming(positionY - ITEM_HEIGHT + 25, {
-        duration: 1,
-      });
-
-      const newPosition = boundary(
-        Math.floor(positionY / ITEM_HEIGHT),
-        0,
-        itemCount - 1
-      );
-
-      if (newPosition !== positions.value[id]) {
-        positions.value = changeItemOrder(
-          positions.value,
-          positions.value[id],
-          newPosition
+        const newPosition = boundary(
+          Math.floor(positionY / item_Height),
+          0,
+          itemCount - 1
         );
+
+        if (newPosition !== positions.value[id]) {
+          positions.value = changeItemOrder(
+            positions.value,
+            positions.value[id],
+            newPosition
+          );
+        }
       }
     },
     onFinish() {
-      top.value = positions.value[id] * ITEM_HEIGHT;
-      runOnJS(setMoving)(false);
+      if (disabled != true) {
+        top.value = positions.value[id] * item_Height;
+        runOnJS(setMoving)(false);
+      } else {
+        runOnJS(handleIconPress)(item, id);
+      }
     },
   });
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,6 +132,7 @@ const MoveableItem = ({ id, item, positions, scrollY, itemCount }) => {
   //  ~~~~~~~~~~Styles for animated view below
   const animatedStyle = useAnimatedStyle(() => {
     return {
+      flexDirection: "row",
       position: "absolute",
       left: 0,
       right: 0,
@@ -138,6 +160,7 @@ const MoveableItem = ({ id, item, positions, scrollY, itemCount }) => {
           {/* ~~~~~~ Item ~~~~~~~~~ */}
           <View style={styles.container}>
             <Text style={styles.itemText}>{item}</Text>
+            {icons(id, item)}
           </View>
           {/* ~~~~~~~~~~~~~~~~~~~~~~~ */}
         </Animated.View>
@@ -151,6 +174,7 @@ export default MoveableItem;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    alignItems: "center",
     justifyContent: "space-between",
   },
   itemText: {

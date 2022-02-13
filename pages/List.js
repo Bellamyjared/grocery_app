@@ -25,7 +25,7 @@ const List = ({ navigation }) => {
           navigation={navigation}
           title={["List", 50]}
           icons={[
-            ["edit", "MoveAbleList"],
+            ["edit", "Category"],
             ["trash", ""],
           ]}
         />

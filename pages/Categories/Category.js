@@ -5,12 +5,14 @@ import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import Icon from "../../assets/icons/icon";
+import AppLoading from "expo-app-loading";
 
 import { GetCategory } from "../../dbRequests/Category";
 import { DeleteCategory } from "../../dbRequests/Category";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
+import MoveAbleList from "../MoveAbleList/MoveAbleList";
 
 const Category = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -41,6 +43,17 @@ const Category = ({ navigation }) => {
       handleGetItems();
     } else {
       Alert.alert("ERROR", "format issue sub Item");
+    }
+  };
+  const handleEdit = (category, id) => {
+    console.log(`EDIT ${id}`);
+  };
+
+  const handleIconPress = (category, id) => {
+    if (headerIcon === "Edit") {
+      handleEdit(category, id);
+    } else if (headerIcon === "Delete") {
+      DeleteValidation(category, id);
     }
   };
 
@@ -79,65 +92,57 @@ const Category = ({ navigation }) => {
   };
 
   //can be made better, but works for now.
-  const changeView = (category) => {
+  const icons = (id, category) => {
     if (headerIcon === "Delete") {
-      return (
-        <Icon
-          key={category.categoryOrder}
-          name="x_circle"
-          size={30}
-          onPress={() => {
-            DeleteValidation(category.category, category._id, handleDelete);
-          }}
-        />
-      );
+      return <Icon key={id} name="x_circle" size={30} />;
     }
 
     if (headerIcon === "Edit") {
-      return (
-        <Icon
-          key={category.categoryOrder}
-          name="drop_down"
-          size={30}
-          onPress={() => {
-            handleEdit();
-          }}
-        />
-      );
+      return <Icon key={id} name="drop_down" size={30} />;
     }
   };
 
-  return (
-    <>
-      <ScrollView contentContainerStyle={styles.scrollView}>
+  const header = () => {
+    return (
+      <Header
+        navigation={navigation}
+        title={["Category", 50]}
+        disabled={disableHeader}
+        icons={[
+          ["edit", "buttonFunction", handleEditIcon],
+          ["trash", "buttonFunction", handleDeleteIcon],
+        ]}
+      />
+    );
+  };
+
+  if (categories.length != 0) {
+    return (
+      <>
         {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        <View style={styles.header}>
-          <Header
-            navigation={navigation}
-            title={["Category", 50]}
+        {/* header was passed to moveAbleList, too allow for the header to be in the scroll view */}
+        {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+
+        <View style={styles.body}>
+          <MoveAbleList
+            header={header}
+            categories={categories}
+            item_Height={75}
+            icons={icons}
             disabled={disableHeader}
-            icons={[
-              ["edit", "buttonFunction", handleEditIcon],
-              ["trash", "buttonFunction", handleDeleteIcon],
-            ]}
+            handleIconPress={handleIconPress}
           />
         </View>
-        {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        <View style={styles.body}>
-          {categories.map((category) => (
-            <View key={category._id} style={styles.container}>
-              <Text style={styles.categoryText}>{category.category}</Text>
-              <View styles={styles.categoryIcon}>{changeView(category)}</View>
-            </View>
-          ))}
+
+        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        <View style={styles.buttonBar}>
+          <ButtonBar navigation={navigation} buttonInfo={handleNavBar()} />
         </View>
-      </ScrollView>
-      {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.buttonBar}>
-        <ButtonBar navigation={navigation} buttonInfo={handleNavBar()} />
-      </View>
-    </>
-  );
+      </>
+    );
+  } else {
+    return <AppLoading />;
+  }
 };
 
 export default Category;
@@ -147,6 +152,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   body: {
+    width: "100%",
     flex: 1,
     backgroundColor: "#fff",
     paddingTop: 30,

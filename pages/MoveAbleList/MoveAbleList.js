@@ -10,16 +10,20 @@ import Animated, {
 } from "react-native-reanimated";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 
-import { GetCategory } from "../../dbRequests/Category";
 import MoveableItem from "./MoveAbleItem";
 
-const ITEM_HEIGHT = 75;
-
-export default function MoveAbleList() {
-  const [categories, setCategories] = useState([]);
-  const positions = useSharedValue(0);
+export default function MoveAbleList({
+  header,
+  item_Height,
+  categories,
+  icons,
+  disabled,
+  handleIconPress,
+}) {
+  const positions = useSharedValue(listToObject(categories));
   const scrollY = useSharedValue(0);
   const scrollViewRef = useAnimatedRef();
+  const HEADER_HEIGHT = 100;
 
   useAnimatedReaction(
     () => scrollY.value,
@@ -35,16 +39,6 @@ export default function MoveAbleList() {
     }
     return object;
   }
-
-  useEffect(() => {
-    handleGetItems();
-  }, []);
-
-  const handleGetItems = async () => {
-    data = await GetCategory();
-    positions.value = listToObject(data);
-    setCategories(data);
-  };
 
   const handleScroll = useAnimatedScrollHandler((e) => {
     scrollY.value = e.contentOffset.y;
@@ -62,19 +56,30 @@ export default function MoveAbleList() {
           backgroundColor: "white",
         }}
         contentContainerStyle={{
-          height: categories.length * ITEM_HEIGHT,
+          height: categories.length * item_Height,
         }}
       >
-        {categories.map((cat) => (
-          <MoveableItem
-            key={cat._id}
-            id={cat._id}
-            item={cat.category}
-            positions={positions}
-            scrollY={scrollY}
-            itemCount={categories.length}
-          />
-        ))}
+        {/* header is passed from prop, so that it can be in scrollView */}
+        <Animated.View style={{ height: HEADER_HEIGHT }}>
+          {header()}
+        </Animated.View>
+        <Animated.View>
+          {categories.map((cat) => (
+            <MoveableItem
+              key={cat._id}
+              id={cat._id}
+              item={cat.category}
+              positions={positions}
+              scrollY={scrollY}
+              itemCount={categories.length}
+              item_Height={item_Height}
+              header_Height={HEADER_HEIGHT}
+              icons={icons}
+              disabled={disabled}
+              handleIconPress={handleIconPress}
+            />
+          ))}
+        </Animated.View>
       </Animated.ScrollView>
     </>
   ));
