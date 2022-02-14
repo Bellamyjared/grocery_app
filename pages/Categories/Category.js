@@ -53,7 +53,7 @@ const Category = ({ navigation }) => {
     if (headerIcon === "Edit") {
       handleEdit(category, id);
     } else if (headerIcon === "Delete") {
-      DeleteValidation(category, id);
+      DeleteValidation(category, id, handleDelete);
     }
   };
 
