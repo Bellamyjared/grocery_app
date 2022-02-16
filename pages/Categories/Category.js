@@ -2,8 +2,7 @@
 // need category order edit
 // Need to change submit
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Alert, ScrollView } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
+import { StyleSheet, View, Alert } from "react-native";
 import Icon from "../../assets/icons/icon";
 import AppLoading from "expo-app-loading";
 
@@ -19,11 +18,10 @@ const Category = ({ navigation }) => {
   const [categoryOrder, setCategoryOrder] = useState();
   const [headerIcon, setHeaderIcon] = useState("Blank");
   const [disableHeader, setDisableHeader] = useState(false);
-  const isFocused = useIsFocused();
 
   useEffect(() => {
     handleGetItems();
-  }, [isFocused]);
+  }, []);
 
   const handleGetItems = async () => {
     data = await GetCategory();
@@ -57,7 +55,7 @@ const Category = ({ navigation }) => {
     }
   };
 
-  const handleNavBar = () => {
+  const handleButtomBar = () => {
     const handleBack = () => {
       if (disableHeader === true) {
         setHeaderIcon("Blank");
@@ -136,7 +134,7 @@ const Category = ({ navigation }) => {
 
         {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.buttonBar}>
-          <ButtonBar navigation={navigation} buttonInfo={handleNavBar()} />
+          <ButtonBar navigation={navigation} buttonInfo={handleButtomBar()} />
         </View>
       </>
     );

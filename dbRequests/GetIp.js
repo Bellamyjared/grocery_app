@@ -1,3 +1,3 @@
 export const GetIp = () => {
-  return "http://172.24.235.220:5000";
+  return "http://172.24.232.200:5000";
 };

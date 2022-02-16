@@ -2,9 +2,9 @@ import { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Alert } from "react-native";
 
 import { PostCategory } from "../../dbRequests/Category";
-import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
+import ChangeNavStack from "../../components/ChangeNavStack";
 
 const Create_Category = ({ route, navigation }) => {
   const { categoryOrder } = route.params; // grab props from route
@@ -25,7 +25,8 @@ const Create_Category = ({ route, navigation }) => {
         categoryOrder: categoryOrder,
       };
       if ((await PostCategory(newCategory)) != undefined) {
-        navigation.navigate("Category");
+        ChangeNavStack(navigation, ["Category", "Create_Category"]);
+        navigation.push("Category");
       } else {
         Alert.alert("ERROR", "format issue sub Item");
       }
@@ -58,10 +59,6 @@ const Create_Category = ({ route, navigation }) => {
             ["x_circle", "buttonFunction", handleBack],
           ]}
         />
-      </View>
-      {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.NavBar}>
-        <NavBar navigation={navigation} page={"list"} />
       </View>
     </>
   );

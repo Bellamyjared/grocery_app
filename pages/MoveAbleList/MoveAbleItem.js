@@ -11,7 +11,6 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import Icon from "../../assets/icons/icon";
 
 const MoveableItem = ({
   id,
