@@ -1,10 +1,11 @@
-// Need delete confirmation,
 // need category order edit
 // Need to change submit
+// WOrking on when deleteing the order is changed in DB
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View, Alert, Text } from "react-native";
 import Icon from "../../assets/icons/icon";
 import AppLoading from "expo-app-loading";
+import { Button } from "react-native-elements";
 
 import { GetCategory } from "../../dbRequests/Category";
 import { DeleteCategory } from "../../dbRequests/Category";
@@ -14,10 +15,11 @@ import ButtonBar from "../../components/ButtonBar";
 import MoveAbleList from "../MoveAbleList/MoveAbleList";
 
 const Category = ({ navigation }) => {
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState();
   const [categoryOrder, setCategoryOrder] = useState();
   const [headerIcon, setHeaderIcon] = useState("Blank");
   const [disableHeader, setDisableHeader] = useState(false);
+  const [test, setTest] = useState(false);
 
   useEffect(() => {
     handleGetItems();
@@ -25,7 +27,7 @@ const Category = ({ navigation }) => {
 
   const handleGetItems = async () => {
     data = await GetCategory();
-    setCategories(data);
+    setCategories([...data]);
     setCategoryOrder(data.length);
   };
 
@@ -39,6 +41,7 @@ const Category = ({ navigation }) => {
     let deleteStatus = await DeleteCategory(id);
     if ((await deleteStatus) != undefined) {
       handleGetItems();
+      return true;
     } else {
       Alert.alert("ERROR", "format issue sub Item");
     }
@@ -114,7 +117,39 @@ const Category = ({ navigation }) => {
     );
   };
 
-  if (categories.length != 0) {
+  if (categories === undefined) {
+    return <AppLoading />;
+  } else if (categories.length === 0) {
+    // ~~~~ NEED TO MAKE IT LOOK BETTER LATER
+    return (
+      <>
+        <View style={styles.body}>
+          <Text>Please Add A Category</Text>
+          <Button
+            style={{ borderRadius: 20 }}
+            onPress={() =>
+              navigation.navigate("Create_Category", { categoryOrder: 0 })
+            }
+            title="Add"
+            buttonStyle={{
+              backgroundColor: "#97FFDA",
+              borderRadius: 15,
+              width: 115,
+              height: 50,
+            }}
+            titleStyle={{
+              color: "black",
+              fontSize: 25,
+            }}
+          />
+        </View>
+        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        <View style={styles.buttonBar}>
+          <ButtonBar navigation={navigation} buttonInfo={handleButtomBar()} />
+        </View>
+      </>
+    );
+  } else {
     return (
       <>
         {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -129,6 +164,8 @@ const Category = ({ navigation }) => {
             icons={icons}
             disabled={disableHeader}
             handleIconPress={handleIconPress}
+            test={test}
+            setTest={setTest}
           />
         </View>
 
@@ -138,8 +175,6 @@ const Category = ({ navigation }) => {
         </View>
       </>
     );
-  } else {
-    return <AppLoading />;
   }
 };
 

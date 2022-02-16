@@ -27,10 +27,11 @@ export async function UpdateCategory(id, category) {
   return result;
 }
 
-export async function DeleteCategory(id) {
-  const result = await axios.delete(`${ip}/category/${id}`).catch((error) => {
-    console.log(error.response);
-  });
-  console.log(result.data);
+export async function DeleteCategory(id, categories) {
+  const result = await axios
+    .delete(`${ip}/category/${id}`, categories)
+    .catch((error) => {
+      console.log(error.response);
+    });
   return result.data;
 }

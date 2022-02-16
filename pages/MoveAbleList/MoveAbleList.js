@@ -25,6 +25,10 @@ export default function MoveAbleList({
   const scrollViewRef = useAnimatedRef();
   const HEADER_HEIGHT = 100;
 
+  useEffect(() => {
+    positions.value = listToObject(categories);
+  }, [categories]);
+
   useAnimatedReaction(
     () => scrollY.value,
     (scrolling) => scrollTo(scrollViewRef, 0, scrolling, true)
