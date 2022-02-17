@@ -1,3 +1,4 @@
+// NEED TO ADD DELETE SUB ITEM BUTTON
 import { useState } from "react";
 import {
   ScrollView,
@@ -6,18 +7,21 @@ import {
   View,
   TextInput,
   Alert,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Button } from "react-native-elements";
 
 import Header from "../../components/Header";
-import NavBar from "../../components/NavBar";
 import ButtonBar from "../../components/ButtonBar";
 import { PostItem } from "../../dbRequests/Item";
 import SubItemForm from "../../components/SubItemForm";
 
-const Add_Ingredient = ({ navigation }) => {
+const Add_Ingredient = ({ route, navigation }) => {
+  const { categories } = route.params; // grab props from route
+
   const [item, setItem] = useState();
   const [categoryId, setCategoryId] = useState();
+  const [categoryText, setCategoryText] = useState();
   const [subItems, setSubItems] = useState([]);
   const [subItemCount, setSubItemCount] = useState([]);
   const [count, setCount] = useState(0);
@@ -102,13 +106,19 @@ const Add_Ingredient = ({ navigation }) => {
               value={item}
             />
           </View>
-          <View style={{ paddingTop: 15 }}>
+          <View style={{ paddingTop: 15, width: 300 }}>
             <Text style={styles.form_Lable}>Category</Text>
-            <TextInput
-              style={styles.form_Input}
-              onChangeText={setCategoryId}
-              value={categoryId}
-            />
+            <Text style={styles.form_Lable}>{categoryText}</Text>
+            {categories.map((cat) => (
+              <TouchableWithoutFeedback
+                key={cat._id}
+                onPress={() => {
+                  setCategoryText(cat.category), setCategoryId(cat._id);
+                }}
+              >
+                <Text>{cat.category}</Text>
+              </TouchableWithoutFeedback>
+            ))}
           </View>
           <View style={{ paddingTop: 15, paddingBottom: 30, width: 300 }}>
             <Text style={styles.form_Lable}>Sub Item</Text>

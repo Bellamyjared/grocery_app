@@ -39,7 +39,9 @@ const List = ({ navigation }) => {
       <View style={styles.buttonBar}>
         <ButtonBar
           navigation={navigation}
-          buttonInfo={[["plus_circle", "Add_Items"]]}
+          buttonInfo={[
+            ["plus_circle", "Add_Items", "passProps", { OriginRoute: "list" }],
+          ]}
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
