@@ -15,6 +15,7 @@ import Add_Items from "./pages/Items/Add_Items";
 import Create_Item from "./pages/Items/Create_Item";
 import Category from "./pages/Categories/Category";
 import Create_Category from "./pages/Categories/Create_Category";
+import Edit_Category from "./pages/Categories/Edit_Category";
 import MoveAbleList from "./pages/MoveAbleList/MoveAbleList";
 
 export default function App() {
@@ -50,6 +51,16 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="Create_Category"
+          component={Create_Category}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Edit_Category"
+          component={Edit_Category}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="MoveAbleList"
           component={MoveAbleList}
           options={{ headerShown: false }}
@@ -57,11 +68,6 @@ export default function App() {
         <Stack.Screen
           name="Pantry"
           component={Pantry}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Create_Category"
-          component={Create_Category}
           options={{ headerShown: false }}
         />
 

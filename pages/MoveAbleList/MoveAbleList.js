@@ -16,7 +16,7 @@ export default function MoveAbleList({
   header,
   item_Height,
   categories,
-  icons,
+  CategoryItemIcons,
   disabled,
   handleIconPress,
 }) {
@@ -78,7 +78,7 @@ export default function MoveAbleList({
               itemCount={categories.length}
               item_Height={item_Height}
               header_Height={HEADER_HEIGHT}
-              icons={icons}
+              CategoryItemIcons={CategoryItemIcons}
               disabled={disabled}
               handleIconPress={handleIconPress}
             />

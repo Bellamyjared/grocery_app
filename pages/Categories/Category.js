@@ -1,6 +1,8 @@
+// not going to use CatOrder for now, adds to muc complication, add in version 1.2
+// *********** 1.2 version ****************
 // need category order edit
 // Need to change submit
-// WOrking on when deleteing the order is changed in DB
+// ****************************************
 import { useState, useEffect } from "react";
 import { StyleSheet, View, Alert, Text } from "react-native";
 import Icon from "../../assets/icons/icon";
@@ -31,12 +33,6 @@ const Category = ({ navigation }) => {
     setCategoryOrder(data.length);
   };
 
-  const handleSubmit = () => {
-    // place holder for editing the order of categories
-    // make the submit button greyd out until the categories have been edited
-    console.log("submit");
-  };
-
   const handleDelete = async (id) => {
     let deleteStatus = await DeleteCategory(id);
     if ((await deleteStatus) != undefined) {
@@ -47,31 +43,24 @@ const Category = ({ navigation }) => {
     }
   };
   const handleEdit = (category, id) => {
-    console.log(`EDIT ${id}`);
+    navigation.navigate("Edit_Category", { category: category, id: id });
   };
 
-  const handleIconPress = (category, id) => {
-    if (headerIcon === "Edit") {
-      handleEdit(category, id);
-    } else if (headerIcon === "Delete") {
-      DeleteValidation(category, id, handleDelete);
+  const handleBack = () => {
+    if (disableHeader === true) {
+      setHeaderIcon("Blank");
+      setDisableHeader(false);
+    } else {
+      return navigation.goBack();
     }
   };
-
   const handleButtomBar = () => {
-    const handleBack = () => {
-      if (disableHeader === true) {
-        setHeaderIcon("Blank");
-        setDisableHeader(false);
-      } else {
-        return navigation.goBack();
-      }
-    };
     if (disableHeader === true) {
       return [["x_circle", "buttonFunction", handleBack]];
     } else {
       return [
-        ["check_mark_circle", "buttonFunction", handleSubmit],
+        // *********** VERSION 1.2 ********
+        // ["check_mark_circle", "buttonFunction", handleSubmit],
         [
           "plus_circle",
           "Create_Category",
@@ -93,13 +82,21 @@ const Category = ({ navigation }) => {
   };
 
   //can be made better, but works for now.
-  const icons = (id, category) => {
+  const CategoryItemIcons = (id) => {
     if (headerIcon === "Delete") {
       return <Icon key={id} name="x_circle" size={30} />;
     }
 
     if (headerIcon === "Edit") {
       return <Icon key={id} name="drop_down" size={30} />;
+    }
+  };
+
+  const handleCategoryItemIcon = (category, id) => {
+    if (headerIcon === "Edit") {
+      handleEdit(category, id);
+    } else if (headerIcon === "Delete") {
+      DeleteValidation(category, id, handleDelete);
     }
   };
 
@@ -120,32 +117,39 @@ const Category = ({ navigation }) => {
   if (categories === undefined) {
     return <AppLoading />;
   } else if (categories.length === 0) {
-    // ~~~~ NEED TO MAKE IT LOOK BETTER LATER
     return (
       <>
-        <View style={styles.body}>
-          <Text>Please Add A Category</Text>
-          <Button
-            style={{ borderRadius: 20 }}
-            onPress={() =>
-              navigation.navigate("Create_Category", { categoryOrder: 0 })
-            }
-            title="Add"
-            buttonStyle={{
-              backgroundColor: "#97FFDA",
-              borderRadius: 15,
-              width: 115,
-              height: 50,
-            }}
-            titleStyle={{
-              color: "black",
-              fontSize: 25,
-            }}
-          />
+        <View style={styles.AddCategoryContainer}>
+          <Header title={["Category", 50]} />
+          <View style={styles.AddCategoryBody}>
+            <Text style={{ fontSize: 25, paddingBottom: 40 }}>
+              Please Add A Category
+            </Text>
+            <Button
+              style={{ borderRadius: 20 }}
+              onPress={() =>
+                navigation.navigate("Create_Category", { categoryOrder: 0 })
+              }
+              title="Add"
+              buttonStyle={{
+                backgroundColor: "#97FFDA",
+                borderRadius: 15,
+                width: 115,
+                height: 50,
+              }}
+              titleStyle={{
+                color: "black",
+                fontSize: 25,
+              }}
+            />
+          </View>
         </View>
         {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.buttonBar}>
-          <ButtonBar navigation={navigation} buttonInfo={handleButtomBar()} />
+          <ButtonBar
+            navigation={navigation}
+            buttonInfo={[["back_circle", "buttonFunction", handleBack]]}
+          />
         </View>
       </>
     );
@@ -156,14 +160,14 @@ const Category = ({ navigation }) => {
         {/* header was passed to moveAbleList, too allow for the header to be in the scroll view */}
         {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
 
-        <View style={styles.body}>
+        <View style={styles.DefaultContainer}>
           <MoveAbleList
             header={header}
             categories={categories}
-            item_Height={75}
-            icons={icons}
+            item_Height={80}
+            CategoryItemIcons={CategoryItemIcons}
             disabled={disableHeader}
-            handleIconPress={handleIconPress}
+            handleIconPress={handleCategoryItemIcon}
             test={test}
             setTest={setTest}
           />
@@ -184,7 +188,19 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
   },
-  body: {
+  AddCategoryContainer: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingTop: 30,
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  AddCategoryBody: {
+    height: "85%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  DefaultContainer: {
     width: "100%",
     flex: 1,
     backgroundColor: "#fff",
@@ -225,3 +241,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 });
+
+// ****************** 1.2 version **************
+// const handleSubmit = () => {
+//   // place holder for editing the order of categories
+//   // make the submit button greyd out until the categories have been edited
+//   console.log("submit");
+// };

@@ -20,7 +20,7 @@ const MoveableItem = ({
   itemCount,
   item_Height,
   header_Height,
-  icons,
+  CategoryItemIcons,
   disabled,
   handleIconPress,
 }) => {
@@ -155,12 +155,13 @@ const MoveableItem = ({
   return (
     <Animated.View style={animatedStyle}>
       <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={{ maxWidth: "80%" }}>
+        <Animated.View style={{ width: "80%", maxWidth: "80%" }}>
           {/* ~~~~~~ Item ~~~~~~~~~ */}
-          <View style={styles.container}>
+          <View style={disabled ? styles.BorderOnDisabled : styles.container}>
             <Text style={styles.itemText}>{item}</Text>
-            {icons(id, item)}
+            {disabled ? <View>{CategoryItemIcons(id, item)}</View> : <></>}
           </View>
+
           {/* ~~~~~~~~~~~~~~~~~~~~~~~ */}
         </Animated.View>
       </PanGestureHandler>
@@ -182,5 +183,12 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingTop: 12.5,
     paddingBottom: 12.5,
+  },
+  BorderOnDisabled: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    borderBottomWidth: 2,
+    borderColor: "rgba(0,0,0,0.1)",
   },
 });
