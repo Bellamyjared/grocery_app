@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { TextInput, StyleSheet } from "react-native";
-import { AddSubItem } from "../dbRequests/Category";
 
 const SubItemForm = ({ handleSubItemText, count }) => {
   const [subItemText, setSubItemText] = useState();

@@ -1,35 +1,29 @@
+//  Need to add search and category filter
+// need to add submit function
+// **************** VERSION 1.2 *****************
+// Add cancle function
+
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
-import { useIsFocused } from "@react-navigation/native";
-import Icon from "../../assets/icons/icon";
-
-import AppLoading from "expo-app-loading";
-
-import { useFonts } from "expo-font";
 
 import { GetItem } from "../../dbRequests/Item";
 import { GetCategory } from "../../dbRequests/Category";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
-import NavBar from "../../components/NavBar";
 import ButtonBar from "../../components/ButtonBar";
+import Single_Item from "./Single_Item";
 
 const Add_Items = ({ route, navigation }) => {
-  let [fontsLoaded, error] = useFonts({
-    "Poppins-Regular": require("../../assets/fonts/Poppins-Regular.ttf"),
-    "DancingScript-Regular": require("../../assets/fonts/DancingScript-Regular.ttf"),
-  });
-
-  const { OriginRoute } = route.params; // grab props from route
+  const { OriginRoute } = route.params; // grab oridinal page for DB post
 
   const [Items, setItems] = useState([]);
   const [categories, setCategories] = useState();
-  const isFocused = useIsFocused();
+  const [subItems, setSubItems] = useState([]);
 
   useEffect(() => {
     handleGetItems();
     handleGetCategory();
-  }, [isFocused]);
+  }, []);
 
   const handleGetItems = async () => {
     data = await GetItem();
@@ -42,10 +36,54 @@ const Add_Items = ({ route, navigation }) => {
   };
 
   const handleBack = () => navigation.goBack();
+  const handleSubmit = () => console.log("Submit");
+  // ~~~~~~~~~~~~~~~~~~~~
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  const handleSubItemText = (item, count, index) => {
+    if (count >= 0) {
+      let ItemList = subItems;
+      if (count > 0) {
+        ItemList[index] = { count, item };
+      } else {
+        ItemList[index] = null;
+      }
+      setSubItems([...ItemList]);
+    }
+    console.log(subItems);
+  };
+
+  const ChangeButtonBar = () => {
+    if (subItems.every((value) => value === null)) {
+      return (
+        <ButtonBar
+          navigation={navigation}
+          buttonInfo={[
+            [
+              "plus_circle",
+              "Create_Item",
+              "passProps",
+              { categories: categories },
+            ],
+
+            ["back_circle", "buttonFunction", handleBack],
+          ]}
+        />
+      );
+    } else {
+      return (
+        <ButtonBar
+          navigation={navigation}
+          buttonInfo={[
+            ["check_mark_circle", "buttonFunction", handleSubmit],
+            ["x_circle", "buttonFunction", handleBack],
+          ]}
+        />
+      );
+    }
+  };
+
+  // ~~~~~~~~~~~~~~~~~~~~
+
   return (
     <>
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -68,36 +106,20 @@ const Add_Items = ({ route, navigation }) => {
           <Text>Category placeholder</Text>
         </View>
         <View>
-          {Items.map((item) => (
-            <View key={item._id} style={styles.ItemView}>
-              <Text style={{ fontSize: 20 }}>{item.item}</Text>
-              <Icon
-                name="plus"
-                size={20}
-                onPress={() => console.log(item.item)}
-              />
-            </View>
+          {Items.map((item, index) => (
+            <Single_Item
+              key={item._id}
+              index={index}
+              item={item}
+              handleSubItemText={handleSubItemText}
+            />
           ))}
         </View>
         <View style={styles.categorySelection}></View>
       </ScrollView>
 
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.buttonBar}>
-        <ButtonBar
-          navigation={navigation}
-          buttonInfo={[
-            [
-              "plus_circle",
-              "Create_Item",
-              "passProps",
-              { categories: categories },
-            ],
-
-            ["back_circle", "buttonFunction", handleBack],
-          ]}
-        />
-      </View>
+      <View style={styles.buttonBar}>{ChangeButtonBar()}</View>
     </>
   );
 };
