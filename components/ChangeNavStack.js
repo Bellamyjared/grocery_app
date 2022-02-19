@@ -13,5 +13,6 @@ const ChangeNavStack = (navigation, remove) => {
       });
     });
   });
+  console.log(navigation.getState());
 };
 export default ChangeNavStack;

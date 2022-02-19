@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import Icon from "../../assets/icons/icon";
 
-const Single_Item = ({ item, handleSubItemText, index }) => {
+const Single_Item = ({
+  item,
+  index,
+  headerStatus,
+  handleSubItemText,
+  handleDelete,
+  handleEdit,
+}) => {
   const [itemCount, setItemCount] = useState(0);
 
   useEffect(() => {
@@ -49,6 +56,24 @@ const Single_Item = ({ item, handleSubItemText, index }) => {
     }
   };
 
+  const handleIcons = () => {
+    if (headerStatus === "Edit") {
+      return (
+        <Icon name="edit_arrow" size={25} onPress={() => handleEdit(item)} />
+      );
+    } else if (headerStatus === "Delete") {
+      return (
+        <Icon
+          name="x_circle"
+          size={25}
+          onPress={() => handleDelete(item._id, item.item)}
+        />
+      );
+    } else {
+      return <Icon name="plus" size={20} onPress={() => handlePlus()} />;
+    }
+  };
+
   return (
     <View style={[styles.ItemView, ChangeBorderColor()]}>
       <View style={styles.ItemTextContainer}>
@@ -64,7 +89,7 @@ const Single_Item = ({ item, handleSubItemText, index }) => {
       </View>
       <View style={styles.Icons}>
         <View style={[styles.PlusIconContainer, ChangePlusBackgound()]}>
-          <Icon name="plus" size={20} onPress={() => handlePlus()} />
+          {handleIcons()}
         </View>
 
         <View style={HideAndShow()}>

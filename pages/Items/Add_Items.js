@@ -1,17 +1,18 @@
 //  Need to add search and category filter
 // need to add submit function
 // **************** VERSION 1.2 *****************
-// Add cancle function
+// Add clear function
 
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
 
-import { GetItem } from "../../dbRequests/Item";
+import { GetItem, DeleteItem } from "../../dbRequests/Item";
 import { GetCategory } from "../../dbRequests/Category";
 import Header from "../../components/Header";
 import SearchBar from "../../components/SearchBar";
 import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
+import { DeleteValidation } from "../../components/DeleteValidation";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute } = route.params; // grab oridinal page for DB post
@@ -19,11 +20,49 @@ const Add_Items = ({ route, navigation }) => {
   const [Items, setItems] = useState([]);
   const [categories, setCategories] = useState();
   const [subItems, setSubItems] = useState([]);
+  const [headerStatus, setHeaderStatus] = useState();
+  const [disableHeader, setDisableHeader] = useState();
 
   useEffect(() => {
     handleGetItems();
     handleGetCategory();
   }, []);
+
+  const handleEdit = (item) => {
+    navigation.push("Edit_Item", {
+      OriginRoute: OriginRoute,
+      categories: categories,
+      item: item,
+    });
+  };
+
+  const deleteItem = async (id) => {
+    if ((await DeleteItem(id)) != undefined) {
+      handleGetItems();
+    } else {
+      Alert.alert(
+        `There was an issue deleting your item. Please try again later`
+      );
+    }
+  };
+
+  const handleDelete = (id, item) => {
+    DeleteValidation(item, id, deleteItem);
+  };
+
+  const handleHeaderTrash = () => {
+    setHeaderStatus("Delete");
+    setDisableHeader(true);
+  };
+  const handleHeaderEdit = () => {
+    setHeaderStatus("Edit");
+    setDisableHeader(true);
+  };
+
+  const handleCancle = () => {
+    setHeaderStatus(null);
+    setDisableHeader(false);
+  };
 
   const handleGetItems = async () => {
     data = await GetItem();
@@ -36,8 +75,13 @@ const Add_Items = ({ route, navigation }) => {
   };
 
   const handleBack = () => navigation.goBack();
-  const handleSubmit = () => console.log("Submit");
-  // ~~~~~~~~~~~~~~~~~~~~
+  const handleSubmit = () => {
+  const finalSubItems = subItems.filter((item) => item != null);
+  
+  };
+  const handleClear = () => {
+    navigation.goBack();
+  };
 
   const handleSubItemText = (item, count, index) => {
     if (count >= 0) {
@@ -49,11 +93,22 @@ const Add_Items = ({ route, navigation }) => {
       }
       setSubItems([...ItemList]);
     }
-    console.log(subItems);
+    if (subItems.every((value) => value === null)) {
+      setDisableHeader(false);
+    } else {
+      setDisableHeader(true);
+    }
   };
 
   const ChangeButtonBar = () => {
-    if (subItems.every((value) => value === null)) {
+    if (headerStatus === "Edit" || headerStatus === "Delete") {
+      return (
+        <ButtonBar
+          navigation={navigation}
+          buttonInfo={[["x_circle", "buttonFunction", handleCancle]]}
+        />
+      );
+    } else if (subItems.every((value) => value === null)) {
       return (
         <ButtonBar
           navigation={navigation}
@@ -62,7 +117,7 @@ const Add_Items = ({ route, navigation }) => {
               "plus_circle",
               "Create_Item",
               "passProps",
-              { categories: categories },
+              { categories: categories, OriginRoute: OriginRoute },
             ],
 
             ["back_circle", "buttonFunction", handleBack],
@@ -75,7 +130,7 @@ const Add_Items = ({ route, navigation }) => {
           navigation={navigation}
           buttonInfo={[
             ["check_mark_circle", "buttonFunction", handleSubmit],
-            ["x_circle", "buttonFunction", handleBack],
+            ["x_circle", "buttonFunction", handleClear],
           ]}
         />
       );
@@ -89,11 +144,11 @@ const Add_Items = ({ route, navigation }) => {
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.header}>
         <Header
-          navigation={navigation}
+          disabled={disableHeader}
           title={["Add Items", 50]}
           icons={[
-            ["edit", "edit"],
-            ["trash", "trash"],
+            ["edit", "buttonFunction", handleHeaderEdit],
+            ["trash", "buttonFunction", handleHeaderTrash],
           ]}
         />
       </View>
@@ -111,7 +166,10 @@ const Add_Items = ({ route, navigation }) => {
               key={item._id}
               index={index}
               item={item}
+              headerStatus={headerStatus}
               handleSubItemText={handleSubItemText}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
             />
           ))}
         </View>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { TextInput, StyleSheet } from "react-native";
 
-const SubItemForm = ({ handleSubItemText, count }) => {
-  const [subItemText, setSubItemText] = useState();
+const SubItemForm = ({ handleSubItemText, count, ItemText }) => {
+  const [subItemText, setSubItemText] = useState(ItemText);
 
   useEffect(() => {
     handleSubItemText(subItemText, count);

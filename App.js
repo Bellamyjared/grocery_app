@@ -13,6 +13,7 @@ import Pantry from "./pages/Pantry";
 import Recipe from "./pages/Recipe";
 import Add_Items from "./pages/Items/Add_Items";
 import Create_Item from "./pages/Items/Create_Item";
+import Edit_Item from "./pages/Items/Edit_Item";
 import Category from "./pages/Categories/Category";
 import Create_Category from "./pages/Categories/Create_Category";
 import Edit_Category from "./pages/Categories/Edit_Category";
@@ -43,6 +44,11 @@ export default function App() {
         <Stack.Screen
           name="Create_Item"
           component={Create_Item}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Edit_Item"
+          component={Edit_Item}
           options={{ headerShown: false }}
         />
         <Stack.Screen
