@@ -51,7 +51,7 @@ const List = ({ navigation }) => {
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
       </View>
-      <DropDown list={categories} />
+      <DropDown list={categories} header="Category" />
     </>
   );
 };

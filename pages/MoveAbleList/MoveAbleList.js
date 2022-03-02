@@ -1,4 +1,4 @@
-//  need to fix scrolling or get rid of it
+//  need to fix scrolling with an item or get rid of it
 
 import React, { useState, useEffect } from "react";
 import Animated, {

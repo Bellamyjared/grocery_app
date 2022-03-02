@@ -1,22 +1,52 @@
-import { Inter_100Thin } from "@expo-google-fonts/inter";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import React, { useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  ScrollView,
+  TouchableHighlightBase,
+} from "react-native";
 
-const DropDown = ({ list }) => {
-  console.log(list);
+const DropDown = ({ list, header }) => {
+  const [ToggleDisplay, setToggleDisplay] = useState(true);
+
   if (list != undefined || list != null) {
+    const ITEM_HEIGHT = 40;
+
     return (
-      <View style={styles.Container}>
-        <View style={styles.Cancle}>
-          <Text>test3</Text>
-        </View>
-        <View style={styles.Temp}>
-          <View style={styles.ListContainer}>
-            <ScrollView contentContainerStyle={styles.ListScrollView}>
-              {list.map((item, index) => (
-                <Text key={index} style={styles.Text}>
-                  {item.category}
-                </Text>
-              ))}
+      <View style={ToggleDisplay ? styles.Container : styles.Disabled}>
+        <View style={styles.Body}>
+          <View style={styles.Header}>
+            <Text style={styles.HeaderText}> Select a {header}</Text>
+          </View>
+          <View style={{ flex: 1, width: "100%" }}>
+            <ScrollView
+              style={{
+                width: "100%",
+              }}
+            >
+              <View style={{}}>
+                {list.map((item) => (
+                  <View
+                    key={item._id}
+                    style={{
+                      height: ITEM_HEIGHT,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <TouchableWithoutFeedback
+                      onPress={() => {
+                        console.log(item.category);
+                        setToggleDisplay(false);
+                      }}
+                    >
+                      <Text>{item.category}</Text>
+                    </TouchableWithoutFeedback>
+                  </View>
+                ))}
+              </View>
             </ScrollView>
           </View>
         </View>
@@ -26,8 +56,6 @@ const DropDown = ({ list }) => {
     return <></>;
   }
 };
-
-export default DropDown;
 
 const styles = StyleSheet.create({
   Container: {
@@ -39,36 +67,25 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "rgba(0,0,0,0.5)",
   },
-  Temp: {
+  Body: {
+    justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: "#fff",
-    height: 400,
-    width: "90%",
+    borderRadius: 10,
+    height: 300,
+    width: "100%",
+  },
+  Header: {
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 70,
-    overflow: "visible",
-  },
-  ListContainer: {
-    backgroundColor: "#fff",
+    width: "100%",
     height: 40,
-    width: "85%",
-    borderRadius: 15,
-    marginTop: 50,
+    borderBottomWidth: 1.5,
+    borderBottomColor: "#e6e6e6",
   },
-  ListScrollView: {
-    flexGrow: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "pink",
-  },
-  Cancle: {
-    backgroundColor: "#fff",
-    height: 60,
-    width: "85%",
-    marginBottom: 70,
-    borderRadius: 15,
-  },
-  Text: {
-    fontSize: 30,
-  },
+  HeaderText: { fontSize: 16, color: "#bababa" },
+  List: { backgroundColor: "black" },
+  Disabled: { display: "none" },
 });
+
+export default DropDown;
