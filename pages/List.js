@@ -1,22 +1,25 @@
-import { StyleSheet, Text, View, StatusBar } from "react-native";
+import { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import Icon from "../assets/icons/icon";
-
-import AppLoading from "expo-app-loading";
-import { useFonts } from "expo-font";
 
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
+import { GetCategory } from "../dbRequests/Category";
+import DropDown from "../components/DropDown.js";
 
 const List = ({ navigation }) => {
-  let [fontsLoaded, error] = useFonts({
-    "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    "DancingScript-Regular": require("../assets/fonts/DancingScript-Regular.ttf"),
-  });
+  const [categories, setCategories] = useState();
 
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
+  useEffect(() => {
+    handleGetItems();
+  }, []);
+
+  const handleGetItems = async () => {
+    data = await GetCategory();
+    setCategories(data);
+  };
+
   return (
     <>
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -48,6 +51,7 @@ const List = ({ navigation }) => {
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
       </View>
+      <DropDown list={categories} />
     </>
   );
 };
