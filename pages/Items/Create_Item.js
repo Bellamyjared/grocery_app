@@ -16,6 +16,7 @@ import ButtonBar from "../../components/ButtonBar";
 import { PostItem } from "../../dbRequests/Item";
 import SubItemForm from "../../components/SubItemForm";
 import ChangeNavStack from "../../components/ChangeNavStack";
+import DropDown from "../../components/DropDown";
 
 const Create_Item = ({ route, navigation }) => {
   const { categories, OriginRoute } = route.params; // grab props from route
@@ -23,6 +24,7 @@ const Create_Item = ({ route, navigation }) => {
   const [item, setItem] = useState();
   const [categoryId, setCategoryId] = useState();
   const [categoryText, setCategoryText] = useState();
+  const [toggleDropDown, setToggleDropDown] = useState(false);
   const [subItems, setSubItems] = useState([]);
   const [subItemCount, setSubItemCount] = useState([]);
   const [count, setCount] = useState(0);
@@ -107,17 +109,9 @@ const Create_Item = ({ route, navigation }) => {
           </View>
           <View style={{ paddingTop: 15, width: 300 }}>
             <Text style={styles.form_Lable}>Category</Text>
-            <Text style={styles.form_Lable}>{categoryText}</Text>
-            {categories.map((cat) => (
-              <TouchableWithoutFeedback
-                key={cat._id}
-                onPress={() => {
-                  setCategoryText(cat.category), setCategoryId(cat._id);
-                }}
-              >
-                <Text>{cat.category}</Text>
-              </TouchableWithoutFeedback>
-            ))}
+            <TouchableWithoutFeedback onPress={() => setToggleDropDown(true)}>
+              <Text style={styles.form_Input}>{categoryText}</Text>
+            </TouchableWithoutFeedback>
           </View>
           <View style={{ paddingTop: 15, paddingBottom: 30, width: 300 }}>
             <Text style={styles.form_Lable}>Sub Item</Text>
@@ -161,6 +155,15 @@ const Create_Item = ({ route, navigation }) => {
           ]}
         />
       </View>
+      <DropDown
+        list={categories}
+        header="Category"
+        itemText="category"
+        selected={setCategoryText}
+        selectedId={setCategoryId}
+        ToggleDisplay={toggleDropDown}
+        setToggleDisplay={setToggleDropDown}
+      />
     </>
   );
 };

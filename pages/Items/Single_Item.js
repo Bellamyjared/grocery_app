@@ -9,6 +9,7 @@ const Single_Item = ({
   handleSubItemText,
   handleDelete,
   handleEdit,
+  filterItems,
 }) => {
   const [itemCount, setItemCount] = useState(0);
 
@@ -74,30 +75,41 @@ const Single_Item = ({
     }
   };
 
-  return (
-    <View style={[styles.ItemView, ChangeBorderColor()]}>
-      <View style={styles.ItemTextContainer}>
-        <Text style={{ fontSize: 20 }}>{item.item}</Text>
-        <View style={HideAndShow(styles.ItemCountContainer)}>
-          <Icon
-            style={{ paddingTop: 12, paddingRight: 10 }}
-            name="x"
-            size={10}
-          />
-          <Text style={{ fontSize: 20 }}> {itemCount}</Text>
-        </View>
-      </View>
-      <View style={styles.Icons}>
-        <View style={[styles.PlusIconContainer, ChangePlusBackgound()]}>
-          {handleIcons()}
-        </View>
+  const disableFilteredItems = () => {
+    const items = filterItems();
+    if (items != null) {
+      return items.includes(item._id);
+    } else return true;
+  };
 
-        <View style={HideAndShow()}>
-          <Icon name="minus" size={20} onPress={() => handleMinus()} />
+  if (disableFilteredItems() === true) {
+    return (
+      <View style={[styles.ItemView, ChangeBorderColor()]}>
+        <View style={styles.ItemTextContainer}>
+          <Text style={{ fontSize: 20 }}>{item.item}</Text>
+          <View style={HideAndShow(styles.ItemCountContainer)}>
+            <Icon
+              style={{ paddingTop: 12, paddingRight: 10 }}
+              name="x"
+              size={10}
+            />
+            <Text style={{ fontSize: 20 }}> {itemCount}</Text>
+          </View>
+        </View>
+        <View style={styles.Icons}>
+          <View style={[styles.PlusIconContainer, ChangePlusBackgound()]}>
+            {handleIcons()}
+          </View>
+
+          <View style={HideAndShow()}>
+            <Icon name="minus" size={20} onPress={() => handleMinus()} />
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  } else {
+    return <></>;
+  }
 };
 
 const styles = StyleSheet.create({
@@ -142,6 +154,9 @@ const styles = StyleSheet.create({
     borderRightWidth: 2,
     borderColor: "#66B99B",
     height: "100%",
+  },
+  Disabled: {
+    display: "none",
   },
 });
 

@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Icon from "../assets/icons/icon";
 
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
 import { GetCategory } from "../dbRequests/Category";
-import DropDown from "../components/DropDown.js";
 
 const List = ({ navigation }) => {
   const [categories, setCategories] = useState();
@@ -36,7 +34,6 @@ const List = ({ navigation }) => {
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.container}>
         <Text style={styles.text}>test 12</Text>
-        <Icon name="drop_down" size={50} />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>
@@ -51,7 +48,6 @@ const List = ({ navigation }) => {
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
       </View>
-      <DropDown list={categories} header="Category" />
     </>
   );
 };

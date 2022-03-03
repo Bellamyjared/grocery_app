@@ -1,10 +1,16 @@
-//  Need to add search and category filter
-// need to add submit function
-// **************** VERSION 1.2 *****************
-// Add clear function
+// add search bar
+// add sub Item display
 
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, ScrollView, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Alert,
+  TouchableWithoutFeedback,
+} from "react-native";
+import Icon from "../../assets/icons/icon";
 
 import { GetItem, DeleteItem } from "../../dbRequests/Item";
 import { GetCategory } from "../../dbRequests/Category";
@@ -13,6 +19,7 @@ import SearchBar from "../../components/SearchBar";
 import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
 import { DeleteValidation } from "../../components/DeleteValidation";
+import DropDown from "../../components/DropDown.js";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute } = route.params; // grab oridinal page for DB post
@@ -22,11 +29,29 @@ const Add_Items = ({ route, navigation }) => {
   const [subItems, setSubItems] = useState([]);
   const [headerStatus, setHeaderStatus] = useState();
   const [disableHeader, setDisableHeader] = useState();
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategoryId, setSelectedCategoryId] = useState();
+  const [toggleDropDown, setToggleDropDown] = useState(false);
+  const [clearSelected, setClearSelected] = useState(false);
+
+  const filterItems = () => {
+    if (selectedCategory != "All") {
+      var filteredItems = Items.filter(
+        (item) => item.categoryId === selectedCategoryId
+      );
+      const itemIDs = filteredItems.map((item) => item._id);
+      return itemIDs;
+    } else return null;
+  };
 
   useEffect(() => {
     handleGetItems();
     handleGetCategory();
-  }, []);
+    // noting this as a work around for now, because its a bad way of implementing it
+    if (clearSelected === true) {
+      setClearSelected(false);
+    }
+  }, [clearSelected]);
 
   const handleEdit = (item) => {
     navigation.push("Edit_Item", {
@@ -76,11 +101,25 @@ const Add_Items = ({ route, navigation }) => {
 
   const handleBack = () => navigation.goBack();
   const handleSubmit = () => {
-  const finalSubItems = subItems.filter((item) => item != null);
-  
+    const finalSubItems = subItems.filter((item) => item != null);
   };
   const handleClear = () => {
-    navigation.goBack();
+    setClearSelected(true);
+    setSelectedCategory("All");
+  };
+
+  const clearCategoryFilter = () => {
+    if (selectedCategory != "All") {
+      return (
+        <Icon
+          name="x_circle"
+          size={20}
+          onPress={() => {
+            setSelectedCategory("All");
+          }}
+        />
+      );
+    } else return <></>;
   };
 
   const handleSubItemText = (item, count, index) => {
@@ -154,30 +193,58 @@ const Add_Items = ({ route, navigation }) => {
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <ScrollView contentContainerStyle={styles.body}>
-        <View style={styles.searchBar}>
+        {/* being redacted for now */}
+        {/* <View style={styles.searchBar}>
           <SearchBar />
-        </View>
+        </View> */}
         <View style={styles.categoryFilter}>
-          <Text>Category placeholder</Text>
+          <TouchableWithoutFeedback onPress={() => setToggleDropDown(true)}>
+            <Text style={{ fontSize: 20 }}>{selectedCategory}</Text>
+          </TouchableWithoutFeedback>
+          <View style={styles.CategoryFilterButoon}>
+            {clearCategoryFilter()}
+          </View>
         </View>
+        <View
+          style={{
+            borderBottomWidth: 1,
+            borderBottomColor: "#E7E7E7",
+            width: "40%",
+            paddingTop: 5,
+            marginBottom: 10,
+          }}
+        ></View>
         <View>
-          {Items.map((item, index) => (
-            <Single_Item
-              key={item._id}
-              index={index}
-              item={item}
-              headerStatus={headerStatus}
-              handleSubItemText={handleSubItemText}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-          ))}
+          {clearSelected != true ? (
+            Items.map((item, index) => (
+              <Single_Item
+                key={item._id}
+                index={index}
+                item={item}
+                headerStatus={headerStatus}
+                handleSubItemText={handleSubItemText}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                filterItems={filterItems}
+              />
+            ))
+          ) : (
+            <></>
+          )}
         </View>
-        <View style={styles.categorySelection}></View>
       </ScrollView>
 
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>{ChangeButtonBar()}</View>
+      <DropDown
+        list={categories}
+        header="Category"
+        itemText="category"
+        selected={setSelectedCategory}
+        selectedId={setSelectedCategoryId}
+        ToggleDisplay={toggleDropDown}
+        setToggleDisplay={setToggleDropDown}
+      />
     </>
   );
 };
@@ -200,7 +267,14 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   categoryFilter: {
+    width: "100%",
     paddingTop: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  CategoryFilterButoon: {
+    paddingLeft: 15,
   },
 
   ItemView: {

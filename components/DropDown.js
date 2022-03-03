@@ -3,14 +3,20 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableWithoutFeedback,
   ScrollView,
-  TouchableHighlightBase,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from "react-native";
 
-const DropDown = ({ list, header }) => {
-  const [ToggleDisplay, setToggleDisplay] = useState(true);
-
+const DropDown = ({
+  list,
+  itemText,
+  header,
+  selected,
+  selectedId,
+  setToggleDisplay,
+  ToggleDisplay,
+}) => {
   if (list != undefined || list != null) {
     const ITEM_HEIGHT = 40;
 
@@ -28,27 +34,45 @@ const DropDown = ({ list, header }) => {
             >
               <View style={{}}>
                 {list.map((item) => (
-                  <View
+                  <TouchableHighlight
                     key={item._id}
-                    style={{
-                      height: ITEM_HEIGHT,
-                      alignItems: "center",
-                      justifyContent: "center",
+                    activeOpacity={0.6}
+                    underlayColor="#DDDDDD"
+                    onPress={() => {
+                      selected(item[itemText]);
+                      selectedId(item._id);
+                      setToggleDisplay(false);
                     }}
                   >
-                    <TouchableWithoutFeedback
-                      onPress={() => {
-                        console.log(item.category);
-                        setToggleDisplay(false);
+                    <View
+                      style={{
+                        height: ITEM_HEIGHT,
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                     >
-                      <Text>{item.category}</Text>
-                    </TouchableWithoutFeedback>
-                  </View>
+                      <Text>{item[itemText]}</Text>
+                    </View>
+                  </TouchableHighlight>
                 ))}
               </View>
             </ScrollView>
           </View>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            width: "100%",
+          }}
+        >
+          <TouchableWithoutFeedback onPress={() => setToggleDisplay(false)}>
+            <View
+              style={{
+                width: "100%",
+                height: "100%",
+              }}
+            ></View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );
