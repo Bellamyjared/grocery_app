@@ -26,10 +26,10 @@ const Single_Item = ({
   };
   const [itemCount, setItemCount] = useState(initiateItemCount());
   const [toggleSubItemDropDown, setToggleSubItemDropDown] = useState(false);
+  const [ChangeMultiItemBorder, setChangeMultiItemBorder] = useState(0);
 
   useEffect(() => {
     handleSubItemText(itemCount, index);
-    console.log(itemCount);
   }, [itemCount]);
 
   const handlePlus = (subItemText, subItemIndex) => {
@@ -38,9 +38,11 @@ const Single_Item = ({
       setItemCount({ [subItemText]: itemCount[subItemText] + 1 });
     } else {
       // multi Item
+      setChangeMultiItemBorder(ChangeMultiItemBorder + 1);
       var temp;
       temp = [...itemCount];
-      temp[0][subItemText] = itemCount[0][subItemText] + 1;
+      temp[subItemIndex][subItemText] =
+        itemCount[subItemIndex][subItemText] + 1;
 
       setItemCount(temp);
     }
@@ -48,31 +50,42 @@ const Single_Item = ({
 
   const handleMinus = (subItemText, subItemIndex) => {
     if (subItemText === item.item) {
-      setItemCount({ [subItemText]: itemCount[subItemText] - 1 });
+      if (itemCount[subItemText] > 0) {
+        setItemCount({ [subItemText]: itemCount[subItemText] - 1 });
+      }
+    } else {
+      if (itemCount[subItemIndex][subItemText] > 0) {
+        setChangeMultiItemBorder(ChangeMultiItemBorder - 1);
+        var temp;
+        temp = [...itemCount];
+        temp[subItemIndex][subItemText] =
+          itemCount[subItemIndex][subItemText] - 1;
+        setItemCount(temp);
+      }
     }
   };
 
   const HideAndShow = (styles, subItemText, subItemIndex) => {
-    if (itemCount[subItemText] > 0) {
-      return styles;
+    if (subItemText === item.item) {
+      if (itemCount[subItemText] > 0) {
+        return styles;
+      } else {
+        return { display: "none" };
+      }
     } else {
-      return { display: "none" };
+      // only update if visable
+      if (toggleSubItemDropDown) {
+        if (itemCount[subItemIndex][subItemText] > 0) {
+          return styles;
+        } else {
+          return { display: "none" };
+        }
+      }
     }
   };
 
   const ChangeBorderColor = (subItemText, subItemIndex) => {
-    if (subItemText != item.item) {
-      if (itemCount[subItemText] > 0) {
-        return { borderColor: "#C4C4C4", borderWidth: 1 };
-      } else {
-        return {
-          borderColor: "#66B99B",
-          borderWidth: 2,
-          backgroundColor: "#fff",
-        };
-      }
-    } else {
-      // if single item
+    if (subItemText === item.item) {
       if (itemCount[subItemText] === 0) {
         return { borderColor: "#C4C4C4", borderWidth: 1 };
       } else {
@@ -82,11 +95,24 @@ const Single_Item = ({
           backgroundColor: "#fff",
         };
       }
+    } else {
+      if (toggleSubItemDropDown) {
+        if (itemCount[subItemIndex][subItemText] === 0) {
+          return { borderColor: "#C4C4C4", borderWidth: 1, borderRadius: 18 };
+        } else {
+          return {
+            borderColor: "#66B99B",
+            borderWidth: 2,
+            backgroundColor: "#fff",
+            borderRadius: 18,
+          };
+        }
+      }
     }
   };
 
   const ChangePlusBackgound = (subItemText, subItemIndex) => {
-    if (subItemText != item.item) {
+    if (subItemText === item.item) {
       if (itemCount[subItemText] > 0) {
         return {
           borderTopRightRadius: 18,
@@ -97,27 +123,21 @@ const Single_Item = ({
         };
       }
     } else {
-      if (itemCount[subItemText] > 0) {
-        return {
-          borderTopRightRadius: 18,
-          borderBottomRightRadius: 18,
-          borderColor: "#66B99B",
-          borderWidth: 2,
-          backgroundColor: "#97FFDA",
-        };
+      if (toggleSubItemDropDown) {
+        if (itemCount[subItemIndex][subItemText] > 0) {
+          return {
+            borderTopRightRadius: 18,
+            borderBottomRightRadius: 18,
+            borderColor: "#66B99B",
+            borderWidth: 2,
+            backgroundColor: "#97FFDA",
+          };
+        }
       }
     }
   };
 
-  const showSubItems = () => {
-    if (toggleSubItemDropDown) {
-      setToggleSubItemDropDown(false);
-    } else {
-      setToggleSubItemDropDown(true);
-    }
-  };
-
-  const handleIcons = (subItem) => {
+  const handleIcons = (subItem, subIndex) => {
     if (headerStatus === "Edit") {
       return (
         <Icon name="edit_arrow" size={25} onPress={() => handleEdit(item)} />
@@ -131,7 +151,21 @@ const Single_Item = ({
         />
       );
     } else {
-      return <Icon name="plus" size={20} onPress={() => handlePlus(subItem)} />;
+      return (
+        <Icon
+          name="plus"
+          size={20}
+          onPress={() => handlePlus(subItem, subIndex)}
+        />
+      );
+    }
+  };
+
+  const showSubItems = () => {
+    if (toggleSubItemDropDown) {
+      setToggleSubItemDropDown(false);
+    } else {
+      setToggleSubItemDropDown(true);
     }
   };
 
@@ -163,7 +197,7 @@ const Single_Item = ({
             {handleIcons(item.item)}
           </View>
 
-          <View style={HideAndShow(styles.ItemCountContainer, item.item)}>
+          <View style={HideAndShow(styles.RandomPlaceHolder, item.item)}>
             <Icon
               name="minus"
               size={20}
@@ -178,7 +212,13 @@ const Single_Item = ({
   const itemWithSubItems = () => {
     return (
       <>
-        <View style={[styles.MultiItemContainer, ChangeBorderColor()]}>
+        <View
+          style={[
+            ChangeMultiItemBorder != 0
+              ? styles.HighLightedMultiItemContainer
+              : styles.MultiItemContainer,
+          ]}
+        >
           <TouchableWithoutFeedback onPress={() => showSubItems()}>
             <View style={[styles.MultiItemTitle]}>
               <Text style={styles.Font}>{item.item}</Text>
@@ -214,7 +254,9 @@ const Single_Item = ({
                       name="x"
                       size={10}
                     />
-                    <Text style={styles.Font}>{itemCount[subItemText]}</Text>
+                    <Text style={styles.Font}>
+                      {itemCount[subIndex][subItemText]}
+                    </Text>
                   </View>
                 </View>
                 <View style={styles.Icons}>
@@ -227,7 +269,13 @@ const Single_Item = ({
                     {handleIcons(subItemText, subIndex)}
                   </View>
 
-                  <View style={HideAndShow(subItemText, subIndex)}>
+                  <View
+                    style={HideAndShow(
+                      styles.RandomPlaceHolder,
+                      subItemText,
+                      subIndex
+                    )}
+                  >
                     <Icon
                       name="minus"
                       size={20}
@@ -272,7 +320,7 @@ const styles = StyleSheet.create({
   },
   ItemCountContainer: {
     flexDirection: "row",
-    paddingRight: 5,
+    paddingRight: 15,
   },
   Icons: {
     flex: 1,
@@ -296,14 +344,25 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
+  HighLightedMultiItemContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: "center",
+    borderWidth: 2,
+    borderRadius: 18,
+    borderColor: "#66B99B",
+    marginTop: 10,
+    marginBottom: 10,
+  },
   MultiItemContainer: {
     paddingLeft: 20,
     paddingRight: 20,
     alignItems: "center",
     borderWidth: 1.5,
+    borderColor: "#C4C4C4",
+    borderRadius: 18,
     marginTop: 10,
     marginBottom: 10,
-    borderRadius: 18,
   },
   MultiItemTitle: {
     flexDirection: "row",
