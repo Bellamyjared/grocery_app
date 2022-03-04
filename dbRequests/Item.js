@@ -1,11 +1,14 @@
 import axios from "axios";
 import { GetIp } from "./GetIp";
+import Data from "../assets/data";
 
 const ip = GetIp();
 
 export async function GetItem() {
   const result = await axios(`${ip}/item`);
   return result.data;
+  // const result = Data("item");
+  // return result;
 }
 
 export async function PostItem(Item) {

@@ -15,7 +15,7 @@ import Icon from "../../assets/icons/icon";
 import { GetItem, DeleteItem } from "../../dbRequests/Item";
 import { GetCategory } from "../../dbRequests/Category";
 import Header from "../../components/Header";
-import SearchBar from "../../components/SearchBar";
+// import SearchBar from "../../components/SearchBar"; deprecatied
 import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
 import { DeleteValidation } from "../../components/DeleteValidation";
@@ -101,7 +101,8 @@ const Add_Items = ({ route, navigation }) => {
 
   const handleBack = () => navigation.goBack();
   const handleSubmit = () => {
-    const finalSubItems = subItems.filter((item) => item != null);
+    console.log(subItems);
+    // const finalSubItems = subItems.filter((item) => item != null);
   };
   const handleClear = () => {
     setClearSelected(true);
@@ -214,7 +215,7 @@ const Add_Items = ({ route, navigation }) => {
             marginBottom: 10,
           }}
         ></View>
-        <View>
+        <View style={styles.ItemContainer}>
           {clearSelected != true ? (
             Items.map((item, index) => (
               <Single_Item
@@ -277,20 +278,8 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
   },
 
-  ItemView: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-
-    marginTop: 10,
-    marginBottom: 10,
-    fontSize: 24,
-    height: 45,
-    width: 300,
-    borderWidth: 1,
-    paddingRight: 25,
-    paddingLeft: 25,
-    borderRadius: 15,
+  ItemContainer: {
+    width: "85%",
   },
 
   buttonBar: {
