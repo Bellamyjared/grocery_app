@@ -16,7 +16,7 @@ import ButtonBar from "../../components/ButtonBar";
 import { PostItem } from "../../dbRequests/Item";
 import SubItemForm from "../../components/SubItemForm";
 import ChangeNavStack from "../../components/ChangeNavStack";
-import DropDown from "../../components/DropDown";
+import Picker from "../../components/Picker";
 
 const Create_Item = ({ route, navigation }) => {
   const { categories, OriginRoute } = route.params; // grab props from route
@@ -156,7 +156,7 @@ const Create_Item = ({ route, navigation }) => {
           ]}
         />
       </View>
-      <DropDown
+      <Picker
         list={categories}
         header="Category"
         itemText="category"

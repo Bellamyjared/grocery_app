@@ -1,21 +1,28 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
 import { GetCategory } from "../dbRequests/Category";
+import { GetList } from "../dbRequests/List";
 
 const List = ({ navigation }) => {
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
+  const [list, setList] = useState([]);
 
   useEffect(() => {
-    handleGetItems();
+    handleGetCategories();
+    handleGetList();
   }, []);
 
-  const handleGetItems = async () => {
+  const handleGetCategories = async () => {
     data = await GetCategory();
     setCategories(data);
+  };
+  const handleGetList = async () => {
+    data = await GetList();
+    setList(data);
   };
 
   return (
@@ -33,7 +40,15 @@ const List = ({ navigation }) => {
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.container}>
-        <Text style={styles.text}>test 12</Text>
+        {categories.map((c) => (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              console.log(c.category);
+            }}
+          >
+            <Text>{c.category}</Text>
+          </TouchableWithoutFeedback>
+        ))}
       </View>
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>

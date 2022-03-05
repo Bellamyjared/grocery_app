@@ -18,6 +18,7 @@ import ButtonBar from "../../components/ButtonBar";
 import { UpdateItem } from "../../dbRequests/Item";
 import SubItemForm from "../../components/SubItemForm";
 import ChangeNavStack from "../../components/ChangeNavStack";
+import Picker from "../../components/Picker";
 
 const Edit_Item = ({ route, navigation }) => {
   const { categories, item, OriginRoute } = route.params; // grab props from route
@@ -34,6 +35,7 @@ const Edit_Item = ({ route, navigation }) => {
       return index;
     })
   );
+  const [toggleDropDown, setToggleDropDown] = useState(false);
   const [count, setCount] = useState(item.subItems.length);
   console.log(subItemCount);
 
@@ -120,17 +122,9 @@ const Edit_Item = ({ route, navigation }) => {
           </View>
           <View style={{ paddingTop: 15, width: 300 }}>
             <Text style={styles.form_Lable}>Category</Text>
-            <Text style={styles.form_Lable}>{categoryText}</Text>
-            {categories.map((cat) => (
-              <TouchableWithoutFeedback
-                key={cat._id}
-                onPress={() => {
-                  setCategoryText(cat.category), setCategoryId(cat._id);
-                }}
-              >
-                <Text>{cat.category}</Text>
-              </TouchableWithoutFeedback>
-            ))}
+            <TouchableWithoutFeedback onPress={() => setToggleDropDown(true)}>
+              <Text style={styles.form_Input}>{categoryText}</Text>
+            </TouchableWithoutFeedback>
           </View>
           <View style={{ paddingTop: 15, paddingBottom: 30, width: 300 }}>
             <Text style={styles.form_Lable}>Sub Item</Text>
@@ -175,6 +169,15 @@ const Edit_Item = ({ route, navigation }) => {
           ]}
         />
       </View>
+      <Picker
+        list={categories}
+        header="Category"
+        itemText="category"
+        selected={setCategoryText}
+        selectedId={setCategoryId}
+        ToggleDisplay={toggleDropDown}
+        setToggleDisplay={setToggleDropDown}
+      />
     </>
   );
 };

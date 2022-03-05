@@ -20,8 +20,7 @@ import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
 import { DeleteValidation } from "../../components/DeleteValidation";
-import DropDown from "../../components/DropDown.js";
-import ChangeNavStack from "../../components/ChangeNavStack";
+import Picker from "../../components/Picker";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute } = route.params; // grab oridinal page for DB post
@@ -296,7 +295,7 @@ const Add_Items = ({ route, navigation }) => {
 
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>{ChangeButtonBar()}</View>
-      <DropDown
+      <Picker
         list={categories}
         header="Category"
         itemText="category"

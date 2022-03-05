@@ -8,7 +8,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-const DropDown = ({
+const Picker = ({
   list,
   itemText,
   header,
@@ -112,4 +112,4 @@ const styles = StyleSheet.create({
   Disabled: { display: "none" },
 });
 
-export default DropDown;
+export default Picker;
