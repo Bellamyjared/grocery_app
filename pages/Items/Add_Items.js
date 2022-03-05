@@ -131,22 +131,34 @@ const Add_Items = ({ route, navigation }) => {
         let tempListItem = ItemList;
         tempListItem[index] = [itemValue][0];
         setItemList(tempListItem);
+        console.log(ItemList);
       } else {
         let tempListItem = ItemList;
         tempListItem[index] = undefined;
         setItemList(tempListItem);
+        console.log(ItemList);
       }
     } else {
       // mulitple items
-      console.log(Object.values(itemValue[item]));
-      if (Object.values(itemValue[item]).every === 0) {
-        console.log("test");
+      if (Object.values(itemValue[item]).every((e) => e === 0)) {
         let tempListItem = ItemList;
-        tempListItem[index] = itemValue;
+        tempListItem[index] = undefined;
         setItemList(tempListItem);
+        console.log(ItemList);
+      } else {
+        let subItemList = {};
+        for (const i in itemValue[item]) {
+          if (itemValue[item][i] != 0) {
+            subItemList[i] = itemValue[item][i];
+          }
+        }
+        let tempItemList = ItemList;
+        tempItemList[index] = { [item]: subItemList };
+        setItemList(tempItemList);
       }
+      console.log(ItemList);
     }
-    if (ItemList.every((value) => value === null)) {
+    if (ItemList.every((value) => value === undefined)) {
       setDisableHeader(false);
     } else {
       setDisableHeader(true);
@@ -161,7 +173,7 @@ const Add_Items = ({ route, navigation }) => {
           buttonInfo={[["x_circle", "buttonFunction", handleCancle]]}
         />
       );
-    } else if (ItemList.every((value) => value === null)) {
+    } else if (ItemList.every((value) => value === undefined)) {
       return (
         <ButtonBar
           navigation={navigation}
