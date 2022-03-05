@@ -20,13 +20,14 @@ import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import DropDown from "../../components/DropDown.js";
+import { ListItem } from "react-native-elements";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute } = route.params; // grab oridinal page for DB post
 
   const [Items, setItems] = useState([]);
   const [categories, setCategories] = useState();
-  const [subItems, setSubItems] = useState([]);
+  const [ItemList, setItemList] = useState([]);
   const [headerStatus, setHeaderStatus] = useState();
   const [disableHeader, setDisableHeader] = useState();
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -101,7 +102,7 @@ const Add_Items = ({ route, navigation }) => {
 
   const handleBack = () => navigation.goBack();
   const handleSubmit = () => {
-    console.log(subItems);
+    console.log(ItemList);
     // const finalSubItems = subItems.filter((item) => item != null);
   };
   const handleClear = () => {
@@ -123,17 +124,29 @@ const Add_Items = ({ route, navigation }) => {
     } else return <></>;
   };
 
-  const handleSubItemText = (item, count, index) => {
-    if (count >= 0) {
-      let ItemList = subItems;
-      if (count > 0) {
-        ItemList[index] = { count, item };
+  const handleSelectedItemList = (item, itemValue, index) => {
+    if (typeof itemValue[item] === "number") {
+      //single item
+      if (itemValue[item] > 0) {
+        let tempListItem = ItemList;
+        tempListItem[index] = [itemValue][0];
+        setItemList(tempListItem);
       } else {
-        ItemList[index] = null;
+        let tempListItem = ItemList;
+        tempListItem[index] = undefined;
+        setItemList(tempListItem);
       }
-      setSubItems([...ItemList]);
+    } else {
+      // mulitple items
+      console.log(Object.values(itemValue[item]));
+      if (Object.values(itemValue[item]).every === 0) {
+        console.log("test");
+        let tempListItem = ItemList;
+        tempListItem[index] = itemValue;
+        setItemList(tempListItem);
+      }
     }
-    if (subItems.every((value) => value === null)) {
+    if (ItemList.every((value) => value === null)) {
       setDisableHeader(false);
     } else {
       setDisableHeader(true);
@@ -148,7 +161,7 @@ const Add_Items = ({ route, navigation }) => {
           buttonInfo={[["x_circle", "buttonFunction", handleCancle]]}
         />
       );
-    } else if (subItems.every((value) => value === null)) {
+    } else if (ItemList.every((value) => value === null)) {
       return (
         <ButtonBar
           navigation={navigation}
@@ -223,7 +236,7 @@ const Add_Items = ({ route, navigation }) => {
                 index={index}
                 item={item}
                 headerStatus={headerStatus}
-                handleSubItemText={handleSubItemText}
+                handleSelectedItemList={handleSelectedItemList}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
                 filterItems={filterItems}

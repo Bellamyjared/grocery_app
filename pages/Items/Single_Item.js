@@ -12,14 +12,17 @@ const Single_Item = ({
   item,
   index,
   headerStatus,
-  handleSubItemText,
+  handleSelectedItemList,
   handleDelete,
   handleEdit,
   filterItems,
 }) => {
   const initiateItemCount = () => {
     if (item.subItems.length > 0) {
-      return item.subItems.map((subItem) => ({ [subItem]: 0 }));
+      let temp = { [item.item]: {} };
+
+      item.subItems.forEach((subItem) => (temp[item.item][subItem] = 0));
+      return temp;
     } else {
       return { [item.item]: 0 };
     }
@@ -29,7 +32,7 @@ const Single_Item = ({
   const [ChangeMultiItemBorder, setChangeMultiItemBorder] = useState(0);
 
   useEffect(() => {
-    handleSubItemText(itemCount, index);
+    handleSelectedItemList(item.item, itemCount, index);
   }, [itemCount]);
 
   const handlePlus = (subItemText, subItemIndex) => {
@@ -40,11 +43,10 @@ const Single_Item = ({
       // multi Item
       setChangeMultiItemBorder(ChangeMultiItemBorder + 1);
       var temp;
-      temp = [...itemCount];
-      temp[subItemIndex][subItemText] =
-        itemCount[subItemIndex][subItemText] + 1;
+      temp = itemCount[item.item];
+      temp[subItemText] = itemCount[item.item][subItemText] + 1;
 
-      setItemCount(temp);
+      setItemCount({ [item.item]: temp });
     }
   };
 
@@ -54,13 +56,13 @@ const Single_Item = ({
         setItemCount({ [subItemText]: itemCount[subItemText] - 1 });
       }
     } else {
-      if (itemCount[subItemIndex][subItemText] > 0) {
+      if (itemCount[item.item][subItemText] > 0) {
         setChangeMultiItemBorder(ChangeMultiItemBorder - 1);
         var temp;
-        temp = [...itemCount];
-        temp[subItemIndex][subItemText] =
-          itemCount[subItemIndex][subItemText] - 1;
-        setItemCount(temp);
+        temp = itemCount[item.item];
+        temp[subItemText] = itemCount[item.item][subItemText] - 1;
+
+        setItemCount({ [item.item]: temp });
       }
     }
   };
@@ -75,7 +77,7 @@ const Single_Item = ({
     } else {
       // only update if visable
       if (toggleSubItemDropDown) {
-        if (itemCount[subItemIndex][subItemText] > 0) {
+        if (itemCount[item.item][subItemText] > 0) {
           return styles;
         } else {
           return { display: "none" };
@@ -97,7 +99,7 @@ const Single_Item = ({
       }
     } else {
       if (toggleSubItemDropDown) {
-        if (itemCount[subItemIndex][subItemText] === 0) {
+        if (itemCount[item.item][subItemText] === 0) {
           return { borderColor: "#C4C4C4", borderWidth: 1, borderRadius: 18 };
         } else {
           return {
@@ -124,7 +126,7 @@ const Single_Item = ({
       }
     } else {
       if (toggleSubItemDropDown) {
-        if (itemCount[subItemIndex][subItemText] > 0) {
+        if (itemCount[item.item][subItemText] > 0) {
           return {
             borderTopRightRadius: 18,
             borderBottomRightRadius: 18,
@@ -255,7 +257,7 @@ const Single_Item = ({
                       size={10}
                     />
                     <Text style={styles.Font}>
-                      {itemCount[subIndex][subItemText]}
+                      {itemCount[item.item][subItemText]}
                     </Text>
                   </View>
                 </View>
@@ -358,7 +360,7 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
     alignItems: "center",
-    borderWidth: 1.5,
+    borderWidth: 1,
     borderColor: "#C4C4C4",
     borderRadius: 18,
     marginTop: 10,
