@@ -77,6 +77,7 @@ const Create_Item = ({ route, navigation }) => {
         Alert.alert("ERROR", "format issue sub Item");
       }
     }
+    console.log(newItem);
     if ((await PostItem(newItem)) === undefined) {
       Alert.alert(
         "ERROR",

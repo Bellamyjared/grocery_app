@@ -19,12 +19,12 @@ const Single_Item = ({
 }) => {
   const initiateItemCount = () => {
     if (item.subItems.length > 0) {
-      let temp = { [item.item]: {} };
+      let temp = { [item.item]: {}, categoryId: item.categoryId };
 
       item.subItems.forEach((subItem) => (temp[item.item][subItem] = 0));
       return temp;
     } else {
-      return { [item.item]: 0 };
+      return { [item.item]: 0, categoryId: item.categoryId };
     }
   };
   const [itemCount, setItemCount] = useState(initiateItemCount());
@@ -38,7 +38,10 @@ const Single_Item = ({
   const handlePlus = (subItemText, subItemIndex) => {
     // single item
     if (subItemText === item.item) {
-      setItemCount({ [subItemText]: itemCount[subItemText] + 1 });
+      setItemCount({
+        [subItemText]: itemCount[subItemText] + 1,
+        categoryId: item.categoryId,
+      });
     } else {
       // multi Item
       setChangeMultiItemBorder(ChangeMultiItemBorder + 1);
@@ -46,14 +49,17 @@ const Single_Item = ({
       temp = itemCount[item.item];
       temp[subItemText] = itemCount[item.item][subItemText] + 1;
 
-      setItemCount({ [item.item]: temp });
+      setItemCount({ [item.item]: temp, categoryId: item.categoryId });
     }
   };
 
   const handleMinus = (subItemText, subItemIndex) => {
     if (subItemText === item.item) {
       if (itemCount[subItemText] > 0) {
-        setItemCount({ [subItemText]: itemCount[subItemText] - 1 });
+        setItemCount({
+          [subItemText]: itemCount[subItemText] - 1,
+          categoryId: item.categoryId,
+        });
       }
     } else {
       if (itemCount[item.item][subItemText] > 0) {
@@ -62,7 +68,7 @@ const Single_Item = ({
         temp = itemCount[item.item];
         temp[subItemText] = itemCount[item.item][subItemText] - 1;
 
-        setItemCount({ [item.item]: temp });
+        setItemCount({ [item.item]: temp, categoryId: item.categoryId });
       }
     }
   };

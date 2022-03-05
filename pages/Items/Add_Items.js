@@ -20,7 +20,6 @@ import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import DropDown from "../../components/DropDown.js";
-import { ListItem } from "react-native-elements";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute } = route.params; // grab oridinal page for DB post
@@ -101,9 +100,35 @@ const Add_Items = ({ route, navigation }) => {
   };
 
   const handleBack = () => navigation.goBack();
-  const handleSubmit = () => {
-    console.log(ItemList);
-    // const finalSubItems = subItems.filter((item) => item != null);
+  const handleSubmit = async () => {
+    const finalItemList = ItemList.filter((item) => item != undefined);
+    if (finalItemList === 0) {
+      Alert.alert(
+        "What?",
+        "Now why are you trying to submit when you ain't got no Items selected"
+      );
+    } else if (finalItemList.length === 1) {
+      // const itemCategory =
+      console.log(Items);
+
+      // let newItemForList = {
+      //   item: Object.getOwnPropertyNames(finalItemList[0])[0],
+      //   quantity : Object.values(finalItemList[0])[0]
+      //   categoryId: categoryId,
+      // };
+      console.log(Object.getOwnPropertyNames(finalItemList[0])[0]);
+    } else {
+      console.log("test");
+    }
+    // if ((await PostList(finalItemList)) === undefined) {
+    //   Alert.alert(
+    //     "ERROR",
+    //     "An error occurred while creating your List. Please try again later"
+    //   );
+    // } else {
+    //   ChangeNavStack(navigation, ["List", "Add_Item"]);
+    //   navigation.push("List", { OriginRoute: OriginRoute });
+    // }
   };
   const handleClear = () => {
     setClearSelected(true);
@@ -153,7 +178,10 @@ const Add_Items = ({ route, navigation }) => {
           }
         }
         let tempItemList = ItemList;
-        tempItemList[index] = { [item]: subItemList };
+        tempItemList[index] = {
+          [item]: subItemList,
+          categoryId: itemValue.categoryId,
+        };
         setItemList(tempItemList);
       }
       console.log(ItemList);
