@@ -14,12 +14,14 @@ import Icon from "../../assets/icons/icon";
 
 import { GetItem, DeleteItem } from "../../dbRequests/Item";
 import { GetCategory } from "../../dbRequests/Category";
+import { PostList } from "../../dbRequests/List";
 import Header from "../../components/Header";
 // import SearchBar from "../../components/SearchBar"; deprecatied
 import ButtonBar from "../../components/ButtonBar";
 import Single_Item from "./Single_Item";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import DropDown from "../../components/DropDown.js";
+import ChangeNavStack from "../../components/ChangeNavStack";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute } = route.params; // grab oridinal page for DB post
@@ -102,33 +104,37 @@ const Add_Items = ({ route, navigation }) => {
   const handleBack = () => navigation.goBack();
   const handleSubmit = async () => {
     const finalItemList = ItemList.filter((item) => item != undefined);
-    if (finalItemList === 0) {
-      Alert.alert(
-        "What?",
-        "Now why are you trying to submit when you ain't got no Items selected"
-      );
-    } else if (finalItemList.length === 1) {
-      // const itemCategory =
-      console.log(Items);
-
-      // let newItemForList = {
-      //   item: Object.getOwnPropertyNames(finalItemList[0])[0],
-      //   quantity : Object.values(finalItemList[0])[0]
-      //   categoryId: categoryId,
-      // };
-      console.log(Object.getOwnPropertyNames(finalItemList[0])[0]);
-    } else {
-      console.log("test");
+    if (finalItemList.length > 0) {
+      let listOfFinalItems = [];
+      finalItemList.forEach((i) => {
+        let quantity;
+        let subItems;
+        if (typeof Object.values(i)[0] === "number") {
+          // single Item
+          quantity = Object.values(i)[0];
+          subItems = null;
+        } else {
+          // Multiple Items
+          quantity = null;
+          subItems = Object.values(i)[0];
+        }
+        const newItemForList = {
+          item: Object.getOwnPropertyNames(i)[0],
+          quantity: quantity,
+          categoryId: Object.values(i)[1],
+          subItems: subItems,
+        };
+        listOfFinalItems = [...listOfFinalItems, newItemForList];
+      });
+      if ((await PostList(listOfFinalItems)) === undefined) {
+        Alert.alert(
+          "ERROR",
+          "An error occurred while creating your List. Please try again later"
+        );
+      } else {
+        navigation.navigate("List");
+      }
     }
-    // if ((await PostList(finalItemList)) === undefined) {
-    //   Alert.alert(
-    //     "ERROR",
-    //     "An error occurred while creating your List. Please try again later"
-    //   );
-    // } else {
-    //   ChangeNavStack(navigation, ["List", "Add_Item"]);
-    //   navigation.push("List", { OriginRoute: OriginRoute });
-    // }
   };
   const handleClear = () => {
     setClearSelected(true);

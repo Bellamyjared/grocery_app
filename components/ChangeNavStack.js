@@ -9,7 +9,7 @@ const ChangeNavStack = (navigation, remove) => {
       return CommonActions.reset({
         ...state,
         routes,
-        index: routes.length - 1,
+        index: routes.length,
       });
     });
   });

@@ -12,6 +12,7 @@ export async function PostList(List) {
   const result = await axios.post(`${ip}/list/add`, List).catch((error) => {
     console.log(error.response);
   });
+
   return result.data;
 }
 
