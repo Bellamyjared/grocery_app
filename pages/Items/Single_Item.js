@@ -139,19 +139,23 @@ const Single_Item = ({
     }
   };
 
-  const handleIcons = (subItem, subIndex) => {
+  const handleIcons = (subItem, subIndex, multiItem) => {
     if (headerStatus === "Edit") {
-      return (
-        <Icon name="edit_arrow" size={25} onPress={() => handleEdit(item)} />
-      );
+      if (multiItem != "multiItem") {
+        return (
+          <Icon name="edit_arrow" size={25} onPress={() => handleEdit(item)} />
+        );
+      } else return <></>;
     } else if (headerStatus === "Delete") {
-      return (
-        <Icon
-          name="x_circle"
-          size={25}
-          onPress={() => handleDelete(item._id, item.item)}
-        />
-      );
+      if (multiItem != "multiItem") {
+        return (
+          <Icon
+            name="x_circle"
+            size={25}
+            onPress={() => handleDelete(item._id, item.item)}
+          />
+        );
+      } else return <></>;
     } else {
       return (
         <Icon
@@ -168,6 +172,25 @@ const Single_Item = ({
       setToggleSubItemDropDown(false);
     } else {
       setToggleSubItemDropDown(true);
+    }
+  };
+
+  const handleMultiItemIcon = () => {
+    if (headerStatus === "Edit") {
+      return (
+        <Icon name="edit_arrow" size={25} onPress={() => handleEdit(item)} />
+      );
+    } else if (headerStatus === "Delete") {
+      return (
+        <Icon
+          style={{ marginRight: -3 }}
+          name="x_circle"
+          size={25}
+          onPress={() => handleDelete(item._id, item.item)}
+        />
+      );
+    } else {
+      return <Icon name="drop_down" size={15} />;
     }
   };
 
@@ -224,7 +247,7 @@ const Single_Item = ({
           <TouchableWithoutFeedback onPress={() => showSubItems()}>
             <View style={[styles.MultiItemTitle]}>
               <Text style={styles.Font}>{item.item}</Text>
-              <Icon name="drop_down" size={15} />
+              {handleMultiItemIcon()}
             </View>
           </TouchableWithoutFeedback>
           <View
@@ -268,7 +291,7 @@ const Single_Item = ({
                       ChangePlusBackgound(subItemText, subIndex),
                     ]}
                   >
-                    {handleIcons(subItemText, subIndex)}
+                    {handleIcons(subItemText, subIndex, "multiItem")}
                   </View>
 
                   <View
