@@ -6,6 +6,8 @@ const CategoryDropDown = ({ category, items }) => {
   const [ToggleDropDown, setToggleDropDown] = useState(false);
   const [itemSelectedCount, setItemSelectedCount] = useState(0);
 
+  console.log(itemSelectedCount);
+
   const handleToggleDropDown = () => {
     ToggleDropDown ? setToggleDropDown(false) : setToggleDropDown(true);
   };
@@ -47,7 +49,7 @@ const CategoryDropDown = ({ category, items }) => {
           <View
             key={item._id}
             style={
-              ToggleDropDown === false
+              ToggleDropDown === true
                 ? { display: "flex" }
                 : { display: "none" }
             }
@@ -68,27 +70,24 @@ export default CategoryDropDown;
 
 const DropDownItem = ({ item, itemSelectedCount, setItemSelectedCount }) => {
   const [selected, setSelected] = useState(false);
+  const [subItemSelectedCount, setSubItemSelectedCount] = useState(0);
+  const [test, setTest] = useState(false);
 
-  const singleItem = () => {
-    return (
-      <View style={styles.Item}>
-        <Text style={styles.ItemText}>{item.item}</Text>
-        <Icon style={styles.ItemX} name={"x"} size={10} />
-        <Text style={styles.ItemText}>{item.quantity}</Text>
-      </View>
-    );
-  };
-  const mutilpleItems = () => {
-    return (
-      <View style={styles.Item}>
-        <Text style={styles.ItemText}>{item.item}</Text>
-        <Icon style={styles.ItemX} name={"x"} size={10} />
-        <Text style={styles.ItemText}>{item.quantity}</Text>
-      </View>
-    );
+  const toggleSelectedSubItems = () => {
+    console.log(Object.keys(item.subItem).length);
+    if (subItemSelectedCount === Object.keys(item.subItem).length - 1) {
+      console.log("test");
+      setItemSelectedCount(itemSelectedCount + 1);
+      setTest(true);
+    } else {
+      if (test) {
+        setItemSelectedCount(itemSelectedCount - 1);
+        setTest(false);
+      }
+    }
   };
 
-  const toggleDropDown = () => {
+  const toggleSelectedItems = () => {
     if (selected) {
       setSelected(false);
       setItemSelectedCount(itemSelectedCount - 1);
@@ -98,10 +97,99 @@ const DropDownItem = ({ item, itemSelectedCount, setItemSelectedCount }) => {
     }
   };
 
+  if (item.subItem === null) {
+    return (
+      <Item
+        itemText={item.item}
+        itemQuantity={item.quantity}
+        selected={selected}
+        toggleSelectedItems={toggleSelectedItems}
+      />
+    );
+  } else {
+    return (
+      <MultipleItems
+        item={item}
+        toggleSelectedSubItems={toggleSelectedSubItems}
+        subItemSelectedCount={subItemSelectedCount}
+        setSubItemSelectedCount={setSubItemSelectedCount}
+      />
+    );
+  }
+};
+
+const MultipleItems = ({
+  item,
+  subItemSelectedCount,
+  setSubItemSelectedCount,
+  toggleSelectedSubItems,
+}) => {
+  const handleSubItems = (i) => {
+    let tempSubItemList = [];
+    for (const property in i) {
+      tempSubItemList = [
+        ...tempSubItemList,
+        <SubItems
+          key={i._id + property}
+          item={property}
+          quantity={i[property]}
+          itemSelectedCount={subItemSelectedCount}
+          setItemSelectedCount={setSubItemSelectedCount}
+          toggleSelectedSubItems={toggleSelectedSubItems}
+        />,
+      ];
+    }
+    return tempSubItemList;
+  };
+  return (
+    <View
+      style={
+        subItemSelectedCount === Object.keys(item.subItem).length
+          ? styles.SelectedMultiContainer
+          : styles.MultiContainer
+      }
+    >
+      <Text style={styles.ItemText}>{item.item}</Text>
+      {handleSubItems(item.subItem)}
+    </View>
+  );
+};
+
+const SubItems = ({
+  item,
+  quantity,
+  itemSelectedCount,
+  setItemSelectedCount,
+  toggleSelectedSubItems,
+}) => {
+  const [selected, setSelected] = useState(false);
+
+  const toggleSelectedItems = () => {
+    if (selected) {
+      setSelected(false);
+      setItemSelectedCount(itemSelectedCount - 1);
+    } else {
+      setSelected(true);
+      setItemSelectedCount(itemSelectedCount + 1);
+    }
+    toggleSelectedSubItems();
+  };
+
+  return (
+    <Item
+      itemText={item}
+      itemQuantity={quantity}
+      selected={selected}
+      toggleSelectedItems={toggleSelectedItems}
+    />
+  );
+};
+
+const Item = ({ itemText, itemQuantity, selected, toggleSelectedItems }) => {
   return (
     <Pressable
       onPress={() => {
-        toggleDropDown();
+        toggleSelectedItems();
       }}
     >
       <View
@@ -114,12 +202,16 @@ const DropDownItem = ({ item, itemSelectedCount, setItemSelectedCount }) => {
             : styles.ItemContainer
         }
       >
-        <Icon
-          style={styles.ItemCheckBox}
-          name={selected ? "check_box_selected" : "Check_box"}
-          size={20}
-        />
-        {item.subItem === null ? singleItem() : mutilpleItems()}
+        <View style={styles.Item}>
+          <Icon
+            style={styles.ItemCheckBox}
+            name={selected ? "check_box_selected" : "Check_box"}
+            size={20}
+          />
+          <Text style={styles.ItemText}>{itemText}</Text>
+          <Icon style={styles.ItemX} name={"x"} size={10} />
+          <Text style={styles.ItemText}>{itemQuantity}</Text>
+        </View>
       </View>
     </Pressable>
   );
@@ -144,6 +236,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   Item: { flexDirection: "row", alignItems: "center" },
+  MultiContainer: { paddingLeft: 15, borderRadius: 0 },
+  SelectedMultiContainer: {
+    paddingLeft: 15,
+    backgroundColor: "lightgreen",
+    borderRadius: 5,
+  },
   ItemCheckBox: { paddingLeft: 15, paddingRight: 15 },
   ItemX: { paddingLeft: 15, paddingRight: 10 },
   Disabled: { display: "none" },
