@@ -4,7 +4,7 @@ import { GetIp } from "./GetIp";
 const ip = GetIp();
 
 export async function GetList() {
-  const result = await axios(`${ip}/item`);
+  const result = await axios(`${ip}/list`);
   return result.data;
 }
 

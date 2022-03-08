@@ -1,20 +1,24 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
 import { GetCategory } from "../dbRequests/Category";
 import { GetList } from "../dbRequests/List";
+import CategoryDropDown from "../components/CategoryDropDown";
 
 const List = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [list, setList] = useState([]);
+  const isFocused = useIsFocused();
+  console.log(list);
 
   useEffect(() => {
     handleGetCategories();
     handleGetList();
-  }, []);
+  }, [isFocused]);
 
   const handleGetCategories = async () => {
     data = await GetCategory();
@@ -23,6 +27,11 @@ const List = ({ navigation }) => {
   const handleGetList = async () => {
     data = await GetList();
     setList(data);
+  };
+
+  const sortItems = (categoryId) => {
+    const items = list.filter((item) => item.categoryId === categoryId);
+    return items;
   };
 
   return (
@@ -39,26 +48,31 @@ const List = ({ navigation }) => {
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.container}>
-        {categories.map((c) => (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              console.log(c.category);
-            }}
-          >
-            <Text>{c.category}</Text>
-          </TouchableWithoutFeedback>
-        ))}
-      </View>
-      {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.buttonBar}>
-        <ButtonBar
-          navigation={navigation}
-          buttonInfo={[
-            ["plus_circle", "Add_Items", "passProps", { OriginRoute: "list" }],
-          ]}
-        />
-      </View>
+      <ScrollView contentContainerStyle={styles.body}>
+        <View style={{ minHeight: "85%" }}>
+          {categories.map((c) => (
+            <CategoryDropDown
+              key={c._id}
+              category={c}
+              items={sortItems(c._id)}
+            />
+          ))}
+        </View>
+        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        <View style={styles.buttonBar}>
+          <ButtonBar
+            navigation={navigation}
+            buttonInfo={[
+              [
+                "plus_circle",
+                "Add_Items",
+                "passProps",
+                { OriginRoute: "list" },
+              ],
+            ]}
+          />
+        </View>
+      </ScrollView>
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"list"} />
@@ -70,11 +84,9 @@ const List = ({ navigation }) => {
 export default List;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  body: {
+    flexGrow: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   header: {
@@ -85,11 +97,10 @@ const styles = StyleSheet.create({
   text: { fontFamily: "Poppins-Regular", fontSize: 50 },
 
   buttonBar: {
-    height: "12%",
-    paddingRight: "10%",
-    paddingTop: "5%",
+    height: 80,
+    paddingRight: 40,
     alignItems: "flex-end",
-    backgroundColor: "#fff",
+    justifyContent: "center",
   },
   NavBar: {
     height: "10%",
