@@ -349,7 +349,6 @@ const styles = StyleSheet.create({
     borderColor: "#E7E7E7",
     borderStyle: "solid",
     borderTopWidth: 2,
-    backgroundColor: "#fff",
   },
   NavBar: {
     height: "10%",

@@ -2,11 +2,9 @@ import { useState, useEffect } from "react";
 import { StyleSheet, Text, Pressable, View } from "react-native";
 import Icon from "../assets/icons/icon";
 
-const CategoryDropDown = ({ category, items }) => {
+const CategoryDropDown = ({ category, items, toggleDelete, handleDelete }) => {
   const [ToggleDropDown, setToggleDropDown] = useState(false);
   const [itemSelectedCount, setItemSelectedCount] = useState(0);
-
-  console.log(itemSelectedCount);
 
   const handleToggleDropDown = () => {
     ToggleDropDown ? setToggleDropDown(false) : setToggleDropDown(true);
@@ -16,7 +14,7 @@ const CategoryDropDown = ({ category, items }) => {
     <View style={items.length != 0 ? styles.body : styles.Disabled}>
       <Pressable
         onPress={() => {
-          handleToggleDropDown(items);
+          handleToggleDropDown();
         }}
       >
         <View
@@ -58,6 +56,8 @@ const CategoryDropDown = ({ category, items }) => {
               item={item}
               itemSelectedCount={itemSelectedCount}
               setItemSelectedCount={setItemSelectedCount}
+              toggleDelete={toggleDelete}
+              handleDelete={handleDelete}
             />
           </View>
         ))}
@@ -68,15 +68,19 @@ const CategoryDropDown = ({ category, items }) => {
 
 export default CategoryDropDown;
 
-const DropDownItem = ({ item, itemSelectedCount, setItemSelectedCount }) => {
+const DropDownItem = ({
+  item,
+  itemSelectedCount,
+  setItemSelectedCount,
+  toggleDelete,
+  handleDelete,
+}) => {
   const [selected, setSelected] = useState(false);
   const [subItemSelectedCount, setSubItemSelectedCount] = useState(0);
   const [test, setTest] = useState(false);
 
   const toggleSelectedSubItems = () => {
-    console.log(Object.keys(item.subItem).length);
     if (subItemSelectedCount === Object.keys(item.subItem).length - 1) {
-      console.log("test");
       setItemSelectedCount(itemSelectedCount + 1);
       setTest(true);
     } else {
@@ -100,10 +104,13 @@ const DropDownItem = ({ item, itemSelectedCount, setItemSelectedCount }) => {
   if (item.subItem === null) {
     return (
       <Item
+        item={item}
         itemText={item.item}
         itemQuantity={item.quantity}
         selected={selected}
         toggleSelectedItems={toggleSelectedItems}
+        toggleDelete={toggleDelete}
+        handleDelete={handleDelete}
       />
     );
   } else {
@@ -113,6 +120,8 @@ const DropDownItem = ({ item, itemSelectedCount, setItemSelectedCount }) => {
         toggleSelectedSubItems={toggleSelectedSubItems}
         subItemSelectedCount={subItemSelectedCount}
         setSubItemSelectedCount={setSubItemSelectedCount}
+        toggleDelete={toggleDelete}
+        handleDelete={handleDelete}
       />
     );
   }
@@ -123,19 +132,24 @@ const MultipleItems = ({
   subItemSelectedCount,
   setSubItemSelectedCount,
   toggleSelectedSubItems,
+  toggleDelete,
+  handleDelete,
 }) => {
-  const handleSubItems = (i) => {
+  const handleSubItems = (item) => {
     let tempSubItemList = [];
-    for (const property in i) {
+    for (const property in item.subItem) {
       tempSubItemList = [
         ...tempSubItemList,
         <SubItems
-          key={i._id + property}
-          item={property}
-          quantity={i[property]}
+          key={item._id + property}
+          item={item}
+          subItem={property}
+          quantity={item.subItem[property]}
           itemSelectedCount={subItemSelectedCount}
           setItemSelectedCount={setSubItemSelectedCount}
           toggleSelectedSubItems={toggleSelectedSubItems}
+          toggleDelete={toggleDelete}
+          handleDelete={handleDelete}
         />,
       ];
     }
@@ -150,17 +164,20 @@ const MultipleItems = ({
       }
     >
       <Text style={styles.ItemText}>{item.item}</Text>
-      {handleSubItems(item.subItem)}
+      {handleSubItems(item)}
     </View>
   );
 };
 
 const SubItems = ({
   item,
+  subItem,
   quantity,
   itemSelectedCount,
   setItemSelectedCount,
   toggleSelectedSubItems,
+  toggleDelete,
+  handleDelete,
 }) => {
   const [selected, setSelected] = useState(false);
 
@@ -177,19 +194,34 @@ const SubItems = ({
 
   return (
     <Item
-      itemText={item}
+      item={item}
+      itemText={subItem}
       itemQuantity={quantity}
       selected={selected}
       toggleSelectedItems={toggleSelectedItems}
+      toggleDelete={toggleDelete}
+      handleDelete={handleDelete}
     />
   );
 };
 
-const Item = ({ itemText, itemQuantity, selected, toggleSelectedItems }) => {
+const Item = ({
+  item,
+  itemText,
+  itemQuantity,
+  selected,
+  toggleSelectedItems,
+  toggleDelete,
+  handleDelete,
+}) => {
   return (
     <Pressable
       onPress={() => {
-        toggleSelectedItems();
+        if (toggleDelete) {
+          handleDelete(item, itemText);
+        } else {
+          toggleSelectedItems();
+        }
       }}
     >
       <View
@@ -202,15 +234,38 @@ const Item = ({ itemText, itemQuantity, selected, toggleSelectedItems }) => {
             : styles.ItemContainer
         }
       >
-        <View style={styles.Item}>
-          <Icon
-            style={styles.ItemCheckBox}
-            name={selected ? "check_box_selected" : "Check_box"}
-            size={20}
-          />
+        <View
+          style={
+            toggleDelete
+              ? [
+                  styles.Item,
+                  {
+                    minWidth: 200,
+                    borderBottomWidth: 1,
+                    borderColor: "#D0D0D0",
+                  },
+                ]
+              : styles.Item
+          }
+        >
+          {toggleDelete ? (
+            <View style={styles.ItemCheckBox}></View>
+          ) : (
+            <Icon
+              style={styles.ItemCheckBox}
+              name={selected ? "check_box_selected" : "Check_box"}
+              size={20}
+            />
+          )}
+
           <Text style={styles.ItemText}>{itemText}</Text>
           <Icon style={styles.ItemX} name={"x"} size={10} />
           <Text style={styles.ItemText}>{itemQuantity}</Text>
+          {toggleDelete ? (
+            <Icon style={styles.ItemCheckBox} name={"x_circle"} size={20} />
+          ) : (
+            <></>
+          )}
         </View>
       </View>
     </Pressable>
