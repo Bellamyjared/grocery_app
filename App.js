@@ -10,7 +10,8 @@ import { useFonts } from "expo-font";
 
 import List from "./pages/List";
 import Pantry from "./pages/Pantry";
-import Recipe from "./pages/Recipe";
+import Recipe from "./pages/Recipe/Recipe";
+import Add_Recipe from "./pages/Recipe/Add_Recipe.js";
 import Add_Items from "./pages/Items/Add_Items";
 import Create_Item from "./pages/Items/Create_Item";
 import Edit_Item from "./pages/Items/Edit_Item";
@@ -80,6 +81,11 @@ export default function App() {
         <Stack.Screen
           name="Recipe"
           component={Recipe}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Add_Recipe"
+          component={Add_Recipe}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

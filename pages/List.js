@@ -16,6 +16,7 @@ const List = ({ navigation }) => {
   const [list, setList] = useState([]);
   const [disableHeader, setDisableHeader] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
+  const [selectedItems, setSelectedItems] = useState([]);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -88,7 +89,7 @@ const List = ({ navigation }) => {
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.header}>
         <Header
-          navigation={navigation}
+          navigation={disableHeader}
           title={["List", 50]}
           icons={[
             ["edit", "Category"],
@@ -107,6 +108,7 @@ const List = ({ navigation }) => {
               items={sortItems(c._id)}
               toggleDelete={toggleDelete}
               handleDelete={handleDelete}
+              setSelectedItems={setSelectedItems}
             />
           ))}
         </View>

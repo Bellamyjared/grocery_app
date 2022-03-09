@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 
-import NavBar from "../components/NavBar";
-import Header from "../components/Header";
-import ButtonBar from "../components/ButtonBar";
+import NavBar from "../../components/NavBar";
+import Header from "../../components/Header";
+import ButtonBar from "../../components/ButtonBar";
 
-const List = ({ navigation }) => {
+const Recipe = ({ navigation }) => {
   return (
     <>
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -22,7 +22,12 @@ const List = ({ navigation }) => {
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.container}></View>
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.buttonBar}></View>
+      <View style={styles.buttonBar}>
+        <ButtonBar
+          navigation={navigation}
+          buttonInfo={[["plus_circle", "Add_Recipe"]]}
+        />
+      </View>
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.NavBar}>
         <NavBar navigation={navigation} page={"recipe"} />
@@ -31,7 +36,7 @@ const List = ({ navigation }) => {
   );
 };
 
-export default List;
+export default Recipe;
 
 const styles = StyleSheet.create({
   container: {

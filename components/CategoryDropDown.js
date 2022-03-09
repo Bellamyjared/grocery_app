@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { StyleSheet, Text, Pressable, View } from "react-native";
 import Icon from "../assets/icons/icon";
 
-const CategoryDropDown = ({ category, items, toggleDelete, handleDelete }) => {
+const CategoryDropDown = ({
+  category,
+  items,
+  toggleDelete,
+  handleDelete,
+  setSelectedItems,
+}) => {
   const [ToggleDropDown, setToggleDropDown] = useState(false);
   const [itemSelectedCount, setItemSelectedCount] = useState(0);
 
