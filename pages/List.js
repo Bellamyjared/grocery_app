@@ -112,7 +112,9 @@ const List = ({ navigation }) => {
   };
 
   const handleCancle = () => {
-    resetDropDown ? setResetDropDown(false) : setResetDropDown(false);
+    resetDropDown ? setResetDropDown(false) : setResetDropDown(true);
+    setSelectedItems({});
+    setDisableHeader(false);
   };
 
   const handleDelete = (item, itemText) => {

@@ -87,6 +87,7 @@ const DropDownItem = ({
 }) => {
   useEffect(() => {
     setSubItemSelectedCount(0);
+    setSelected(false);
   }, [resetDropDown]);
   const [selected, setSelected] = useState(false);
   const [subItemSelectedCount, setSubItemSelectedCount] = useState(0);
@@ -139,6 +140,7 @@ const DropDownItem = ({
         toggleDelete={toggleDelete}
         handleDelete={handleDelete}
         handleSelectedItems={handleSelectedItems}
+        resetDropDown={resetDropDown}
       />
     );
   }
@@ -152,6 +154,7 @@ const MultipleItems = ({
   toggleDelete,
   handleDelete,
   handleSelectedItems,
+  resetDropDown,
 }) => {
   const handleSubItems = (item) => {
     let tempSubItemList = [];
@@ -169,6 +172,7 @@ const MultipleItems = ({
           toggleDelete={toggleDelete}
           handleDelete={handleDelete}
           handleSelectedItems={handleSelectedItems}
+          resetDropDown={resetDropDown}
         />,
       ];
     }
@@ -198,7 +202,11 @@ const SubItems = ({
   toggleDelete,
   handleDelete,
   handleSelectedItems,
+  resetDropDown,
 }) => {
+  useEffect(() => {
+    setSelected(false);
+  }, [resetDropDown]);
   const [selected, setSelected] = useState(false);
 
   const toggleSelectedItems = (item, subItem, quantity) => {
