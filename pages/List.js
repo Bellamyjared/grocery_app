@@ -6,11 +6,11 @@ import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
 import { GetCategory } from "../dbRequests/Category";
-import { GetList, UpdateListItem } from "../dbRequests/List";
+import { GetList, UpdateListItem, DeleteListItem } from "../dbRequests/List";
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
-import { DeleteListItem } from "../dbRequests/List";
 import { PostPantry } from "../dbRequests/Pantry";
+import { set } from "react-native-reanimated";
 
 const List = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -18,6 +18,7 @@ const List = ({ navigation }) => {
   const [disableHeader, setDisableHeader] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [selectedItems, setSelectedItems] = useState({});
+  const [resetDropDown, setResetDropDown] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -75,56 +76,80 @@ const List = ({ navigation }) => {
     } else {
       Object.keys(selectedItems).forEach(async (i) => {
         // need to add update if the multi item is not fully selected
-        if ((await DeleteListItem(i)) != undefined) {
-          handleGetList();
+        if (typeof selectedItems[i].subItem === "undefined") {
+          //single item
+          deleteItem(i, selectedItems[i].item);
         } else {
-          Alert.alert(
-            `An Error occurred when deleting ${selectedItems[i].item}, please try again later`
-          );
+          // multiple item
+
+          Object.keys(selectedItems).forEach(async (i) => {
+            if (
+              Object.values(selectedItems[i].subItem).length ===
+              Object.values(list.find((id) => id._id === i).subItem).length
+            ) {
+              // if all items are selected, delete the whole item
+              deleteItem(i, selectedItems[i].item);
+            } else {
+              // else remove items that have been selected and update list
+              let templist = list.find((id) => id._id === i);
+              for (const j in Object.keys(selectedItems[i].subItem)) {
+                delete templist.subItem[
+                  Object.keys(selectedItems[i].subItem)[j]
+                ];
+              }
+
+              if (UpdateListItem(i, templist) === undefined) {
+                Alert.alert("failed to update item");
+              }
+            }
+          });
         }
       });
       setDisableHeader(false);
       setSelectedItems({});
+      resetDropDown ? setResetDropDown(false) : setResetDropDown(false);
+      handleGetList();
     }
   };
 
   const handleCancle = () => {
-    console.log("Cancle");
+    resetDropDown ? setResetDropDown(false) : setResetDropDown(false);
   };
 
   const handleDelete = (item, itemText) => {
-    const deleteItem = async (id) => {
-      if ((await DeleteListItem(id)) != undefined) {
-        handleGetList();
-      } else {
-        Alert.alert(
-          `An Error occurred when deleting ${item.item}, please try again later`
-        );
-      }
-    };
-    const updateItem = async (id) => {
-      let templist = item;
-      delete templist.subItem[itemText];
-      console.log(templist);
-
-      if ((await UpdateListItem(id, templist)) != undefined) {
-        handleGetList();
-      } else {
-        Alert.alert(
-          `An Error occurred when deleting ${item.item}. Please try again later`
-        );
-      }
-    };
     // single Item
     if (item.subItem === null) {
       DeleteValidation(item.item, item._id, deleteItem);
     } else {
       // multi Item
       if (Object.keys(item.subItem).length > 1) {
-        DeleteValidation(item.item, item._id, updateItem);
+        DeleteValidation(itemText, item._id, updateItem, item);
       } else {
         DeleteValidation(item.item, item._id, deleteItem);
       }
+    }
+  };
+
+  const deleteItem = async (id, item) => {
+    if ((await DeleteListItem(id)) != undefined) {
+      handleGetList();
+    } else {
+      Alert.alert(
+        `An Error occurred when deleting ${item.item}, please try again later`
+      );
+    }
+  };
+
+  const updateItem = async (id, item, itemText) => {
+    let templist = item;
+    delete templist.subItem[itemText];
+
+    if ((await UpdateListItem(id, templist)) != undefined) {
+      handleGetList();
+    } else {
+      Alert.alert(
+        `An Error occurred when deleting ${item.item}. Please try again later`
+      );
     }
   };
 
@@ -231,6 +256,7 @@ const List = ({ navigation }) => {
               toggleDelete={toggleDelete}
               handleDelete={handleDelete}
               handleSelectedItems={handleSelectedItems}
+              resetDropDown={resetDropDown}
             />
           ))}
         </View>

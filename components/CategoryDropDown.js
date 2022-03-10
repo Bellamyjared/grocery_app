@@ -8,7 +8,11 @@ const CategoryDropDown = ({
   toggleDelete,
   handleDelete,
   handleSelectedItems,
+  resetDropDown,
 }) => {
+  useEffect(() => {
+    setItemSelectedCount(0);
+  }, [resetDropDown]);
   const [ToggleDropDown, setToggleDropDown] = useState(false);
   const [itemSelectedCount, setItemSelectedCount] = useState(0);
 
@@ -65,6 +69,7 @@ const CategoryDropDown = ({
               toggleDelete={toggleDelete}
               handleDelete={handleDelete}
               handleSelectedItems={handleSelectedItems}
+              resetDropDown={resetDropDown}
             />
           </View>
         ))}
@@ -82,7 +87,11 @@ const DropDownItem = ({
   toggleDelete,
   handleDelete,
   handleSelectedItems,
+  resetDropDown,
 }) => {
+  useEffect(() => {
+    setSubItemSelectedCount(0);
+  }, [resetDropDown]);
   const [selected, setSelected] = useState(false);
   const [subItemSelectedCount, setSubItemSelectedCount] = useState(0);
   const [test, setTest] = useState(false);

@@ -27,9 +27,6 @@ export async function UpdatePantryItem(id, pantryItem) {
 }
 
 export async function DeletePantryItem(id) {
-  const result = await axios.delete(`${ip}/pantry/${id}`).catch((error) => {
-    console.log(error.response);
-  });
-  console.log(result.data);
-  return result.data;
+  const result = await axios.delete(`${ip}/pantry/${id}`).catch((error) => {});
+  return result;
 }
