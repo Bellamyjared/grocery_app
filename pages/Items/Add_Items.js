@@ -18,7 +18,7 @@ import { PostList } from "../../dbRequests/List";
 import Header from "../../components/Header";
 // import SearchBar from "../../components/SearchBar"; deprecatied
 import ButtonBar from "../../components/ButtonBar";
-import Single_Item from "./Single_Item";
+import Items_Container from "./Items_Container";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Picker from "../../components/Picker";
 
@@ -276,7 +276,7 @@ const Add_Items = ({ route, navigation }) => {
         <View style={styles.ItemContainer}>
           {clearSelected != true ? (
             Items.map((item, index) => (
-              <Single_Item
+              <Items_Container
                 key={item._id}
                 index={index}
                 item={item}

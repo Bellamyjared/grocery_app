@@ -104,6 +104,7 @@ const List = ({ navigation }) => {
           });
         }
       });
+      // reset display
       setDisableHeader(false);
       setSelectedItems({});
       resetDropDown ? setResetDropDown(false) : setResetDropDown(false);

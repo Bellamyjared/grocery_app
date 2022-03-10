@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import Icon from "../../assets/icons/icon";
 
-const Single_Item = ({
+const Items_Container = ({
   item,
   index,
   headerStatus,
@@ -265,7 +265,7 @@ const Single_Item = ({
           >
             {item.subItems.map((subItemText, subIndex) => (
               <View
-                keys={subIndex}
+                key={subIndex + subItemText}
                 style={[
                   styles.ItemView,
                   ChangeBorderColor(subItemText, subIndex),
@@ -408,4 +408,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Single_Item;
+export default Items_Container;

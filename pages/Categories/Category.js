@@ -88,7 +88,7 @@ const Category = ({ navigation }) => {
     }
 
     if (headerIcon === "Edit") {
-      return <Icon key={id} name="drop_down" size={30} />;
+      return <Icon key={id} name="edit_arrow" size={30} />;
     }
   };
 
