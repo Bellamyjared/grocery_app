@@ -10,7 +10,6 @@ import { GetList, UpdateListItem, DeleteListItem } from "../dbRequests/List";
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
 import { PostPantry } from "../dbRequests/Pantry";
-import { set } from "react-native-reanimated";
 
 const List = ({ navigation }) => {
   const [categories, setCategories] = useState([]);

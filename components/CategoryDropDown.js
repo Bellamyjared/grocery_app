@@ -40,13 +40,9 @@ const CategoryDropDown = ({
           <Text style={styles.CategoryText}>{category.category}</Text>
           <Icon style={{ paddingLeft: 15 }} name={"drop_down"} size={15} />
           {itemSelectedCount === items.length ? (
-            <Icon
-              style={{
-                paddingLeft: 80,
-              }}
-              name={"check_box_selected"}
-              size={25}
-            />
+            <View style={styles.CategoryCheckMark}>
+              <Icon name={"check_box_selected"} size={25} />
+            </View>
           ) : (
             <></>
           )}
@@ -308,6 +304,10 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     marginTop: 15,
     borderRadius: 5,
+  },
+  CategoryCheckMark: {
+    alignItems: "center",
+    width: "30%",
   },
 
   ItemContainer: {
