@@ -7,7 +7,7 @@ const CategoryDropDown = ({
   items,
   toggleDelete,
   handleDelete,
-  setSelectedItems,
+  handleSelectedItems,
 }) => {
   const [ToggleDropDown, setToggleDropDown] = useState(false);
   const [itemSelectedCount, setItemSelectedCount] = useState(0);
@@ -49,7 +49,7 @@ const CategoryDropDown = ({
         </View>
       </Pressable>
       <View>
-        {items.map((item) => (
+        {items.map((item, index) => (
           <View
             key={item._id}
             style={
@@ -64,6 +64,7 @@ const CategoryDropDown = ({
               setItemSelectedCount={setItemSelectedCount}
               toggleDelete={toggleDelete}
               handleDelete={handleDelete}
+              handleSelectedItems={handleSelectedItems}
             />
           </View>
         ))}
@@ -80,6 +81,7 @@ const DropDownItem = ({
   setItemSelectedCount,
   toggleDelete,
   handleDelete,
+  handleSelectedItems,
 }) => {
   const [selected, setSelected] = useState(false);
   const [subItemSelectedCount, setSubItemSelectedCount] = useState(0);
@@ -97,13 +99,15 @@ const DropDownItem = ({
     }
   };
 
-  const toggleSelectedItems = () => {
+  const toggleSelectedItems = (item) => {
     if (selected) {
       setSelected(false);
       setItemSelectedCount(itemSelectedCount - 1);
+      handleSelectedItems(null, item._id);
     } else {
       setSelected(true);
       setItemSelectedCount(itemSelectedCount + 1);
+      handleSelectedItems(item);
     }
   };
 
@@ -117,6 +121,7 @@ const DropDownItem = ({
         toggleSelectedItems={toggleSelectedItems}
         toggleDelete={toggleDelete}
         handleDelete={handleDelete}
+        handleSelectedItems={handleSelectedItems}
       />
     );
   } else {
@@ -128,6 +133,7 @@ const DropDownItem = ({
         setSubItemSelectedCount={setSubItemSelectedCount}
         toggleDelete={toggleDelete}
         handleDelete={handleDelete}
+        handleSelectedItems={handleSelectedItems}
       />
     );
   }
@@ -140,6 +146,7 @@ const MultipleItems = ({
   toggleSelectedSubItems,
   toggleDelete,
   handleDelete,
+  handleSelectedItems,
 }) => {
   const handleSubItems = (item) => {
     let tempSubItemList = [];
@@ -156,6 +163,7 @@ const MultipleItems = ({
           toggleSelectedSubItems={toggleSelectedSubItems}
           toggleDelete={toggleDelete}
           handleDelete={handleDelete}
+          handleSelectedItems={handleSelectedItems}
         />,
       ];
     }
@@ -184,16 +192,19 @@ const SubItems = ({
   toggleSelectedSubItems,
   toggleDelete,
   handleDelete,
+  handleSelectedItems,
 }) => {
   const [selected, setSelected] = useState(false);
 
-  const toggleSelectedItems = () => {
+  const toggleSelectedItems = (item, subItem, quantity) => {
     if (selected) {
       setSelected(false);
       setItemSelectedCount(itemSelectedCount - 1);
+      handleSelectedItems(item, item._id, subItem, quantity);
     } else {
       setSelected(true);
       setItemSelectedCount(itemSelectedCount + 1);
+      handleSelectedItems(item, item._id, subItem, quantity);
     }
     toggleSelectedSubItems();
   };
@@ -207,6 +218,7 @@ const SubItems = ({
       toggleSelectedItems={toggleSelectedItems}
       toggleDelete={toggleDelete}
       handleDelete={handleDelete}
+      handleSelectedItems={handleSelectedItems}
     />
   );
 };
@@ -226,7 +238,7 @@ const Item = ({
         if (toggleDelete) {
           handleDelete(item, itemText);
         } else {
-          toggleSelectedItems();
+          toggleSelectedItems(item, itemText, itemQuantity);
         }
       }}
     >

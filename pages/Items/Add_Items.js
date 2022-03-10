@@ -48,7 +48,7 @@ const Add_Items = ({ route, navigation }) => {
   useEffect(() => {
     handleGetItems();
     handleGetCategory();
-    // noting this as a work around for now, because its a bad way of implementing it
+    // noteing this as a work around for now, because its a bad way of implementing it
     if (clearSelected === true) {
       setClearSelected(false);
     }
