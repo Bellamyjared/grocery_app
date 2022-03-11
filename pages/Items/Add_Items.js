@@ -125,13 +125,20 @@ const Add_Items = ({ route, navigation }) => {
         };
         listOfFinalItems = [...listOfFinalItems, newItemForList];
       });
-      if ((await PostList(listOfFinalItems)) === undefined) {
-        Alert.alert(
-          "ERROR",
-          "An error occurred while creating your List. Please try again later"
-        );
+      if (OriginRoute === "recipe") {
+        setItemList([]);
+        navigation.navigate("Add_Recipe", {
+          item: listOfFinalItems,
+        });
       } else {
-        navigation.navigate("List");
+        if ((await PostList(listOfFinalItems)) === undefined) {
+          Alert.alert(
+            "ERROR",
+            "An error occurred while creating your List. Please try again later"
+          );
+        } else {
+          navigation.navigate("List");
+        }
       }
     }
   };
@@ -161,12 +168,10 @@ const Add_Items = ({ route, navigation }) => {
         let tempListItem = ItemList;
         tempListItem[index] = [itemValue][0];
         setItemList(tempListItem);
-        console.log(ItemList);
       } else {
         let tempListItem = ItemList;
         tempListItem[index] = undefined;
         setItemList(tempListItem);
-        console.log(ItemList);
       }
     } else {
       // mulitple items
@@ -174,7 +179,6 @@ const Add_Items = ({ route, navigation }) => {
         let tempListItem = ItemList;
         tempListItem[index] = undefined;
         setItemList(tempListItem);
-        console.log(ItemList);
       } else {
         let subItemList = {};
         for (const i in itemValue[item]) {
@@ -189,7 +193,6 @@ const Add_Items = ({ route, navigation }) => {
         };
         setItemList(tempItemList);
       }
-      console.log(ItemList);
     }
     if (ItemList.every((value) => value === undefined)) {
       setDisableHeader(false);
