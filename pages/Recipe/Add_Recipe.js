@@ -19,9 +19,9 @@ import { useIsFocused } from "@react-navigation/native";
 
 const Add_Recipe = ({ route, navigation }) => {
   const [title, setTitle] = useState();
+  const [favorite, setFavorite] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [directions, setDirections] = useState();
-  const [favorite, setFavorite] = useState(false);
   const [oldIngredients, setOldIngredients] = useState();
   const isFocused = useIsFocused();
 
@@ -48,35 +48,67 @@ const Add_Recipe = ({ route, navigation }) => {
   };
   //  ************* HANDLE SUBMITE ****************
   const handleSubmit = async () => {
-    console.log(ingredients);
-    // const newRecipe = {
-    //   title: title,
-    //   ingredients: ingredients,
-    //   directions: directions,
-    // };
+    const newRecipe = {
+      title: title,
+      favorite: favorite,
+      ingredients: ingredients,
+      directions: directions,
+    };
 
-    // if ((await PostItem(newItem)) === undefined) {
-    //   Alert.alert(
-    //     "ERROR",
-    //     "An error occurred while creating your item. Please try again later"
-    //   );
-    // } else {
-    //   ChangeNavStack(navigation, ["Add_Items", "Create_Item"]);
-    //   navigation.push("Add_Items", { OriginRoute: OriginRoute });
-    // }
+    if ((await PostItem(newItem)) === undefined) {
+      Alert.alert(
+        "ERROR",
+        "An error occurred while creating your item. Please try again later"
+      );
+    } else {
+      ChangeNavStack(navigation, ["Add_Items", "Create_Item"]);
+      navigation.push("Add_Items", { OriginRoute: OriginRoute });
+    }
   };
 
   const handleBack = () => navigation.goBack();
 
+  const deleteIngredientFromList = (item, subitem) => {
+    let newIngredients;
+    if (typeof subitem === "undefined") {
+      newIngredients = ingredients.filter((i) => item != i);
+      setIngredients(newIngredients);
+    } else {
+      if (Object.keys(item.subItems) > 1) {
+        let itemIndex;
+        ingredients.forEach((i, index) => {
+          if (item === i) {
+            itemIndex = index;
+          }
+        });
+
+        newIngredients = [...ingredients];
+        delete newIngredients[itemIndex].subItems[subitem];
+        setIngredients(newIngredients);
+      } else {
+        newIngredients = ingredients.filter((i) => item != i);
+        setIngredients(newIngredients);
+      }
+    }
+  };
+
   const temp = (item) => {
     let test = [];
 
-    Object.keys(item.subItems).forEach((subitem) => {
+    Object.keys(item.subItems).forEach((subitem, index) => {
       test = [
         ...test,
-        <Text>
-          {subitem} x {item.subItems[subitem]}
-        </Text>,
+        <View key={subitem + index} style={styles.MultiIngredientContainer}>
+          <Icon
+            style={{ paddingRight: 20 }}
+            onPress={() => deleteIngredientFromList(item, subitem)}
+            name={"minus_circle"}
+            size={18}
+          />
+          <Text style={styles.IngredientText}>
+            {subitem} x {item.subItems[subitem]}
+          </Text>
+        </View>,
       ];
     });
     return test;
@@ -84,21 +116,29 @@ const Add_Recipe = ({ route, navigation }) => {
 
   const showIngredients = () => {
     let allItems = [];
-    ingredients.map((item) => {
+    ingredients.map((item, index) => {
       // single item
       if (item.subItems === null) {
         allItems = [
           ...allItems,
-          <Text>
-            {item.item} x {item.quantity}
-          </Text>,
+          <View key={item.item + index} style={styles.IngredientContainer}>
+            <Icon
+              style={{ paddingRight: 20 }}
+              onPress={() => deleteIngredientFromList(item)}
+              name={"minus_circle"}
+              size={18}
+            />
+            <Text style={styles.IngredientText}>
+              {item.item} x {item.quantity}
+            </Text>
+          </View>,
         ];
       } else {
         // multi item
         allItems = [
           ...allItems,
-          <View>
-            <Text>{item.item}</Text>
+          <View key={item.item + index} style={{ paddingBottom: 15 }}>
+            <Text style={styles.IngredientText}>{item.item}</Text>
             <View style={{ paddingLeft: 15 }}>{temp(item)}</View>
           </View>,
         ];
@@ -166,6 +206,7 @@ const Add_Recipe = ({ route, navigation }) => {
                 borderRadius: 15,
                 width: 100,
                 height: 45,
+                marginTop: 15,
               }}
               titleStyle={{
                 color: "black",
@@ -205,6 +246,7 @@ const Add_Recipe = ({ route, navigation }) => {
 export default Add_Recipe;
 
 const styles = StyleSheet.create({
+  Text: { fontFamily: "Poppins-Regular", fontSize: 50 },
   scrollView: {
     flexGrow: 1,
   },
@@ -224,8 +266,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
   },
-
-  form_Lable: { margin: 10, fontSize: 20 },
+  IngredientContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  MultiIngredientContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  IngredientText: { fontSize: 20, fontFamily: "Poppins-Regular" },
+  form_Lable: { margin: 10, fontSize: 25, fontFamily: "Poppins-Regular" },
 
   form_Input: {
     fontSize: 24,
@@ -242,6 +292,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 15,
     width: 300,
+    marginBottom: 50,
   },
   Directions_Form_Input: {
     fontSize: 20,
