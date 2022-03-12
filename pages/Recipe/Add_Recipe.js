@@ -16,6 +16,7 @@ import ButtonBar from "../../components/ButtonBar";
 import ChangeNavStack from "../../components/ChangeNavStack";
 import Icon from "../../assets/icons/icon";
 import { useIsFocused } from "@react-navigation/native";
+import { PostRecipe } from "../../dbRequests/Recipe";
 
 const Add_Recipe = ({ route, navigation }) => {
   const [title, setTitle] = useState();
@@ -40,7 +41,12 @@ const Add_Recipe = ({ route, navigation }) => {
   };
 
   const formValidation = () => {
-    if (title === undefined || title === "") {
+    if (
+      title === undefined ||
+      title === "" ||
+      directions === undefined ||
+      directions === ""
+    ) {
       Alert.alert("ERROR", "Format issue");
     } else {
       handleSubmit();
@@ -55,14 +61,14 @@ const Add_Recipe = ({ route, navigation }) => {
       directions: directions,
     };
 
-    if ((await PostItem(newItem)) === undefined) {
+    console.log(newRecipe);
+    if ((await PostRecipe(newRecipe)) === undefined) {
       Alert.alert(
         "ERROR",
         "An error occurred while creating your item. Please try again later"
       );
     } else {
-      ChangeNavStack(navigation, ["Add_Items", "Create_Item"]);
-      navigation.push("Add_Items", { OriginRoute: OriginRoute });
+      navigation.goBack();
     }
   };
 
@@ -92,7 +98,7 @@ const Add_Recipe = ({ route, navigation }) => {
     }
   };
 
-  const temp = (item) => {
+  const handleMultiItems = (item) => {
     let test = [];
 
     Object.keys(item.subItems).forEach((subitem, index) => {
@@ -139,7 +145,7 @@ const Add_Recipe = ({ route, navigation }) => {
           ...allItems,
           <View key={item.item + index} style={{ paddingBottom: 15 }}>
             <Text style={styles.IngredientText}>{item.item}</Text>
-            <View style={{ paddingLeft: 15 }}>{temp(item)}</View>
+            <View style={{ paddingLeft: 15 }}>{handleMultiItems(item)}</View>
           </View>,
         ];
       }
@@ -234,7 +240,7 @@ const Add_Recipe = ({ route, navigation }) => {
         <ButtonBar
           navigation={navigation}
           buttonInfo={[
-            ["check_mark_circle", "buttonFunction", handleSubmit],
+            ["check_mark_circle", "buttonFunction", formValidation],
             ["back_circle", "buttonFunction", handleBack],
           ]}
         />
