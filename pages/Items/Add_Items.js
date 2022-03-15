@@ -23,7 +23,7 @@ import { DeleteValidation } from "../../components/DeleteValidation";
 import Picker from "../../components/Picker";
 
 const Add_Items = ({ route, navigation }) => {
-  const { OriginRoute } = route.params; // grab oridinal page for DB post
+  const { OriginRoute, recipe } = route.params; // grab oridinal page for DB post
 
   const [Items, setItems] = useState([]);
   const [categories, setCategories] = useState();
@@ -125,10 +125,16 @@ const Add_Items = ({ route, navigation }) => {
         };
         listOfFinalItems = [...listOfFinalItems, newItemForList];
       });
-      if (OriginRoute === "recipe") {
+      if (OriginRoute === "recipe_Add") {
         setItemList([]);
         navigation.navigate("Add_Recipe", {
           item: listOfFinalItems,
+        });
+      } else if (OriginRoute === "recipe_Edit") {
+        setItemList([]);
+        navigation.navigate("Edit_Recipe", {
+          item: listOfFinalItems,
+          recipe: recipe,
         });
       } else {
         if ((await PostList(listOfFinalItems)) === undefined) {

@@ -13,16 +13,16 @@ import { Button } from "react-native-elements";
 
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
-import ChangeNavStack from "../../components/ChangeNavStack";
 import Icon from "../../assets/icons/icon";
 import { useIsFocused } from "@react-navigation/native";
-import { PostRecipe } from "../../dbRequests/Recipe";
+import { UpdateRecipe } from "../../dbRequests/Recipe";
 
-const Add_Recipe = ({ route, navigation }) => {
-  const [title, setTitle] = useState();
-  const [favorite, setFavorite] = useState(false);
-  const [ingredients, setIngredients] = useState([]);
-  const [directions, setDirections] = useState();
+const Edit_Recipe = ({ route, navigation }) => {
+  const { item, recipe } = route.params;
+  const [title, setTitle] = useState(recipe.title);
+  const [favorite, setFavorite] = useState(recipe.favorite);
+  const [ingredients, setIngredients] = useState(recipe.ingredients);
+  const [directions, setDirections] = useState(recipe.directions);
   const [oldIngredients, setOldIngredients] = useState();
   const isFocused = useIsFocused();
 
@@ -31,12 +31,9 @@ const Add_Recipe = ({ route, navigation }) => {
   }, [isFocused]);
 
   const getIngredients = () => {
-    if (typeof route.params === "object") {
-      const { item } = route.params;
-      if (oldIngredients != item) {
-        setOldIngredients(item);
-        setIngredients(ingredients.concat(item));
-      }
+    if (oldIngredients != item) {
+      setOldIngredients(item);
+      setIngredients(ingredients.concat(item));
     }
   };
 
@@ -62,13 +59,13 @@ const Add_Recipe = ({ route, navigation }) => {
     };
 
     console.log(newRecipe);
-    if ((await PostRecipe(newRecipe)) === undefined) {
+    if ((await UpdateRecipe(recipe._id, newRecipe)) === undefined) {
       Alert.alert(
         "ERROR",
         "An error occurred while creating your item. Please try again later"
       );
     } else {
-      navigation.goBack();
+      navigation.navigate("Recipe");
     }
   };
 
@@ -159,7 +156,7 @@ const Add_Recipe = ({ route, navigation }) => {
       <ScrollView contentContainerStyle={styles.scrollView}>
         {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.header}>
-          <Header navigation={navigation} title={["Add Recipe", 50]} />
+          <Header navigation={navigation} title={["Edit Recipe", 50]} />
         </View>
         {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.body}>
@@ -203,7 +200,8 @@ const Add_Recipe = ({ route, navigation }) => {
             <Button
               onPress={() =>
                 navigation.navigate("Add_Items", {
-                  OriginRoute: "recipe",
+                  OriginRoute: "recipe_Edit",
+                  recipe: recipe,
                 })
               }
               title="Add"
@@ -249,7 +247,7 @@ const Add_Recipe = ({ route, navigation }) => {
   );
 };
 
-export default Add_Recipe;
+export default Edit_Recipe;
 
 const styles = StyleSheet.create({
   Text: { fontFamily: "Poppins-Regular", fontSize: 50 },

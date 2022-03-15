@@ -203,7 +203,7 @@ const Add_Recipe = ({ route, navigation }) => {
             <Button
               onPress={() =>
                 navigation.navigate("Add_Items", {
-                  OriginRoute: "recipe",
+                  OriginRoute: "recipe_Add",
                 })
               }
               title="Add"

@@ -20,7 +20,7 @@ const Recipe = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [toggleEdit, setToggleEdit] = useState(false);
-  const [disableHeader, setDisabledHeader] = useState(false);
+  const [disableHeader, setDisableHeader] = useState(false);
   const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -39,26 +39,28 @@ const Recipe = ({ navigation }) => {
       Alert.alert("something went wrong");
     }
   };
-  const handleEdit = (item) => {
-    navigation.navigate("Edit_Recipe", { item: item });
+  const handleEdit = (recipe) => {
+    navigation.navigate("Edit_Recipe", { recipe: recipe });
+    setToggleEdit(false);
+    setDisableHeader(false);
   };
 
   const handleCancle = () => {
     setToggleDelete(false);
     setToggleEdit(false);
-    setDisabledHeader(false);
+    setDisableHeader(false);
   };
 
   const ToggleHeaderDelete = () => {
     toggleDelete
-      ? (setToggleDelete(false), setDisabledHeader(false))
-      : (setToggleDelete(true), setDisabledHeader(true));
+      ? (setToggleDelete(false), setDisableHeader(false))
+      : (setToggleDelete(true), setDisableHeader(true));
   };
 
   const ToggleHeaderEdit = () => {
     toggleEdit
-      ? (setToggleEdit(false), setDisabledHeader(false))
-      : (setToggleEdit(true), setDisabledHeader(true));
+      ? (setToggleEdit(false), setDisableHeader(false))
+      : (setToggleEdit(true), setDisableHeader(true));
   };
 
   return (
