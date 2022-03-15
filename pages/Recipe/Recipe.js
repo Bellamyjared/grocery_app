@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, Pressable, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  ScrollView,
+  Alert,
+} from "react-native";
 
 import NavBar from "../../components/NavBar";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
-import { GetRecipe } from "../../dbRequests/Recipe";
+import { GetRecipe, DeleteRecipe } from "../../dbRequests/Recipe";
 import { useIsFocused } from "@react-navigation/native";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Icon from "../../assets/icons/icon";
@@ -25,11 +32,15 @@ const Recipe = ({ navigation }) => {
     setRecipes(data);
   };
 
-  const handleDelete = (id) => {
-    console.log(id);
+  const handleDelete = async (id) => {
+    if (await DeleteRecipe(id)) {
+      getRecipes();
+    } else {
+      Alert.alert("something went wrong");
+    }
   };
   const handleEdit = (item) => {
-    console.log(item);
+    navigation.navigate("Edit_Recipe", { item: item });
   };
 
   const handleCancle = () => {
@@ -151,10 +162,11 @@ const RecipeDropDown = ({
     Object.keys(item.subItems).forEach((subitem, index) => {
       test = [
         ...test,
-        <View key={subitem + index} style={styles.MultiIngredientContainer}>
-          <Text style={styles.IngredientText}>
-            {subitem} x {item.subItems[subitem]}
-          </Text>
+
+        <View key={subitem + index} style={styles.Ingredient}>
+          <Text style={styles.IngredientText}>{subitem} </Text>
+          <Icon name={"x"} size={8} style={styles.Ingredient_X} />
+          <Text style={styles.IngredientText}>{item.subItems[subitem]}</Text>
         </View>,
       ];
     });
@@ -169,16 +181,18 @@ const RecipeDropDown = ({
         allItems = [
           ...allItems,
           <View key={item.item + index} style={styles.IngredientContainer}>
-            <Text style={styles.IngredientText}>
-              {item.item} x {item.quantity}
-            </Text>
+            <View style={styles.Ingredient}>
+              <Text style={styles.IngredientText}>{item.item} </Text>
+              <Icon name={"x"} size={8} style={styles.Ingredient_X} />
+              <Text style={styles.IngredientText}>{item.quantity}</Text>
+            </View>
           </View>,
         ];
       } else {
         // multi item
         allItems = [
           ...allItems,
-          <View key={item.item + index} style={{ paddingBottom: 15 }}>
+          <View key={item.item + index} style={styles.IngredientContainer}>
             <Text style={styles.IngredientText}>{item.item}</Text>
             <View style={{ paddingLeft: 15 }}>{handleMultiItems(item)}</View>
           </View>,
@@ -190,48 +204,50 @@ const RecipeDropDown = ({
   };
 
   return (
-    <View>
-      {toggleDelete ? (
-        <Icon
-          style={{ paddingLeft: 15 }}
-          name={"x_circle"}
-          size={15}
-          onPress={() =>
-            DeleteValidation(recipe.title, recipe._id, handleDelete)
-          }
-        />
-      ) : (
-        <></>
-      )}
+    <View style={styles.RecipeContainer}>
       <Pressable
         onPress={() => {
           handleToggleDropDown();
         }}
       >
-        <View style={styles.RecipeContainer}>
-          {recipe.favorite ? (
-            <Icon style={{ paddingRight: 5 }} name={"star"} />
+        <View style={styles.TitleContainer}>
+          {toggleDelete ? (
+            <Icon
+              style={{ paddingLeft: 15, paddingRight: 20 }}
+              name={"x_circle"}
+              size={22}
+              onPress={() =>
+                DeleteValidation(recipe.title, recipe._id, handleDelete)
+              }
+            />
           ) : (
             <></>
           )}
+          <View style={styles.TitleAndFavorite}>
+            {recipe.favorite ? (
+              <Icon style={{ paddingRight: 10 }} name={"star"} size={20} />
+            ) : (
+              <></>
+            )}
 
-          <Text style={styles.TitleText}>{recipe.title}</Text>
+            <Text style={styles.TitleText}>{recipe.title}</Text>
+          </View>
           {toggleEdit ? (
             <Icon
-              style={{ paddingLeft: 15 }}
+              style={{ paddingLeft: 20 }}
               name={"edit_arrow"}
-              size={15}
+              size={18}
               onPress={() => handleEdit(recipe)}
             />
           ) : (
-            <Icon style={{ paddingLeft: 15 }} name={"drop_down"} size={15} />
+            <Icon style={{ paddingLeft: 25 }} name={"drop_down"} size={15} />
           )}
         </View>
       </Pressable>
       {ToggleDropDown ? (
         <View style={styles.DropDownContainer}>
           {showIngredients()}
-          <Text>{recipe.directions}</Text>
+          <Text style={styles.Directions}>{recipe.directions}</Text>
         </View>
       ) : (
         <></>
@@ -262,5 +278,33 @@ const styles = StyleSheet.create({
   },
   NavBar: {
     height: "10%",
+  },
+
+  RecipeContainer: {
+    width: "85%",
+    alignSelf: "center",
+  },
+  TitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: 5,
+    paddingTop: 10,
+    width: "100%",
+  },
+  TitleAndFavorite: { flexDirection: "row", alignItems: "center" },
+  TitleText: { fontSize: 25 },
+  DropDownContainer: {
+    width: "100%",
+    paddingTop: 10,
+    paddingBottom: 15,
+  },
+
+  IngredientContainer: { paddingBottom: 5, width: "90%", alignSelf: "center" },
+  Ingredient: { flexDirection: "row", alignItems: "center" },
+  Ingredient_X: { paddingLeft: 15, paddingRight: 10 },
+  IngredientText: { fontSize: 18 },
+  Directions: {
+    fontSize: 18,
+    paddingTop: 15,
   },
 });
