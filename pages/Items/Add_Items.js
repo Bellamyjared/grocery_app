@@ -15,6 +15,7 @@ import Icon from "../../assets/icons/icon";
 import { GetItem, DeleteItem } from "../../dbRequests/Item";
 import { GetCategory } from "../../dbRequests/Category";
 import { PostList } from "../../dbRequests/List";
+import { PostPantry } from "../../dbRequests/Pantry";
 import Header from "../../components/Header";
 // import SearchBar from "../../components/SearchBar"; deprecatied
 import ButtonBar from "../../components/ButtonBar";
@@ -136,6 +137,15 @@ const Add_Items = ({ route, navigation }) => {
           item: listOfFinalItems,
           recipe: recipe,
         });
+      } else if (OriginRoute === "pantry") {
+        if ((await PostPantry(listOfFinalItems)) === undefined) {
+          Alert.alert(
+            "ERROR",
+            "An error occurred while creating your Pantry. Please try again later"
+          );
+        } else {
+          navigation.navigate("Pantry");
+        }
       } else {
         if ((await PostList(listOfFinalItems)) === undefined) {
           Alert.alert(

@@ -8,6 +8,7 @@ const Stack = createNativeStackNavigator();
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
+import Login from "./pages/Login";
 import List from "./pages/List";
 import Pantry from "./pages/Pantry";
 import Recipe from "./pages/Recipe/Recipe";
@@ -33,6 +34,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="List"
           component={List}

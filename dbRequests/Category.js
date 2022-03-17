@@ -1,6 +1,5 @@
 import axios from "axios";
 import { GetIp } from "./GetIp";
-import Data from "../assets/data";
 
 const ip = GetIp();
 
@@ -9,8 +8,6 @@ export async function GetCategory() {
     console.log(error);
   });
   return result.data;
-  // const result = Data("category");
-  // return result;
 }
 
 export async function PostCategory(category) {

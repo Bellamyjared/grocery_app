@@ -1,6 +1,5 @@
 import axios from "axios";
 import { GetIp } from "./GetIp";
-import Data from "../assets/data";
 
 const ip = GetIp();
 

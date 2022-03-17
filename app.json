@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "mycoolredirect",
     "name": "grocery_app",
     "slug": "grocery_app",
     "version": "1.0.0",
@@ -15,9 +16,11 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "groceryApp.bundleIdentifier.Bellamy"
     },
     "android": {
+      "package": "groceryApp.android.package.Bellamy",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

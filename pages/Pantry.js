@@ -1,29 +1,171 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import { StyleSheet, View, ScrollView, Pressable, Alert } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
 import { GetCategory } from "../dbRequests/Category";
-// import { GetPantry } from "../dbRequests/Pantry";
+import {
+  GetPantry,
+  UpdatePantryItem,
+  DeletePantryItem,
+} from "../dbRequests/Pantry";
+import CategoryDropDown from "../components/CategoryDropDown";
+import { DeleteValidation } from "../components/DeleteValidation";
 
 const Pantry = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
-  // const [pantrylist, setPantrylist] = useState([]);
+  const [pantry, setPantry] = useState([]);
+  const [disableHeader, setDisableHeader] = useState(false);
+  const [toggleDelete, setToggleDelete] = useState(false);
+  const [selectedItems, setSelectedItems] = useState({});
+  const [resetDropDown, setResetDropDown] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     handleGetCategories();
-    // handleGetPantry();
-  }, []);
+    handleGetPantry();
+  }, [isFocused]);
+
+  const headerTrash = () => {
+    if (toggleDelete) {
+      setToggleDelete(false);
+      setDisableHeader(false);
+    } else {
+      setToggleDelete(true);
+      setDisableHeader(true);
+    }
+  };
 
   const handleGetCategories = async () => {
     data = await GetCategory();
     setCategories(data);
   };
-  // const handleGetPantry = async () => {
-  //   data = await GetList();
-  //   setPantrylist(data);
-  // };
+  const handleGetPantry = async () => {
+    data = await GetPantry();
+    setPantry(data);
+  };
+
+  const handleCancle = () => {
+    resetDropDown ? setResetDropDown(false) : setResetDropDown(true);
+    setSelectedItems({});
+    setDisableHeader(false);
+  };
+
+  const handleDelete = (item, itemText) => {
+    // single Item
+    if (item.subItem === null) {
+      DeleteValidation(item.item, item._id, deleteItem);
+    } else {
+      // multi Item
+      if (Object.keys(item.subItem).length > 1) {
+        DeleteValidation(itemText, item._id, updateItem, item);
+      } else {
+        DeleteValidation(item.item, item._id, deleteItem);
+      }
+    }
+  };
+
+  const deleteItem = async (id, item) => {
+    if ((await DeletePantryItem(id)) != undefined) {
+      handleGetPantry();
+    } else {
+      Alert.alert(
+        `An Error occurred when deleting ${item.item}, please try again later`
+      );
+    }
+  };
+
+  const updateItem = async (id, item, itemText) => {
+    let temItem = item;
+    delete temItem.subItem[itemText];
+
+    if ((await UpdatePantryItem(id, temItem)) != undefined) {
+      handleGetPantry();
+    } else {
+      Alert.alert(
+        `An Error occurred when deleting ${item.item}. Please try again later`
+      );
+    }
+  };
+
+  const sortItemsIntoCategory = (categoryId) => {
+    const items = pantry.filter((i) => i.categoryId === categoryId);
+    return items;
+  };
+
+  const DisableOnSelect = () => {
+    if (Object.keys(selectedItems).length > 0) {
+      setDisableHeader(true);
+      console.log("disable");
+    } else {
+      setDisableHeader(false);
+      console.log("re-able");
+    }
+  };
+
+  const handleSelectedItems = (selectedItem, id, subItem, quantity) => {
+    if (selectedItem === null) {
+      let tempObject = selectedItems;
+      delete tempObject[id];
+      setSelectedItems(tempObject);
+      console.log(selectedItems);
+    } else {
+      if (subItem === undefined) {
+        // single item
+        let tempObject = selectedItems;
+        tempObject[selectedItem._id] = {
+          item: selectedItem.item,
+          categoryId: selectedItem.categoryId,
+          quantity: selectedItem.quantity,
+        };
+        setSelectedItems(tempObject);
+        console.log(selectedItems);
+      } else {
+        // multi item
+        if (typeof selectedItems[selectedItem._id] === "undefined") {
+          //if multi item doesn't exist yet
+          let tempObject = selectedItems;
+          tempObject[selectedItem._id] = {
+            item: selectedItem.item,
+            categoryId: selectedItem.categoryId,
+            subItem: { [subItem]: quantity },
+          };
+          setSelectedItems(tempObject);
+          console.log(selectedItems);
+        } else {
+          //if multi item already exist
+          if (
+            typeof selectedItems[selectedItem._id].subItem[subItem] ===
+            "undefined"
+          ) {
+            //add item because it hasnt been selected yet
+            let tempObject = { ...selectedItems };
+            tempObject[selectedItem._id].subItem[subItem] = quantity;
+            setSelectedItems(tempObject);
+            console.log(selectedItems);
+          } else {
+            //minus item because its already been selected
+            if (
+              Object.keys(selectedItems[selectedItem._id].subItem).length > 1
+            ) {
+              let tempObject = { ...selectedItems };
+              delete tempObject[selectedItem._id].subItem[subItem];
+              setSelectedItems(tempObject);
+              console.log(selectedItems);
+            } else {
+              let tempObject = selectedItems;
+              delete tempObject[selectedItem._id];
+              setSelectedItems(tempObject);
+              console.log(selectedItems);
+            }
+          }
+        }
+      }
+    }
+    DisableOnSelect();
+  };
 
   return (
     <>
@@ -34,40 +176,68 @@ const Pantry = ({ navigation }) => {
           title={["Pantry", 50]}
           icons={[
             ["edit", "Category"],
-            ["trash", ""],
+            ["trash", "buttonFunction", headerTrash],
           ]}
+          disabled={disableHeader}
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.container}>
-        {categories.map((c) => (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              console.log(c.category);
-            }}
-          >
-            <Text>{c.category}</Text>
-          </TouchableWithoutFeedback>
-        ))}
-      </View>
-      {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.buttonBar}>
-        <ButtonBar
-          navigation={navigation}
-          buttonInfo={[
-            [
-              "plus_circle",
-              "Add_Items",
-              "passProps",
-              { OriginRoute: "pantry" },
-            ],
-          ]}
-        />
-      </View>
+      <ScrollView contentContainerStyle={styles.body}>
+        <View style={{ minHeight: "85%" }}>
+          {categories.map((c, index) => (
+            <CategoryDropDown
+              key={c._id}
+              categoryIndex={index}
+              category={c}
+              items={sortItemsIntoCategory(c._id)}
+              toggleDelete={toggleDelete}
+              handleDelete={handleDelete}
+              handleSelectedItems={handleSelectedItems}
+              resetDropDown={resetDropDown}
+            />
+          ))}
+        </View>
+        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+        {toggleDelete ? (
+          <></>
+        ) : Object.keys(selectedItems).length > 0 ? (
+          <></>
+        ) : (
+          <View style={styles.addButton}>
+            <ButtonBar
+              navigation={navigation}
+              buttonInfo={[
+                [
+                  "plus_circle",
+                  "Add_Items",
+                  "passProps",
+                  { OriginRoute: "pantry" },
+                ],
+              ]}
+            />
+          </View>
+        )}
+      </ScrollView>
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <View style={styles.NavBar}>
-        <NavBar navigation={navigation} page={"pantry"} />
-      </View>
+      {toggleDelete ? (
+        <View style={styles.buttonBar}>
+          <ButtonBar
+            navigation={navigation}
+            buttonInfo={[["x_circle", "buttonFunction", headerTrash]]}
+          />
+        </View>
+      ) : Object.keys(selectedItems).length > 0 ? (
+        <View style={styles.buttonBar}>
+          <ButtonBar
+            navigation={navigation}
+            buttonInfo={[["x_circle", "buttonFunction", handleCancle]]}
+          />
+        </View>
+      ) : (
+        <View style={styles.NavBar}>
+          <NavBar navigation={navigation} page={"pantry"} />
+        </View>
+      )}
     </>
   );
 };
@@ -75,11 +245,9 @@ const Pantry = ({ navigation }) => {
 export default Pantry;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  body: {
+    flexGrow: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   header: {
@@ -89,14 +257,22 @@ const styles = StyleSheet.create({
   },
   text: { fontFamily: "Poppins-Regular", fontSize: 50 },
 
-  buttonBar: {
-    height: "12%",
-    paddingRight: "10%",
-    paddingTop: "5%",
+  addButton: {
     alignItems: "flex-end",
+    justifyContent: "center",
+    height: 80,
+    paddingRight: 40,
+  },
+  buttonBar: {
     backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 80,
+    borderTopWidth: 2,
+    borderColor: "#E7E7E7",
+    borderStyle: "solid",
   },
   NavBar: {
-    height: "10%",
+    height: 80,
   },
 });

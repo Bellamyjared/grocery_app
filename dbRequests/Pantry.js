@@ -3,7 +3,7 @@ import { GetIp } from "./GetIp";
 
 const ip = GetIp();
 
-export async function GetList() {
+export async function GetPantry() {
   const result = await axios(`${ip}/pantry`);
   return result.data;
 }

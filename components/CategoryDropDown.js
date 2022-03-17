@@ -284,7 +284,7 @@ const Item = ({
           ) : (
             <Icon
               style={styles.ItemCheckBox}
-              name={selected ? "check_box_selected" : "Check_box"}
+              name={selected ? "check_box_selected" : "check_box"}
               size={20}
             />
           )}
