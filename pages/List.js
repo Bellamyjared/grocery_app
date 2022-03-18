@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Pressable, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  ScrollView,
+  Pressable,
+  Alert,
+  Image,
+} from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
 import NavBar from "../components/NavBar";
@@ -11,7 +18,9 @@ import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
 import { PostPantry } from "../dbRequests/Pantry";
 
-const List = ({ navigation }) => {
+const List = ({ navigation, route }) => {
+  const { userData } = route.params;
+
   const [categories, setCategories] = useState([]);
   const [list, setList] = useState([]);
   const [disableHeader, setDisableHeader] = useState(false);
@@ -238,6 +247,7 @@ const List = ({ navigation }) => {
       <View style={styles.header}>
         <Header
           navigation={navigation}
+          userData={userData}
           title={["List", 50]}
           icons={[
             ["edit", "Category"],
@@ -303,7 +313,7 @@ const List = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.NavBar}>
-          <NavBar navigation={navigation} page={"list"} />
+          <NavBar navigation={navigation} page={"list"} userData={userData} />
         </View>
       )}
     </>

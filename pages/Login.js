@@ -13,24 +13,52 @@ import Icon from "../assets/icons/icon";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import GetUserData from "../dbRequests/GetUserData";
+import {
+  GetGoogleAuth,
+  CheckIfUserDeviceIsLoggedIn,
+} from "../dbRequests/GetUserData";
+import * as Device from "expo-device";
+
 WebBrowser.maybeCompleteAuthSession();
 
 const Login = ({ navigation }) => {
+  if (false) {
+    navigation.navigate("List", { userData: "ljsdbnf" });
+  }
+  const [deviceId, setDeviceId] = useState(
+    Device.osInternalBuildId + Device.deviceName
+  );
+  const [GoogleId, setGoogleId] = useState({
+    expoClientId: "temp",
+    iosClientId: "temp",
+    androidClientId: "temp",
+  });
+
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: `743190281722-p9gtr2203t866jkb0b8lvnfnbjaroo0f.apps.googleusercontent.com`,
-    iosClientId: `743190281722-humk6onapotcd7gl2fn1dqf8svoul8im.apps.googleusercontent.com`,
-    androidClientId: `743190281722-vnkomjfleidbtfh8ds2sdapag7d8553t.apps.googleusercontent.com`,
-    scope: ["email, profile"],
+    expoClientId: GoogleId.expoClientId,
+    iosClientId: GoogleId.iosClientId,
+    androidClientId: GoogleId.androidClientId,
   });
 
   useEffect(() => {
+    checkUserDevice();
+
     if (response?.type === "success") {
       getUserData(response.authentication.accessToken);
     }
   }, [response]);
 
+  const checkUserDevice = async () => {
+    getGoogleId();
+  };
+
+  const getGoogleId = async () => {
+    data = await GetGoogleAuth();
+    setGoogleId(data);
+  };
   const getUserData = async (accessToken) => {
     data = await GetUserData(accessToken);
+    navigation.navigate("List", { userData: data });
   };
 
   return (
@@ -40,7 +68,7 @@ const Login = ({ navigation }) => {
         disabled={!request}
         title="Login"
         onPress={() => {
-          promptAsync();
+          promptAsync({ useProxy: true });
         }}
       />
       {/* <Pressable onPress={() => console.log("test")}>

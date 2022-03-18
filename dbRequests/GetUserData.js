@@ -1,20 +1,29 @@
 import axios from "axios";
+import { GetIp } from "./GetIp";
+const ip = GetIp();
 
 export default async function GetUserData(accessToken) {
   const config = {
     headers: {
-      Authorization: `Bearer ya29.A0ARrdaM-hWo-PG4gyi3MGu5V6XPhCy7IuMTA3gvUjmOM9EJaPY7JF_a1O1c3Lgb0wj22E8u8LocpDt46-Fsp-55ykCWdF1nKTrKZDQAmGoceQ00n8BJImH0PRSL50AQAmPFWXO64LsadK71RhrcYbKRwUfIYD`,
+      Authorization: `Bearer ${accessToken}`,
     },
   };
-  const url = "https://www.googleapis.com/auth/userinfo/v2/me";
+  const url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json";
 
-  console.log(config);
+  const result = await axios(url, config).catch((error) => {
+    console.log(error);
+  });
 
-  const result = await axios(url, config)
-    .then((res) => console.log(res))
-    .catch((error) => {
-      console.log(error);
-    });
+  return result.data;
+}
 
-  return result;
+export async function GetGoogleAuth() {
+  const result = await axios(`${ip}/GoogleId`);
+  console.log(result.data);
+  return result.data;
+}
+export async function CheckIfUserDeviceIsLoggedIn() {
+  const result = await axios(`${ip}/GoogleId`);
+  console.log(result.data);
+  return result.data;
 }

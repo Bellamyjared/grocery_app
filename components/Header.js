@@ -1,37 +1,9 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import Icon from "../assets/icons/icon";
 import IconOnPress from "./IconOnPress";
 
-const HandleIcon = (listOfIcons, navigation, disabled) => {
-  if (listOfIcons != null) {
-    // if the icon is disabled change the color or icon
-    let iconColor;
-    disabled === true
-      ? (iconColor = styles.disbaledIcon)
-      : (iconColor = styles.icon);
-
-    return listOfIcons.map((icon) => (
-      <View
-        key={Math.floor(Math.random() * 100) + icon[0]}
-        style={{ paddingLeft: "15%" }}
-      >
-        <Icon
-          name={icon[0]}
-          style={iconColor}
-          size={30}
-          onPress={() => {
-            if (disabled != true) {
-              IconOnPress(icon, navigation);
-            }
-          }}
-        />
-      </View>
-    ));
-  }
-};
-
-const Header = ({ navigation, title, icons, disabled }) => {
+const Header = ({ navigation, title, icons, disabled, userData }) => {
   const [widthSize, setWidthSize] = useState();
   const handleWidthSize = () => {
     if (icons != null) {
@@ -44,6 +16,53 @@ const Header = ({ navigation, title, icons, disabled }) => {
   useEffect(() => {
     handleWidthSize();
   }, []);
+
+  const HandleIcon = (listOfIcons, navigation, disabled, userData) => {
+    const profilePlaceHolder = require("../assets/Profile_Placeholder.png");
+    if (listOfIcons != null) {
+      // if the icon is disabled change the color or icon
+      let iconColor;
+      disabled === true
+        ? (iconColor = styles.disbaledIcon)
+        : (iconColor = styles.icon);
+
+      return (
+        <View style={{ flexDirection: "row" }}>
+          {listOfIcons.map((icon) => (
+            <View
+              key={Math.floor(Math.random() * 100) + icon[0]}
+              style={{ paddingLeft: 50 }}
+            >
+              <Icon
+                name={icon[0]}
+                style={iconColor}
+                size={30}
+                onPress={() => {
+                  if (disabled != true) {
+                    IconOnPress(icon, navigation);
+                  }
+                }}
+              />
+            </View>
+          ))}
+          <View>
+            <Image
+              style={{
+                width: 35,
+                height: 35,
+                borderRadius: 15,
+              }}
+              source={
+                typeof userData.picture === "string"
+                  ? { uri: userData.picture }
+                  : profilePlaceHolder
+              }
+            />
+          </View>
+        </View>
+      );
+    }
+  };
 
   return (
     <>
@@ -78,7 +97,7 @@ const Header = ({ navigation, title, icons, disabled }) => {
               width: "25%",
             }}
           >
-            {HandleIcon(icons, navigation, disabled)}
+            {HandleIcon(icons, navigation, disabled, userData)}
           </View>
         </View>
       </View>
