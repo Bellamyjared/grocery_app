@@ -19,7 +19,8 @@ import { DeleteValidation } from "../components/DeleteValidation";
 import { PostPantry } from "../dbRequests/Pantry";
 
 const List = ({ navigation, route }) => {
-  const { userData } = route.params;
+  // const { userData } = route.params;
+  let userData = { picture: "test" };
 
   const [categories, setCategories] = useState([]);
   const [list, setList] = useState([]);

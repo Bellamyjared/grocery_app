@@ -14,7 +14,7 @@ export async function PostCategory(category) {
   const result = await axios
     .post(`${ip}/category/add`, category)
     .catch((error) => {
-      console.log(error.response);
+      console.log(error);
     });
   return result.data;
 }
@@ -23,14 +23,14 @@ export async function UpdateCategory(id, category) {
   const result = await axios
     .post(`${ip}/category/update/${id}`, category)
     .catch((error) => {
-      console.log(error.response);
+      console.log(error);
     });
   return result.data;
 }
 
 export async function DeleteCategory(id) {
   const result = await axios.delete(`${ip}/category/${id}`).catch((error) => {
-    console.log(error.response);
+    console.log(error);
   });
   return result.data;
 }

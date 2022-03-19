@@ -10,9 +10,10 @@ export async function GetPantry() {
 
 export async function PostPantry(Pantry) {
   console.log("test");
-  const result = await axios
-    .post(`${ip}/pantry/add`, Pantry)
-    .catch((error) => {});
+  const result = await axios.post(`${ip}/pantry/add`, Pantry).catch((error) => {
+    console.log(error);
+    return undefined;
+  });
 
   return result.data;
 }
@@ -21,12 +22,16 @@ export async function UpdatePantryItem(id, pantryItem) {
   const result = await axios
     .post(`${ip}/pantry/update/${id}`, pantryItem)
     .catch((error) => {
-      console.log(error.response);
+      console.log(error);
+      return undefined;
     });
   return result;
 }
 
 export async function DeletePantryItem(id) {
-  const result = await axios.delete(`${ip}/pantry/${id}`).catch((error) => {});
+  const result = await axios.delete(`${ip}/pantry/${id}`).catch((error) => {
+    console.log(error);
+    return undefined;
+  });
   return result;
 }
