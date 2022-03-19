@@ -3,16 +3,19 @@ import { useEffect, useState } from "react";
 import { CheckIfUserExists, GetUserData } from "../dbRequests/UserData";
 
 import * as Device from "expo-device";
+import { useIsFocused } from "@react-navigation/native";
 
-const RedirctLoggedInUsers = ({ navigation }) => {
+const RedirectLoggedInUsers = ({ navigation, route }) => {
   const [deviceId, setDeviceId] = useState(
     Device.osInternalBuildId + Device.deviceName
   );
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     console.log(deviceId);
+    console.log(route);
     checkIfUserExists();
-  }, [deviceId]);
+  }, [isFocused]);
 
   const checkIfUserExists = async () => {
     let userInfo = await CheckIfUserExists(deviceId);
@@ -28,7 +31,14 @@ const RedirctLoggedInUsers = ({ navigation }) => {
   const getUserData = async (userInfo) => {
     data = await GetUserData(userInfo.deviceToken);
     if (typeof data != "undefined") {
-      navigation.navigate("List", { userData: data });
+      if (typeof route.params === "undefined") {
+        navigation.navigate("List", { userData: data });
+      } else {
+        navigation.navigate("Login", {
+          userData: userInfo._id,
+          deviceId: deviceId,
+        });
+      }
     } else {
       navigation.navigate("Login", {
         userData: userInfo._id,
@@ -40,4 +50,4 @@ const RedirctLoggedInUsers = ({ navigation }) => {
   return <></>;
 };
 
-export default RedirctLoggedInUsers;
+export default RedirectLoggedInUsers;

@@ -1,13 +1,6 @@
 // need to add user info to db requests, need to add sign out button, need to delete login and redirect from nav stack
 import { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  ScrollView,
-  Pressable,
-  Alert,
-  Image,
-} from "react-native";
+import { StyleSheet, View, ScrollView, Alert } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
 import NavBar from "../components/NavBar";
@@ -249,6 +242,7 @@ const List = ({ navigation, route }) => {
         <Header
           navigation={navigation}
           userData={userData}
+          deviceId={userData}
           title={["List", 50]}
           icons={[
             ["edit", "Category"],

@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import Icon from "../assets/icons/icon";
 import IconOnPress from "./IconOnPress";
+import { CommonActions } from "@react-navigation/native";
 
 const Header = ({ navigation, title, icons, disabled, userData }) => {
   const [widthSize, setWidthSize] = useState();
@@ -17,9 +18,25 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
     handleWidthSize();
   }, []);
 
-  const HandleIcon = (listOfIcons, navigation, disabled, userData) => {
+  const HandleIcon = () => {
+    const [SignOutToggle, setSignOutToggle] = useState(false);
     const profilePlaceHolder = require("../assets/Profile_Placeholder.png");
-    if (listOfIcons != null) {
+
+    const signOut = () => {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            {
+              name: "RedirectLoggedInUsers",
+              params: { signOut: true },
+            },
+          ],
+        })
+      );
+    };
+
+    if (icons != null) {
       // if the icon is disabled change the color or icon
       let iconColor;
       disabled === true
@@ -28,7 +45,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
 
       return (
         <View style={{ flexDirection: "row" }}>
-          {listOfIcons.map((icon) => (
+          {icons.map((icon) => (
             <View
               key={Math.floor(Math.random() * 100) + icon[0]}
               style={{ paddingLeft: 20 }}
@@ -47,19 +64,48 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
           ))}
           {userData != undefined ? (
             <View style={{ paddingLeft: 20 }}>
-              <Image
-                style={{
-                  width: 35,
-                  height: 35,
-                  borderRadius: 15,
-                }}
-                source={
-                  typeof userData.picture === "string"
-                    ? { uri: userData.picture }
-                    : profilePlaceHolder
+              <Pressable
+                onPress={() =>
+                  SignOutToggle
+                    ? setSignOutToggle(false)
+                    : setSignOutToggle(true)
                 }
-              />
+              >
+                <Image
+                  style={{
+                    width: 35,
+                    height: 35,
+                    borderRadius: 15,
+                  }}
+                  source={
+                    typeof userData.picture === "string"
+                      ? { uri: userData.picture }
+                      : profilePlaceHolder
+                  }
+                />
+              </Pressable>
             </View>
+          ) : (
+            <></>
+          )}
+          {SignOutToggle ? (
+            <Pressable
+              onPress={() => signOut()}
+              style={{
+                position: "absolute",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: -2,
+                width: 100,
+                height: 40,
+                backgroundColor: "white",
+                borderColor: "black",
+                borderRadius: 15,
+                borderWidth: 2,
+              }}
+            >
+              <Text>Sign Out</Text>
+            </Pressable>
           ) : (
             <></>
           )}

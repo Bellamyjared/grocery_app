@@ -8,7 +8,7 @@ const Stack = createNativeStackNavigator();
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
-import RedirctLoggedInUsers from "./pages/RedirctLoggedInUsers";
+import RedirectLoggedInUsers from "./pages/RedirectLoggedInUsers";
 import Login from "./pages/Login";
 import List from "./pages/List";
 import Pantry from "./pages/Pantry";
@@ -36,8 +36,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="RedirctLoggedInUsers"
-          component={RedirctLoggedInUsers}
+          name="RedirectLoggedInUsers"
+          component={RedirectLoggedInUsers}
           options={{ headerShown: false }}
         />
         <Stack.Screen
