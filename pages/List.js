@@ -1,3 +1,4 @@
+// need to add user info to db requests, need to add sign out button, need to delete login and redirect from nav stack
 import { useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -19,8 +20,7 @@ import { DeleteValidation } from "../components/DeleteValidation";
 import { PostPantry } from "../dbRequests/Pantry";
 
 const List = ({ navigation, route }) => {
-  // const { userData } = route.params;
-  let userData = { picture: "test" };
+  const { userData } = route.params;
 
   const [categories, setCategories] = useState([]);
   const [list, setList] = useState([]);

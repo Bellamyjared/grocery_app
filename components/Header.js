@@ -31,7 +31,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
           {listOfIcons.map((icon) => (
             <View
               key={Math.floor(Math.random() * 100) + icon[0]}
-              style={{ paddingLeft: 50 }}
+              style={{ paddingLeft: 20 }}
             >
               <Icon
                 name={icon[0]}
@@ -45,20 +45,24 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
               />
             </View>
           ))}
-          <View>
-            <Image
-              style={{
-                width: 35,
-                height: 35,
-                borderRadius: 15,
-              }}
-              source={
-                typeof userData.picture === "string"
-                  ? { uri: userData.picture }
-                  : profilePlaceHolder
-              }
-            />
-          </View>
+          {userData != undefined ? (
+            <View style={{ paddingLeft: 20 }}>
+              <Image
+                style={{
+                  width: 35,
+                  height: 35,
+                  borderRadius: 15,
+                }}
+                source={
+                  typeof userData.picture === "string"
+                    ? { uri: userData.picture }
+                    : profilePlaceHolder
+                }
+              />
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
       );
     }

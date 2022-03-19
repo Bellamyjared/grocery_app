@@ -1,14 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  ScrollView,
-  Pressable,
-  Alert,
-} from "react-native";
+import { StyleSheet, Text, View, Pressable, Alert } from "react-native";
 import Icon from "../assets/icons/icon";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
