@@ -16,7 +16,8 @@ import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
 import MoveAbleList from "../MoveAbleList/MoveAbleList";
 
-const Category = ({ navigation }) => {
+const Category = ({ navigation, route }) => {
+  const { userData } = route.params;
   const [categories, setCategories] = useState();
   const [categoryOrder, setCategoryOrder] = useState();
   const [headerIcon, setHeaderIcon] = useState("Blank");
@@ -43,7 +44,11 @@ const Category = ({ navigation }) => {
     }
   };
   const handleEdit = (category, id) => {
-    navigation.navigate("Edit_Category", { category: category, id: id });
+    navigation.navigate("Edit_Category", {
+      category: category,
+      id: id,
+      userData: userData,
+    });
   };
 
   const handleBack = () => {
@@ -128,7 +133,10 @@ const Category = ({ navigation }) => {
             <Button
               style={{ borderRadius: 20 }}
               onPress={() =>
-                navigation.navigate("Create_Category", { categoryOrder: 0 })
+                navigation.navigate("Create_Category", {
+                  categoryOrder: 0,
+                  userData: userData,
+                })
               }
               title="Add"
               buttonStyle={{

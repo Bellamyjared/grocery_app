@@ -3,10 +3,12 @@ import { GetIp } from "./GetIp";
 
 const ip = GetIp();
 
-export async function GetCategory() {
-  const result = await axios(`${ip}/category`).catch((error) => {
-    console.log(error);
-  });
+export async function GetCategory(userId) {
+  const result = await axios
+    .post(`${ip}/category`, { userId: userId })
+    .catch((error) => {
+      console.log(error);
+    });
   return result.data;
 }
 

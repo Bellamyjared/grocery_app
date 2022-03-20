@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import Icon from "../assets/icons/icon";
 
-const NavBar = ({ navigation, page }) => {
+const NavBar = ({ navigation, page, userData }) => {
   const [listUnderLine, setListUnderLine] = useState();
   const [pantryUnderLine, setPantryUnderLine] = useState();
   const [recipeUnderLine, setRecipeUnderLine] = useState();
@@ -38,7 +38,7 @@ const NavBar = ({ navigation, page }) => {
         size={40}
         containerStyle={info[1]}
         onPress={() => {
-          navigation.navigate(info[2]);
+          navigation.navigate(info[2], { userData: userData });
         }}
       />
     ));

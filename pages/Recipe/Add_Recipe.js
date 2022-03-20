@@ -25,14 +25,16 @@ const Add_Recipe = ({ route, navigation }) => {
   const [directions, setDirections] = useState();
   const [oldIngredients, setOldIngredients] = useState();
   const isFocused = useIsFocused();
+  const { userData } = route.params;
 
   useEffect(() => {
     getIngredients();
   }, [isFocused]);
 
   const getIngredients = () => {
-    if (typeof route.params === "object") {
-      const { item } = route.params;
+    const { item } = route.params;
+
+    if (typeof item === "object") {
       if (oldIngredients != item) {
         setOldIngredients(item);
         setIngredients(ingredients.concat(item));
@@ -55,6 +57,7 @@ const Add_Recipe = ({ route, navigation }) => {
   //  ************* HANDLE SUBMITE ****************
   const handleSubmit = async () => {
     const newRecipe = {
+      userId: userData.id,
       title: title,
       favorite: favorite,
       ingredients: ingredients,
@@ -204,6 +207,7 @@ const Add_Recipe = ({ route, navigation }) => {
               onPress={() =>
                 navigation.navigate("Add_Items", {
                   OriginRoute: "recipe_Add",
+                  userData: userData,
                 })
               }
               title="Add"

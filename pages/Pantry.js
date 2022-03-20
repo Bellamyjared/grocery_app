@@ -14,7 +14,7 @@ import {
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
 
-const Pantry = ({ navigation }) => {
+const Pantry = ({ navigation, route }) => {
   const [categories, setCategories] = useState([]);
   const [pantry, setPantry] = useState([]);
   const [disableHeader, setDisableHeader] = useState(false);
@@ -22,6 +22,7 @@ const Pantry = ({ navigation }) => {
   const [selectedItems, setSelectedItems] = useState({});
   const [resetDropDown, setResetDropDown] = useState(false);
   const isFocused = useIsFocused();
+  const { userData } = route.params;
 
   useEffect(() => {
     handleGetCategories();
@@ -43,7 +44,7 @@ const Pantry = ({ navigation }) => {
     setCategories(data);
   };
   const handleGetPantry = async () => {
-    data = await GetPantry();
+    data = await GetPantry(userData.id);
     setPantry(data);
   };
 
@@ -173,9 +174,10 @@ const Pantry = ({ navigation }) => {
       <View style={styles.header}>
         <Header
           navigation={navigation}
+          userData={userData}
           title={["Pantry", 50]}
           icons={[
-            ["edit", "Category"],
+            ["edit", "Category", "passProps", { userData: userData }],
             ["trash", "buttonFunction", headerTrash],
           ]}
           disabled={disableHeader}
@@ -211,7 +213,7 @@ const Pantry = ({ navigation }) => {
                   "plus_circle",
                   "Add_Items",
                   "passProps",
-                  { OriginRoute: "pantry" },
+                  { OriginRoute: "pantry", userData: userData },
                 ],
               ]}
             />
@@ -235,7 +237,7 @@ const Pantry = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.NavBar}>
-          <NavBar navigation={navigation} page={"pantry"} />
+          <NavBar navigation={navigation} userData={userData} page={"pantry"} />
         </View>
       )}
     </>

@@ -7,7 +7,7 @@ import ButtonBar from "../../components/ButtonBar";
 import ChangeNavStack from "../../components/ChangeNavStack";
 
 const Edit_Category = ({ route, navigation }) => {
-  const { category, id } = route.params; // grab props from route
+  const { category, id, userData } = route.params; // grab props from route
 
   const [categoryText, setCategoryText] = useState(category);
 
@@ -23,12 +23,13 @@ const Edit_Category = ({ route, navigation }) => {
     } else {
       //create new category and send it to dbRequests, if error alert
       let newCategory = {
+        userId: userData.id,
         category: categoryText,
         categoryOrder: 0,
       };
       if ((await UpdateCategory(id, newCategory)) != undefined) {
         ChangeNavStack(navigation, ["Category", "Edit_Category"]);
-        navigation.push("Category");
+        navigation.push("Category", { userData: userData });
       } else {
         Alert.alert("ERROR", "format issue sub Item");
       }

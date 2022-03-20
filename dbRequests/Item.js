@@ -3,8 +3,9 @@ import { GetIp } from "./GetIp";
 
 const ip = GetIp();
 
-export async function GetItem() {
-  const result = await axios(`${ip}/item`);
+export async function GetItem(userId) {
+  console.log(userId);
+  const result = await axios.post(`${ip}/item`, { userId: userId });
   return result.data;
 }
 

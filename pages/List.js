@@ -43,7 +43,7 @@ const List = ({ navigation, route }) => {
     setCategories(data);
   };
   const handleGetList = async () => {
-    data = await GetList();
+    data = await GetList(userData.id);
     setList(data);
   };
 
@@ -62,6 +62,7 @@ const List = ({ navigation, route }) => {
         subItems = selectedItems[i].subItem;
       }
       const newItemForList = {
+        userId: userData.id,
         item: selectedItems[i].item,
         quantity: quantity,
         categoryId: selectedItems[i].categoryId,
@@ -245,7 +246,7 @@ const List = ({ navigation, route }) => {
           deviceId={userData}
           title={["List", 50]}
           icons={[
-            ["edit", "Category"],
+            ["edit", "Category", "passProps", { userData: userData }],
             ["trash", "buttonFunction", headerTrash],
           ]}
           disabled={disableHeader}
@@ -276,12 +277,13 @@ const List = ({ navigation, route }) => {
           <View style={styles.addButton}>
             <ButtonBar
               navigation={navigation}
+              userData={userData}
               buttonInfo={[
                 [
                   "plus_circle",
                   "Add_Items",
                   "passProps",
-                  { OriginRoute: "list" },
+                  { OriginRoute: "list", userData: userData },
                 ],
               ]}
             />

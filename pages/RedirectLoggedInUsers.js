@@ -1,3 +1,6 @@
+// this will be redacted when testing development is done, in favour of google signin, which will just be used in Login screen
+// google sign in doesnt work with expo go
+
 import { useEffect, useState } from "react";
 
 import { CheckIfUserExists, GetUserData } from "../dbRequests/UserData";
@@ -12,8 +15,6 @@ const RedirectLoggedInUsers = ({ navigation, route }) => {
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    console.log(deviceId);
-    console.log(route);
     checkIfUserExists();
   }, [isFocused]);
 

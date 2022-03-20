@@ -24,7 +24,7 @@ import { DeleteValidation } from "../../components/DeleteValidation";
 import Picker from "../../components/Picker";
 
 const Add_Items = ({ route, navigation }) => {
-  const { OriginRoute, recipe } = route.params; // grab oridinal page for DB post
+  const { OriginRoute, recipe, userData } = route.params; // grab oridinal page for DB post
 
   const [Items, setItems] = useState([]);
   const [categories, setCategories] = useState();
@@ -60,6 +60,7 @@ const Add_Items = ({ route, navigation }) => {
       OriginRoute: OriginRoute,
       categories: categories,
       item: item,
+      userData: userData,
     });
   };
 
@@ -92,7 +93,7 @@ const Add_Items = ({ route, navigation }) => {
   };
 
   const handleGetItems = async () => {
-    data = await GetItem();
+    data = await GetItem(userData.id);
     setItems(data);
   };
 
@@ -119,6 +120,7 @@ const Add_Items = ({ route, navigation }) => {
           subItems = Object.values(i)[0];
         }
         const newItemForList = {
+          userId: userData.id,
           item: Object.getOwnPropertyNames(i)[0],
           quantity: quantity,
           categoryId: Object.values(i)[1],
@@ -130,12 +132,14 @@ const Add_Items = ({ route, navigation }) => {
         setItemList([]);
         navigation.navigate("Add_Recipe", {
           item: listOfFinalItems,
+          userData: userData,
         });
       } else if (OriginRoute === "recipe_Edit") {
         setItemList([]);
         navigation.navigate("Edit_Recipe", {
           item: listOfFinalItems,
           recipe: recipe,
+          userData: userData,
         });
       } else if (OriginRoute === "pantry") {
         if ((await PostPantry(listOfFinalItems)) === undefined) {
@@ -144,7 +148,7 @@ const Add_Items = ({ route, navigation }) => {
             "An error occurred while creating your Pantry. Please try again later"
           );
         } else {
-          navigation.navigate("Pantry");
+          navigation.navigate("Pantry", { userData: userData });
         }
       } else {
         if ((await PostList(listOfFinalItems)) === undefined) {
@@ -153,7 +157,7 @@ const Add_Items = ({ route, navigation }) => {
             "An error occurred while creating your List. Please try again later"
           );
         } else {
-          navigation.navigate("List");
+          navigation.navigate("List", { userData: userData });
         }
       }
     }
@@ -234,7 +238,11 @@ const Add_Items = ({ route, navigation }) => {
               "plus_circle",
               "Create_Item",
               "passProps",
-              { categories: categories, OriginRoute: OriginRoute },
+              {
+                categories: categories,
+                OriginRoute: OriginRoute,
+                userData: userData,
+              },
             ],
 
             ["back_circle", "buttonFunction", handleBack],

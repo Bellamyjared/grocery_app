@@ -21,7 +21,7 @@ import ChangeNavStack from "../../components/ChangeNavStack";
 import Picker from "../../components/Picker";
 
 const Edit_Item = ({ route, navigation }) => {
-  const { categories, item, OriginRoute } = route.params; // grab props from route
+  const { categories, item, OriginRoute, userData } = route.params; // grab props from route
   console.log(item);
 
   const [itemText, setItemText] = useState(item.item);
@@ -75,6 +75,7 @@ const Edit_Item = ({ route, navigation }) => {
   //  ************* HANDLE SUBMITE ****************
   const handleSubmit = async () => {
     let newItem = {
+      userId: userData.id,
       item: itemText,
       categoryId: categoryId,
     };
@@ -97,7 +98,10 @@ const Edit_Item = ({ route, navigation }) => {
     } else {
       console.log(navigation.getState());
       ChangeNavStack(navigation, ["Add_Items", "Edit_Item"]);
-      navigation.push("Add_Items", { OriginRoute: OriginRoute });
+      navigation.push("Add_Items", {
+        OriginRoute: OriginRoute,
+        userData: userData,
+      });
     }
   };
 

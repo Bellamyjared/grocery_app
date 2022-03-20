@@ -18,7 +18,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { UpdateRecipe } from "../../dbRequests/Recipe";
 
 const Edit_Recipe = ({ route, navigation }) => {
-  const { item, recipe } = route.params;
+  const { item, recipe, userData } = route.params;
   const [title, setTitle] = useState(recipe.title);
   const [favorite, setFavorite] = useState(recipe.favorite);
   const [ingredients, setIngredients] = useState(recipe.ingredients);
@@ -52,6 +52,7 @@ const Edit_Recipe = ({ route, navigation }) => {
   //  ************* HANDLE SUBMITE ****************
   const handleSubmit = async () => {
     const newRecipe = {
+      userId: userData.id,
       title: title,
       favorite: favorite,
       ingredients: ingredients,
@@ -65,7 +66,7 @@ const Edit_Recipe = ({ route, navigation }) => {
         "An error occurred while creating your item. Please try again later"
       );
     } else {
-      navigation.navigate("Recipe");
+      navigation.navigate("Recipe", { userData: userData });
     }
   };
 
@@ -202,6 +203,7 @@ const Edit_Recipe = ({ route, navigation }) => {
                 navigation.navigate("Add_Items", {
                   OriginRoute: "recipe_Edit",
                   recipe: recipe,
+                  userData: userData,
                 })
               }
               title="Add"

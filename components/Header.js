@@ -65,18 +65,29 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
           {userData != undefined ? (
             <View style={{ paddingLeft: 20 }}>
               <Pressable
-                onPress={() =>
-                  SignOutToggle
-                    ? setSignOutToggle(false)
-                    : setSignOutToggle(true)
-                }
+                onPress={() => {
+                  if (!disabled) {
+                    SignOutToggle
+                      ? setSignOutToggle(false)
+                      : setSignOutToggle(true);
+                  }
+                }}
               >
                 <Image
-                  style={{
-                    width: 35,
-                    height: 35,
-                    borderRadius: 15,
-                  }}
+                  style={
+                    disabled
+                      ? {
+                          width: 35,
+                          height: 35,
+                          borderRadius: 15,
+                          opacity: 0.5,
+                        }
+                      : {
+                          width: 35,
+                          height: 35,
+                          borderRadius: 15,
+                        }
+                  }
                   source={
                     typeof userData.picture === "string"
                       ? { uri: userData.picture }

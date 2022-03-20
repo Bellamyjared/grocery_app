@@ -16,12 +16,13 @@ import { useIsFocused } from "@react-navigation/native";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Icon from "../../assets/icons/icon";
 
-const Recipe = ({ navigation }) => {
+const Recipe = ({ navigation, route }) => {
   const [recipes, setRecipes] = useState([]);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [toggleEdit, setToggleEdit] = useState(false);
   const [disableHeader, setDisableHeader] = useState(false);
   const isFocused = useIsFocused();
+  const { userData } = route.params;
 
   useEffect(() => {
     getRecipes();
@@ -40,7 +41,7 @@ const Recipe = ({ navigation }) => {
     }
   };
   const handleEdit = (recipe) => {
-    navigation.navigate("Edit_Recipe", { recipe: recipe });
+    navigation.navigate("Edit_Recipe", { recipe: recipe, userData: userData });
     setToggleEdit(false);
     setDisableHeader(false);
   };
@@ -95,7 +96,9 @@ const Recipe = ({ navigation }) => {
           <Icon
             name={"plus"}
             size={20}
-            onPress={() => navigation.navigate("Add_Recipe")}
+            onPress={() =>
+              navigation.navigate("Add_Recipe", { userData: userData })
+            }
           />
         ) : (
           <></>
@@ -120,7 +123,14 @@ const Recipe = ({ navigation }) => {
           ) : (
             <ButtonBar
               navigation={navigation}
-              buttonInfo={[["plus_circle", "Add_Recipe"]]}
+              buttonInfo={[
+                [
+                  "plus_circle",
+                  "Add_Recipe",
+                  "passProps",
+                  { userData: userData },
+                ],
+              ]}
             />
           )}
         </View>
@@ -136,7 +146,7 @@ const Recipe = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.NavBar}>
-          <NavBar navigation={navigation} page={"recipe"} />
+          <NavBar navigation={navigation} userData={userData} page={"recipe"} />
         </View>
       )}
     </>
