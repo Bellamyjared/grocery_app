@@ -29,7 +29,7 @@ const Recipe = ({ navigation, route }) => {
   }, [isFocused]);
 
   const getRecipes = async () => {
-    data = await GetRecipe();
+    data = await GetRecipe(userData.id);
     setRecipes(data);
   };
 
