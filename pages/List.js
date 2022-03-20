@@ -39,7 +39,7 @@ const List = ({ navigation, route }) => {
   };
 
   const handleGetCategories = async () => {
-    data = await GetCategory();
+    data = await GetCategory(userData.id);
     setCategories(data);
   };
   const handleGetList = async () => {

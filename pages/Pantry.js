@@ -40,7 +40,7 @@ const Pantry = ({ navigation, route }) => {
   };
 
   const handleGetCategories = async () => {
-    data = await GetCategory();
+    data = await GetCategory(userData.id);
     setCategories(data);
   };
   const handleGetPantry = async () => {

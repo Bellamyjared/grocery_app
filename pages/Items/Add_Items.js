@@ -98,7 +98,7 @@ const Add_Items = ({ route, navigation }) => {
   };
 
   const handleGetCategory = async () => {
-    data = await GetCategory();
+    data = await GetCategory(userData.id);
     setCategories(data);
   };
 

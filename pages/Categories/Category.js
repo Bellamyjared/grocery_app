@@ -29,7 +29,7 @@ const Category = ({ navigation, route }) => {
   }, []);
 
   const handleGetItems = async () => {
-    data = await GetCategory();
+    data = await GetCategory(userData.id);
     setCategories([...data]);
     setCategoryOrder(data.length);
   };
