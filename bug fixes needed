@@ -1,0 +1,33 @@
+~~~~~~~~~~~~~~~   future features to add  ~~~~~~~~~~~~~~~~~~~~
+*category page - need to add category order
+
+*need to edit pantry to add pantry features. just a stripped mimic of list right now
+
+* need to add error txt boxes, and alerts
+
+* if pantry has the an item, highlight it in recipe.
+
+* if all items in recipe are highlighted, highlight the title.
+
+*add a feature to turn recipe highlights off
+
+*add feature to disable pantry
+
+*add google-sign-in without expo go, 
+
+~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
+*category page - categories with a large text get cut off by the view, 
+
+*disable edit and trash when there are no item in all sections
+
+*add "add new item" screen when there is no item in all sections but category
+
+*In Add Item page, if there are no category, redirect user to create category before create item, or some other option.
+need to make user create a category before they can create and item.
+
+*Create Item Category selection needs to be changed from an input box to something else, looks dumb
+
+*If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad 
+
+*If Recipe tite is to long it overflows, need to give max width 
+
