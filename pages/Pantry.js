@@ -13,6 +13,7 @@ import {
 } from "../dbRequests/Pantry";
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
+import AddItemScreen from "../components/AddItemScreen";
 
 const Pantry = ({ navigation, route }) => {
   const [categories, setCategories] = useState([]);
@@ -176,50 +177,70 @@ const Pantry = ({ navigation, route }) => {
           navigation={navigation}
           userData={userData}
           title={["Pantry", 50]}
-          icons={[
-            ["edit", "Category", "passProps", { userData: userData }],
-            ["trash", "buttonFunction", headerTrash],
-          ]}
+          icons={
+            categories.length === 0 || pantry.length === 0
+              ? []
+              : [
+                  ["edit", "Category", "passProps", { userData: userData }],
+                  ["trash", "buttonFunction", headerTrash],
+                ]
+          }
           disabled={disableHeader}
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <ScrollView contentContainerStyle={styles.body}>
-        <View style={{ minHeight: "85%" }}>
-          {categories.map((c, index) => (
-            <CategoryDropDown
-              key={c._id}
-              categoryIndex={index}
-              category={c}
-              items={sortItemsIntoCategory(c._id)}
-              toggleDelete={toggleDelete}
-              handleDelete={handleDelete}
-              handleSelectedItems={handleSelectedItems}
-              resetDropDown={resetDropDown}
-            />
-          ))}
-        </View>
-        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        {toggleDelete ? (
-          <></>
-        ) : Object.keys(selectedItems).length > 0 ? (
-          <></>
-        ) : (
-          <View style={styles.addButton}>
-            <ButtonBar
-              navigation={navigation}
-              buttonInfo={[
-                [
-                  "plus_circle",
-                  "Add_Items",
-                  "passProps",
-                  { OriginRoute: "pantry", userData: userData },
-                ],
-              ]}
-            />
+      {categories.length === 0 ? (
+        <AddItemScreen
+          BodyText="Please add a Category"
+          ButtonNavigation={navigation}
+          ButtonNavigate="Category"
+          ButtonPassProps={{ userData: userData }}
+        />
+      ) : pantry.length === 0 ? (
+        <AddItemScreen
+          BodyText="Please add an item to your Pantry"
+          ButtonNavigation={navigation}
+          ButtonNavigate="Add_Items"
+          ButtonPassProps={{ OriginRoute: "pantry", userData: userData }}
+        />
+      ) : (
+        <ScrollView contentContainerStyle={styles.body}>
+          <View style={{ minHeight: "85%" }}>
+            {categories.map((c, index) => (
+              <CategoryDropDown
+                key={c._id}
+                categoryIndex={index}
+                category={c}
+                items={sortItemsIntoCategory(c._id)}
+                toggleDelete={toggleDelete}
+                handleDelete={handleDelete}
+                handleSelectedItems={handleSelectedItems}
+                resetDropDown={resetDropDown}
+              />
+            ))}
           </View>
-        )}
-      </ScrollView>
+          {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {toggleDelete ? (
+            <></>
+          ) : Object.keys(selectedItems).length > 0 ? (
+            <></>
+          ) : (
+            <View style={styles.addButton}>
+              <ButtonBar
+                navigation={navigation}
+                buttonInfo={[
+                  [
+                    "plus_circle",
+                    "Add_Items",
+                    "passProps",
+                    { OriginRoute: "pantry", userData: userData },
+                  ],
+                ]}
+              />
+            </View>
+          )}
+        </ScrollView>
+      )}
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       {toggleDelete ? (
         <View style={styles.buttonBar}>

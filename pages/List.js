@@ -12,7 +12,6 @@ import { GetList, UpdateListItem, DeleteListItem } from "../dbRequests/List";
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
 import { PostPantry } from "../dbRequests/Pantry";
-import Button from "../components/Button";
 
 const List = ({ navigation, route }) => {
   const { userData } = route.params;
@@ -268,10 +267,10 @@ const List = ({ navigation, route }) => {
         />
       ) : list.length === 0 ? (
         <AddItemScreen
-          BodyText="Add Item to List"
+          BodyText="Please add an item to your List"
           ButtonNavigation={navigation}
           ButtonNavigate="Add_Items"
-          ButtonPassProps={{ userData: userData }}
+          ButtonPassProps={{ OriginRoute: "list", userData: userData }}
         />
       ) : (
         <ScrollView contentContainerStyle={styles.Scrollbody}>
