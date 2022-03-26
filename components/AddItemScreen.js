@@ -3,7 +3,7 @@ import Button from "./Button";
 
 const AddItemScreen = ({
   BodyText,
-  buttonNavigation,
+  ButtonNavigation,
   ButtonNavigate,
   ButtonPassProps,
 }) => {
@@ -11,7 +11,7 @@ const AddItemScreen = ({
     <View style={styles.AddItemBody}>
       <Text style={styles.AddItemText}>{BodyText}</Text>
       <Button
-        navigation={buttonNavigation}
+        navigation={ButtonNavigation}
         navigate={ButtonNavigate}
         passProps={ButtonPassProps}
         text="Add"
