@@ -87,6 +87,7 @@ const Create_Item = ({ route, navigation }) => {
     } else {
       ChangeNavStack(navigation, ["Add_Items", "Create_Item"]);
       navigation.push("Add_Items", {
+        categories: categories,
         OriginRoute: OriginRoute,
         userData: userData,
       });

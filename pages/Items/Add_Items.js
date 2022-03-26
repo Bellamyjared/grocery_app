@@ -22,12 +22,13 @@ import ButtonBar from "../../components/ButtonBar";
 import Items_Container from "./Items_Container";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Picker from "../../components/Picker";
+import AddItemScreen from "../../components/AddItemScreen";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute, recipe, userData } = route.params; // grab oridinal page for DB post
 
   const [Items, setItems] = useState([]);
-  const [categories, setCategories] = useState();
+  const [categories, setCategories] = useState([]);
   const [ItemList, setItemList] = useState([]);
   const [headerStatus, setHeaderStatus] = useState();
   const [disableHeader, setDisableHeader] = useState();
@@ -271,55 +272,71 @@ const Add_Items = ({ route, navigation }) => {
         <Header
           disabled={disableHeader}
           title={["Add Items", 50]}
-          icons={[
-            ["edit", "buttonFunction", handleHeaderEdit],
-            ["trash", "buttonFunction", handleHeaderTrash],
-          ]}
+          icons={
+            categories.length === 0 || Items.length === 0
+              ? []
+              : [
+                  ["edit", "buttonFunction", handleHeaderEdit],
+                  ["trash", "buttonFunction", handleHeaderTrash],
+                ]
+          }
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <ScrollView contentContainerStyle={styles.body}>
-        {/* being redacted for now */}
-        {/* <View style={styles.searchBar}>
+      {Items.length === 0 ? (
+        <AddItemScreen
+          BodyText="Please create an Item"
+          ButtonNavigation={navigation}
+          ButtonNavigate="Create_Item"
+          ButtonPassProps={{
+            categories: categories,
+            OriginRoute: OriginRoute,
+            userData: userData,
+          }}
+        />
+      ) : (
+        <ScrollView contentContainerStyle={styles.body}>
+          {/* being redacted for now */}
+          {/* <View style={styles.searchBar}>
           <SearchBar />
         </View> */}
-        <View style={styles.categoryFilter}>
-          <TouchableWithoutFeedback onPress={() => setToggleDropDown(true)}>
-            <Text style={{ fontSize: 20 }}>{selectedCategory}</Text>
-          </TouchableWithoutFeedback>
-          <View style={styles.CategoryFilterButoon}>
-            {clearCategoryFilter()}
+          <View style={styles.categoryFilter}>
+            <TouchableWithoutFeedback onPress={() => setToggleDropDown(true)}>
+              <Text style={{ fontSize: 20 }}>{selectedCategory}</Text>
+            </TouchableWithoutFeedback>
+            <View style={styles.CategoryFilterButoon}>
+              {clearCategoryFilter()}
+            </View>
           </View>
-        </View>
-        <View
-          style={{
-            borderBottomWidth: 1,
-            borderBottomColor: "#E7E7E7",
-            width: "40%",
-            paddingTop: 5,
-            marginBottom: 10,
-          }}
-        ></View>
-        <View style={styles.ItemContainer}>
-          {clearSelected != true ? (
-            Items.map((item, index) => (
-              <Items_Container
-                key={item._id}
-                index={index}
-                item={item}
-                headerStatus={headerStatus}
-                handleSelectedItemList={handleSelectedItemList}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-                filterItems={filterItems}
-              />
-            ))
-          ) : (
-            <></>
-          )}
-        </View>
-      </ScrollView>
-
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderBottomColor: "#E7E7E7",
+              width: "40%",
+              paddingTop: 5,
+              marginBottom: 10,
+            }}
+          ></View>
+          <View style={styles.ItemContainer}>
+            {clearSelected != true ? (
+              Items.map((item, index) => (
+                <Items_Container
+                  key={item._id}
+                  index={index}
+                  item={item}
+                  headerStatus={headerStatus}
+                  handleSelectedItemList={handleSelectedItemList}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  filterItems={filterItems}
+                />
+              ))
+            ) : (
+              <></>
+            )}
+          </View>
+        </ScrollView>
+      )}
       {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       <View style={styles.buttonBar}>{ChangeButtonBar()}</View>
       <Picker
