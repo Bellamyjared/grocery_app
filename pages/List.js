@@ -259,7 +259,7 @@ const List = ({ navigation, route }) => {
         <Text style={styles.AddItemText}>Add Item to List</Text>
         <Button
           navigation={navigation}
-          navigate="Add_Item"
+          navigate="Add_Items"
           passProps={{ userData: userData }}
           text="Add"
           fontSize={25}
