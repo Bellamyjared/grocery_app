@@ -255,8 +255,16 @@ const List = ({ navigation, route }) => {
 
   const AddListItemScreen = () => {
     return (
-      <View>
-        <Text>Add Item to List</Text>
+      <View style={styles.AddItemBody}>
+        <Text style={styles.AddItemText}>Add Item to List</Text>
+        <Button
+          navigation={navigation}
+          navigate="Add_Item"
+          passProps={{ userData: userData }}
+          text="Add"
+          fontSize={25}
+          fontColor="black"
+        />
       </View>
     );
   };
@@ -387,6 +395,7 @@ const styles = StyleSheet.create({
   },
   AddItemText: {
     fontSize: 30,
+    paddingBottom: 20,
   },
 
   NavBar: {
