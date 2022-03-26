@@ -278,10 +278,14 @@ const List = ({ navigation, route }) => {
           userData={userData}
           deviceId={userData}
           title={["List", 50]}
-          icons={[
-            ["edit", "Category", "passProps", { userData: userData }],
-            ["trash", "buttonFunction", headerTrash],
-          ]}
+          icons={
+            categories.length === 0 || list.length === 0
+              ? []
+              : [
+                  ["edit", "Category", "passProps", { userData: userData }],
+                  ["trash", "buttonFunction", headerTrash],
+                ]
+          }
           disabled={disableHeader}
         />
       </View>
