@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingTop: 5,
     paddingTop: 10,
-    width: "100%",
+    maxWidth: "90%",
   },
   TitleAndFavorite: { flexDirection: "row", alignItems: "center" },
   TitleText: { fontSize: 25 },

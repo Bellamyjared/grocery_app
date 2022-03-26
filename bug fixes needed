@@ -28,13 +28,7 @@ testing a git push
 
 *add "add new item" screen when there is no item in all sections but category
 
-*In Add Item page, if there are no category, redirect user to create category before create item, or some other option.
-need to make user create a category before they can create and item.
-
 *Create Item Category selection needs to be changed from an input box to something else, looks dumb
 
 *If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad
-
-*If Recipe tite is to long it overflows, need to give max width
-
 ```
