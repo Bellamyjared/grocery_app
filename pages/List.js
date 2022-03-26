@@ -6,6 +6,7 @@ import { useIsFocused } from "@react-navigation/native";
 import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
+import AddItemScreen from "../components/AddItemScreen";
 import { GetCategory } from "../dbRequests/Category";
 import { GetList, UpdateListItem, DeleteListItem } from "../dbRequests/List";
 import CategoryDropDown from "../components/CategoryDropDown";
@@ -237,38 +238,6 @@ const List = ({ navigation, route }) => {
     DisableOnSelect();
   };
 
-  const AddCategoryScreen = () => {
-    return (
-      <View style={styles.AddItemBody}>
-        <Text style={styles.AddItemText}>Please add a Category</Text>
-        <Button
-          navigation={navigation}
-          navigate="Category"
-          passProps={{ userData: userData }}
-          text="Add"
-          fontSize={25}
-          fontColor="black"
-        />
-      </View>
-    );
-  };
-
-  const AddListItemScreen = () => {
-    return (
-      <View style={styles.AddItemBody}>
-        <Text style={styles.AddItemText}>Add Item to List</Text>
-        <Button
-          navigation={navigation}
-          navigate="Add_Items"
-          passProps={{ userData: userData }}
-          text="Add"
-          fontSize={25}
-          fontColor="black"
-        />
-      </View>
-    );
-  };
-
   return (
     <>
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -291,9 +260,19 @@ const List = ({ navigation, route }) => {
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       {categories.length === 0 ? (
-        AddCategoryScreen()
+        <AddItemScreen
+          BodyText="Please add a Category"
+          ButtonNavigation={navigation}
+          ButtonNavigate="Category"
+          ButtonPassProps={{ userData: userData }}
+        />
       ) : list.length === 0 ? (
-        AddListItemScreen()
+        <AddItemScreen
+          BodyText="Add Item to List"
+          ButtonNavigation={navigation}
+          ButtonNavigate="Add_Items"
+          ButtonPassProps={{ userData: userData }}
+        />
       ) : (
         <ScrollView contentContainerStyle={styles.Scrollbody}>
           <View style={{ minHeight: "85%" }}>
@@ -389,17 +368,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     borderColor: "#E7E7E7",
     borderStyle: "solid",
-  },
-
-  AddItemBody: {
-    flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  AddItemText: {
-    fontSize: 30,
-    paddingBottom: 20,
   },
 
   NavBar: {
