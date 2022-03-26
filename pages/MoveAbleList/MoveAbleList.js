@@ -61,6 +61,7 @@ export default function MoveAbleList({
         }}
         contentContainerStyle={{
           height: categories.length * item_Height + HEADER_HEIGHT,
+          minHeight: "80%",
         }}
       >
         {/* header is passed from prop, so that it can be in scrollView */}

@@ -1,4 +1,4 @@
-~~~~~~~~~~~~~~~   future features to add  ~~~~~~~~~~~~~~~~~~~~
+```future features to add  ~~~~~~~~~~~~~~~~~~~~
 *category page - need to add category order
 
 *need to edit pantry to add pantry features. just a stripped mimic of list right now
@@ -13,7 +13,7 @@
 
 *add feature to disable pantry
 
-*add google-sign-in without expo go, 
+*add google-sign-in without expo go,
 
 *add server is unreachable try and catches
 
@@ -22,7 +22,7 @@
 testing a git push
 
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
-*category page - categories with a large text get cut off by the view, 
+*If category is deleted, items with that category need to be deleted from all use cases.
 
 *disable edit and trash when there are no item in all sections
 
@@ -33,7 +33,8 @@ need to make user create a category before they can create and item.
 
 *Create Item Category selection needs to be changed from an input box to something else, looks dumb
 
-*If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad 
+*If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad
 
-*If Recipe tite is to long it overflows, need to give max width 
+*If Recipe tite is to long it overflows, need to give max width
 
+```
