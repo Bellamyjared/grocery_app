@@ -1,6 +1,6 @@
 // need to add user info to db requests, need to add sign out button, need to delete login and redirect from nav stack
 import { useState, useEffect } from "react";
-import { StyleSheet, View, ScrollView, Alert } from "react-native";
+import { StyleSheet, View, ScrollView, Alert, Text } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 
 import NavBar from "../components/NavBar";
@@ -11,6 +11,7 @@ import { GetList, UpdateListItem, DeleteListItem } from "../dbRequests/List";
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
 import { PostPantry } from "../dbRequests/Pantry";
+import Button from "../components/Button";
 
 const List = ({ navigation, route }) => {
   const { userData } = route.params;
@@ -236,6 +237,30 @@ const List = ({ navigation, route }) => {
     DisableOnSelect();
   };
 
+  const AddCategoryScreen = () => {
+    return (
+      <View style={styles.AddItemBody}>
+        <Text style={styles.AddItemText}>Please add a Category</Text>
+        <Button
+          navigation={navigation}
+          navigate="Category"
+          passProps={{ userData: userData }}
+          text="Add"
+          fontSize={25}
+          fontColor="black"
+        />
+      </View>
+    );
+  };
+
+  const AddListItemScreen = () => {
+    return (
+      <View>
+        <Text>Add Item to List</Text>
+      </View>
+    );
+  };
+
   return (
     <>
       {/* ~~~~~~~~~~~~~~~~   HEADER  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
@@ -253,43 +278,49 @@ const List = ({ navigation, route }) => {
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      <ScrollView contentContainerStyle={styles.body}>
-        <View style={{ minHeight: "85%" }}>
-          {categories.map((c, index) => (
-            <CategoryDropDown
-              key={c._id}
-              categoryIndex={index}
-              category={c}
-              items={sortItemsIntoCategory(c._id)}
-              toggleDelete={toggleDelete}
-              handleDelete={handleDelete}
-              handleSelectedItems={handleSelectedItems}
-              resetDropDown={resetDropDown}
-            />
-          ))}
-        </View>
-        {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-        {toggleDelete ? (
-          <></>
-        ) : Object.keys(selectedItems).length > 0 ? (
-          <></>
-        ) : (
-          <View style={styles.addButton}>
-            <ButtonBar
-              navigation={navigation}
-              userData={userData}
-              buttonInfo={[
-                [
-                  "plus_circle",
-                  "Add_Items",
-                  "passProps",
-                  { OriginRoute: "list", userData: userData },
-                ],
-              ]}
-            />
+      {categories.length === 0 ? (
+        AddCategoryScreen()
+      ) : list.length === 0 ? (
+        AddListItemScreen()
+      ) : (
+        <ScrollView contentContainerStyle={styles.Scrollbody}>
+          <View style={{ minHeight: "85%" }}>
+            {categories.map((c, index) => (
+              <CategoryDropDown
+                key={c._id}
+                categoryIndex={index}
+                category={c}
+                items={sortItemsIntoCategory(c._id)}
+                toggleDelete={toggleDelete}
+                handleDelete={handleDelete}
+                handleSelectedItems={handleSelectedItems}
+                resetDropDown={resetDropDown}
+              />
+            ))}
           </View>
-        )}
-      </ScrollView>
+          {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+          {toggleDelete ? (
+            <></>
+          ) : Object.keys(selectedItems).length > 0 ? (
+            <></>
+          ) : (
+            <View style={styles.addButton}>
+              <ButtonBar
+                navigation={navigation}
+                userData={userData}
+                buttonInfo={[
+                  [
+                    "plus_circle",
+                    "Add_Items",
+                    "passProps",
+                    { OriginRoute: "list", userData: userData },
+                  ],
+                ]}
+              />
+            </View>
+          )}
+        </ScrollView>
+      )}
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       {toggleDelete ? (
         <View style={styles.buttonBar}>
@@ -320,7 +351,7 @@ const List = ({ navigation, route }) => {
 export default List;
 
 const styles = StyleSheet.create({
-  body: {
+  Scrollbody: {
     flexGrow: 1,
     backgroundColor: "#fff",
   },
@@ -347,6 +378,17 @@ const styles = StyleSheet.create({
     borderColor: "#E7E7E7",
     borderStyle: "solid",
   },
+
+  AddItemBody: {
+    flex: 1,
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  AddItemText: {
+    fontSize: 30,
+  },
+
   NavBar: {
     height: 80,
   },
