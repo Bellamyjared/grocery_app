@@ -30,5 +30,7 @@ testing a git push
 
 *Create Item Category selection needs to be changed from an input box to something else, looks dumb
 
+*when items in list are selected and submitted, if the selected amount === the amount left over, title is selected.
+
 *If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad
 ```
