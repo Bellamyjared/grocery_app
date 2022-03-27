@@ -26,6 +26,7 @@ const Category = ({ navigation, route }) => {
 
   useEffect(() => {
     handleGetItems();
+    console.log(userData);
   }, []);
 
   const handleGetItems = async () => {
@@ -70,7 +71,7 @@ const Category = ({ navigation, route }) => {
           "plus_circle",
           "Create_Category",
           "passProps",
-          { categoryOrder: categoryOrder },
+          { userData: userData, categoryOrder: categoryOrder },
         ],
         ["back_circle", "buttonFunction", handleBack],
       ];

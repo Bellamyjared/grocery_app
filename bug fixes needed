@@ -19,7 +19,11 @@
 
 *Need animated transition
 
-testing a git push
+*MoveABleList needs to change the height to be based off how large the component is, or I need to remove it altogether.
+
+*Need to change moveAbleList to just a button based one or something else.
+
+
 
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 *If category is deleted, items with that category need to be deleted from all use cases.
@@ -30,7 +34,7 @@ testing a git push
 
 *Create Item Category selection needs to be changed from an input box to something else, looks dumb
 
-*when items in list are selected and submitted, if the selected amount === the amount left over, title is selected.
-
 *If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad
+
+*Need to convert userData, into a thingy, not pass through props
 ```

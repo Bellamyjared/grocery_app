@@ -159,7 +159,13 @@ const MoveableItem = ({
           {/* ~~~~~~ Item ~~~~~~~~~ */}
           <View style={disabled ? styles.BorderOnDisabled : styles.container}>
             <Text style={styles.itemText}>{item}</Text>
-            {disabled ? <View>{CategoryItemIcons(id, item)}</View> : <></>}
+            {disabled ? (
+              <View style={{ paddingLeft: 20 }}>
+                {CategoryItemIcons(id, item)}
+              </View>
+            ) : (
+              <></>
+            )}
           </View>
 
           {/* ~~~~~~~~~~~~~~~~~~~~~~~ */}

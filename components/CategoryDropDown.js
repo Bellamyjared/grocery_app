@@ -311,7 +311,6 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     paddingLeft: 15,
     marginTop: 15,
-    borderRadius: 5,
   },
   CategoryCheckMark: {
     alignItems: "center",
