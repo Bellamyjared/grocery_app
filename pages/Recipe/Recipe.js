@@ -14,6 +14,7 @@ import ButtonBar from "../../components/ButtonBar";
 import { GetRecipe, DeleteRecipe } from "../../dbRequests/Recipe";
 import { useIsFocused } from "@react-navigation/native";
 import { DeleteValidation } from "../../components/DeleteValidation";
+import AddItemScreen from "../../components/AddItemScreen";
 import Icon from "../../assets/icons/icon";
 
 const Recipe = ({ navigation, route }) => {
@@ -72,70 +73,85 @@ const Recipe = ({ navigation, route }) => {
           navigation={navigation}
           title={["Recipe", 50]}
           disabled={disableHeader}
-          icons={[
-            ["edit", "buttonFunction", ToggleHeaderEdit],
-            ["trash", "buttonFunction", ToggleHeaderDelete],
-          ]}
+          icons={
+            recipes.length != 0
+              ? [
+                  ["edit", "buttonFunction", ToggleHeaderEdit],
+                  ["trash", "buttonFunction", ToggleHeaderDelete],
+                ]
+              : []
+          }
         />
-
-        {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       </View>
-      <View
-        style={{
-          flexDirection: "row-reverse",
-          alignItems: "flex-end",
-          height: 32,
-          width: "100%",
-          backgroundColor: "#fff",
-          paddingLeft: 25,
-        }}
-      >
-        {disableHeader ? (
-          <></>
-        ) : recipes.length >= 5 ? (
-          <Icon
-            name={"plus"}
-            size={20}
-            onPress={() =>
-              navigation.navigate("Add_Recipe", { userData: userData })
-            }
-          />
-        ) : (
-          <></>
-        )}
-      </View>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={{ minHeight: "85%" }}>
-          {recipes.map((recipe, index) => (
-            <RecipeDropDown
-              key={index}
-              recipe={recipe}
-              toggleDelete={toggleDelete}
-              toggleEdit={toggleEdit}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            />
-          ))}
-        </View>
-        <View style={styles.buttonBar}>
-          {disableHeader ? (
-            <></>
-          ) : (
-            <ButtonBar
-              navigation={navigation}
-              buttonInfo={[
-                [
-                  "plus_circle",
-                  "Add_Recipe",
-                  "passProps",
-                  { userData: userData },
-                ],
-              ]}
-            />
-          )}
-        </View>
-      </ScrollView>
 
+      {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
+
+      {recipes.length === 0 ? (
+        <AddItemScreen
+          BodyText="Please add a Recipe"
+          ButtonNavigation={navigation}
+          ButtonNavigate="Add_Recipe"
+          ButtonPassProps={{ userData: userData }}
+        />
+      ) : (
+        <>
+          <View
+            style={{
+              flexDirection: "row-reverse",
+              alignItems: "flex-end",
+              height: 32,
+              width: "100%",
+              backgroundColor: "#fff",
+              paddingLeft: 25,
+            }}
+          >
+            {disableHeader ? (
+              <></>
+            ) : recipes.length >= 5 ? (
+              <Icon
+                name={"plus"}
+                size={20}
+                onPress={() =>
+                  navigation.navigate("Add_Recipe", { userData: userData })
+                }
+              />
+            ) : (
+              <></>
+            )}
+          </View>
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <View style={{ minHeight: "85%" }}>
+              {recipes.map((recipe, index) => (
+                <RecipeDropDown
+                  key={index}
+                  recipe={recipe}
+                  toggleDelete={toggleDelete}
+                  toggleEdit={toggleEdit}
+                  handleDelete={handleDelete}
+                  handleEdit={handleEdit}
+                />
+              ))}
+            </View>
+            <View style={styles.buttonBar}>
+              {disableHeader ? (
+                <></>
+              ) : (
+                <ButtonBar
+                  navigation={navigation}
+                  buttonInfo={[
+                    [
+                      "plus_circle",
+                      "Add_Recipe",
+                      "passProps",
+                      { userData: userData },
+                    ],
+                  ]}
+                />
+              )}
+            </View>
+          </ScrollView>
+        </>
+      )}
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       {disableHeader ? (
         <View style={styles.buttonBar}>
@@ -225,7 +241,6 @@ const RecipeDropDown = ({
         <View style={styles.TitleContainer}>
           {toggleDelete ? (
             <Icon
-              style={{ paddingLeft: 15, paddingRight: 20 }}
               name={"x_circle"}
               size={22}
               onPress={() =>
@@ -236,11 +251,7 @@ const RecipeDropDown = ({
             <></>
           )}
           <View style={styles.TitleAndFavorite}>
-            {recipe.favorite ? (
-              <Icon style={{ paddingRight: 10 }} name={"star"} size={20} />
-            ) : (
-              <></>
-            )}
+            {recipe.favorite ? <Icon name={"star"} size={20} /> : <></>}
 
             <Text style={styles.TitleText}>{recipe.title}</Text>
           </View>
@@ -252,7 +263,7 @@ const RecipeDropDown = ({
               onPress={() => handleEdit(recipe)}
             />
           ) : (
-            <Icon style={{ paddingLeft: 25 }} name={"drop_down"} size={15} />
+            <Icon name={"drop_down"} size={15} />
           )}
         </View>
       </Pressable>
@@ -293,15 +304,17 @@ const styles = StyleSheet.create({
   },
 
   RecipeContainer: {
-    width: "85%",
+    width: "90%",
     alignSelf: "center",
+    backgroundColor: "lightgrey",
+    justifyContent: "space-evenly",
   },
   TitleContainer: {
     flexDirection: "row",
     alignItems: "center",
     paddingTop: 5,
     paddingTop: 10,
-    maxWidth: "90%",
+    maxWidth: "70%",
   },
   TitleAndFavorite: { flexDirection: "row", alignItems: "center" },
   TitleText: { fontSize: 25 },

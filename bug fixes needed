@@ -28,15 +28,11 @@
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 *If category is deleted, items with that category need to be deleted from all use cases.
 
-*disable edit and trash when there are no item in all sections
-
-*add "add new item" screen when there is no item in all sections but category
-
 *Create Item Category selection needs to be changed from an input box to something else, looks dumb
 
-*If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad
-
 *Need to convert userData, into a thingy, not pass through props
+
+*Sign Out button, doesnt go away if you click anywhere other than the screen
 
 *If all items are deleted, need to disable delete functition
 ```
