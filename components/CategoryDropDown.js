@@ -280,7 +280,7 @@ const Item = ({
           }
         >
           {toggleDelete ? (
-            <View style={styles.ItemCheckBox}></View>
+            <Icon style={styles.ItemCheckBox} name={"x_circle"} size={20} />
           ) : (
             <Icon
               style={styles.ItemCheckBox}
@@ -292,11 +292,6 @@ const Item = ({
           <Text style={styles.ItemText}>{itemText}</Text>
           <Icon style={styles.ItemX} name={"x"} size={10} />
           <Text style={styles.ItemText}>{itemQuantity}</Text>
-          {toggleDelete ? (
-            <Icon style={styles.ItemCheckBox} name={"x_circle"} size={20} />
-          ) : (
-            <></>
-          )}
         </View>
       </View>
     </Pressable>

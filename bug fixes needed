@@ -37,4 +37,6 @@
 *If category name is to large, the checkbox still gets kicked out of the highlighted area. looks bad
 
 *Need to convert userData, into a thingy, not pass through props
+
+*If all items are deleted, need to disable delete functition
 ```
