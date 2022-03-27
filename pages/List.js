@@ -112,7 +112,7 @@ const List = ({ navigation, route }) => {
       // reset display
       setDisableHeader(false);
       setSelectedItems({});
-      resetDropDown ? setResetDropDown(false) : setResetDropDown(false);
+      resetDropDown ? setResetDropDown(false) : setResetDropDown(true);
       handleGetList();
     }
   };
