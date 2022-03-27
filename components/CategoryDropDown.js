@@ -39,13 +39,6 @@ const CategoryDropDown = ({
         >
           <Text style={styles.CategoryText}>{category.category}</Text>
           <Icon style={{ paddingLeft: 15 }} name={"drop_down"} size={15} />
-          {itemSelectedCount === items.length ? (
-            <View style={styles.CategoryCheckMark}>
-              <Icon name={"check_box_selected"} size={25} />
-            </View>
-          ) : (
-            <></>
-          )}
         </View>
       </Pressable>
       <View>
