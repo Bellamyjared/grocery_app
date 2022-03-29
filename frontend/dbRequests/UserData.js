@@ -30,8 +30,8 @@ export async function UpdateUser(userInfo) {
 }
 
 export async function GetGoogleAuth() {
-  const result = await axios(`${ip}/GoogleId`);
-  return result.data;
+  const result = await axios(`${ip}/GoogleCredential`);
+  return result.data[0];
 }
 
 export async function GetUserData(accessToken) {

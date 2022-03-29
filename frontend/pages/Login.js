@@ -31,6 +31,7 @@ const Login = ({ navigation, route }) => {
 
   const getGoogleId = async () => {
     data = await GetGoogleAuth();
+    console.log(data);
     setGoogleId(data);
   };
 
