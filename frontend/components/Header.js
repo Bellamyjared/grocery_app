@@ -5,6 +5,7 @@ import IconOnPress from "./IconOnPress";
 import { CommonActions } from "@react-navigation/native";
 
 const Header = ({ navigation, title, icons, disabled, userData }) => {
+  const [SignOutToggle, setSignOutToggle] = useState(false);
   const [widthSize, setWidthSize] = useState();
   const handleWidthSize = () => {
     if (icons != null) {
@@ -19,22 +20,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
   }, []);
 
   const HandleIcon = () => {
-    const [SignOutToggle, setSignOutToggle] = useState(false);
     const profilePlaceHolder = require("../assets/Profile_Placeholder.png");
-
-    const signOut = () => {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [
-            {
-              name: "RedirectLoggedInUsers",
-              params: { signOut: true },
-            },
-          ],
-        })
-      );
-    };
 
     if (icons != null) {
       // if the icon is disabled change the color or icon
@@ -99,30 +85,23 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
           ) : (
             <></>
           )}
-          {SignOutToggle ? (
-            <Pressable
-              onPress={() => signOut()}
-              style={{
-                position: "absolute",
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: -2,
-                width: 100,
-                height: 40,
-                backgroundColor: "white",
-                borderColor: "black",
-                borderRadius: 15,
-                borderWidth: 2,
-              }}
-            >
-              <Text>Sign Out</Text>
-            </Pressable>
-          ) : (
-            <></>
-          )}
         </View>
       );
     }
+  };
+
+  const signOut = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          {
+            name: "RedirectLoggedInUsers",
+            params: { signOut: true },
+          },
+        ],
+      })
+    );
   };
 
   return (
@@ -160,6 +139,38 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
           >
             {HandleIcon(icons, navigation, disabled, userData)}
           </View>
+          {SignOutToggle ? (
+            <Pressable
+              onPress={() => setSignOutToggle(false)}
+              style={{
+                position: "absolute",
+                flexDirection: "row-reverse",
+                alignItems: "center",
+                width: "100%",
+                height: "100%",
+                paddingLeft: 45,
+              }}
+            >
+              <Pressable onPress={() => signOut()} style={{}}>
+                <View
+                  style={{
+                    justifyContent: "center",
+                    alignItems: "center",
+                    backgroundColor: "#fff",
+                    borderColor: "black",
+                    width: 100,
+                    height: 40,
+                    borderRadius: 15,
+                    borderWidth: 2,
+                  }}
+                >
+                  <Text>Sign Out</Text>
+                </View>
+              </Pressable>
+            </Pressable>
+          ) : (
+            <></>
+          )}
         </View>
       </View>
     </>
