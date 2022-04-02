@@ -43,10 +43,15 @@ const Pantry = ({ navigation, route }) => {
   const handleGetCategories = async () => {
     data = await GetCategory(userData.id);
     setCategories(data);
+    console.log(data);
   };
   const handleGetPantry = async () => {
     data = await GetPantry(userData.id);
     setPantry(data);
+    if (data.length === 0) {
+      setToggleDelete(false);
+      setDisableHeader(false);
+    }
   };
 
   const handleCancle = () => {

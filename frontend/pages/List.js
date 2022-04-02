@@ -46,6 +46,10 @@ const List = ({ navigation, route }) => {
   const handleGetList = async () => {
     data = await GetList(userData.id);
     setList(data);
+    if (data.length === 0) {
+      setToggleDelete(false);
+      setDisableHeader(false);
+    }
   };
 
   const handleSubmit = async () => {
@@ -312,7 +316,7 @@ const List = ({ navigation, route }) => {
         </ScrollView>
       )}
       {/* ~~~~~~~~~~~~~~~~   NAVBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      {toggleDelete ? (
+      {toggleDelete != 0 ? (
         <View style={styles.buttonBar}>
           <ButtonBar
             navigation={navigation}

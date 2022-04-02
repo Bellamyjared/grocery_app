@@ -32,6 +32,10 @@ const Recipe = ({ navigation, route }) => {
   const getRecipes = async () => {
     data = await GetRecipe(userData.id);
     setRecipes(data);
+    if (data.length === 0) {
+      setToggleDelete(false);
+      setDisableHeader(false);
+    }
   };
 
   const handleDelete = async (id) => {

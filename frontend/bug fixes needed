@@ -21,10 +21,14 @@
 
 *MoveABleList needs to change the height to be based off how large the component is, or I need to remove it altogether.
 
-Test
-53s
+
 *Need to change moveAbleList to just a button based one or something else.
 
+*add error pop up
+
+*need to add loading screen to pages, while they grab data
+
+*need to add loading screen to landing screen, as it will just show a white screen if it cant connect
 
 
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
@@ -36,5 +40,5 @@ Test
 
 *Sign Out button, doesnt go away if you click anywhere other than the screen
 
-*If all items are deleted, need to disable delete functition
+*when there is a server error, alerts dont always pop up.
 ```
