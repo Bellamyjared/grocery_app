@@ -3,7 +3,7 @@ import { GetIp } from "./GetIp";
 const ip = GetIp();
 
 export async function CheckIfUserExists(deviceId) {
-  const result = await axios.post(`${ip}/LoggedDeviceAndToken/`, {
+  const result = await axios.post(`${ip}/loggeddeviceandtoken/`, {
     deviceId: deviceId,
   });
   if (result.data.length > 0) {
@@ -14,7 +14,7 @@ export async function CheckIfUserExists(deviceId) {
 }
 export async function AddUser(userInfo) {
   const result = await axios
-    .post(`${ip}/LoggedDeviceAndToken/add`, userInfo)
+    .post(`${ip}/loggeddeviceandtoken/add`, userInfo)
     .catch((error) => {
       console.log(error);
     });
@@ -22,7 +22,7 @@ export async function AddUser(userInfo) {
 }
 export async function UpdateUser(userInfo) {
   const result = await axios
-    .post(`${ip}/LoggedDeviceAndToken/update`, userInfo)
+    .post(`${ip}/loggeddeviceandtoken/update`, userInfo)
     .catch((error) => {
       console.log(error);
     });
@@ -30,7 +30,7 @@ export async function UpdateUser(userInfo) {
 }
 
 export async function GetGoogleAuth() {
-  const result = await axios(`${ip}/GoogleCredential`);
+  const result = await axios(`${ip}/googlecredential`);
   return result.data[0];
 }
 
