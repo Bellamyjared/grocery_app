@@ -239,28 +239,28 @@ const RecipeDropDown = ({
         }}
       >
         <View style={styles.TitleContainer}>
-          {toggleDelete ? (
-            <Icon
-              name={"x_circle"}
-              size={22}
-              onPress={() =>
-                DeleteValidation(recipe.title, recipe._id, handleDelete)
-              }
-            />
-          ) : (
-            <></>
-          )}
           <View style={styles.TitleAndFavorite}>
-            {recipe.favorite ? <Icon name={"star"} size={20} /> : <></>}
+            {recipe.favorite ? (
+              <Icon style={{ paddingRight: 10 }} name={"star"} size={20} />
+            ) : (
+              <></>
+            )}
 
             <Text style={styles.TitleText}>{recipe.title}</Text>
           </View>
           {toggleEdit ? (
             <Icon
-              style={{ paddingLeft: 20 }}
               name={"edit_arrow"}
-              size={18}
+              size={25}
               onPress={() => handleEdit(recipe)}
+            />
+          ) : toggleDelete ? (
+            <Icon
+              name={"x_circle"}
+              size={30}
+              onPress={() =>
+                DeleteValidation(recipe.title, recipe._id, handleDelete)
+              }
             />
           ) : (
             <Icon name={"drop_down"} size={15} />
@@ -300,23 +300,27 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   NavBar: {
-    height: "10%",
+    height: 80,
   },
 
   RecipeContainer: {
     width: "90%",
     alignSelf: "center",
-    backgroundColor: "lightgrey",
-    justifyContent: "space-evenly",
   },
+
   TitleContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 5,
+    justifyContent: "space-between",
+    width: "100%",
     paddingTop: 10,
-    maxWidth: "70%",
+    paddingBottom: 10,
   },
-  TitleAndFavorite: { flexDirection: "row", alignItems: "center" },
+  TitleAndFavorite: {
+    flexDirection: "row",
+    alignItems: "center",
+    maxWidth: "80%",
+  },
   TitleText: { fontSize: 25 },
   DropDownContainer: {
     width: "100%",
