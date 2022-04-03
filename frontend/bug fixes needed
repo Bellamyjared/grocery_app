@@ -33,27 +33,32 @@
 
 *if signout button is out, if you click anywhere (not only on the header) the signout button should be disabled, unless you click the signout button
 
+*make a different icon for categories
+
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 *If category is deleted, items with that category need to be deleted from all use cases.
 
-*Create Item Category selection needs to be changed from an input box to something else, looks dumb - CREATE ITEM
+*Should add loading screen for when the pages are getting info from database, if not they appear with Please add whatever
 
-*Need to convert userData, into a thingy, not pass through props
-
-*when there is a server error, alerts dont always pop up.
-
-*When add another sub Item, the previous subItem Disapears - CREATE ITEM
-
-
-*If you click add ingredient in Create Recipe, the item screen comes up with "add item", even though there are no categories. need to make Add Item come up with "Create Category First please"
+*After Creating item from Pages, List or Item, it should redirect you back to either one of those pages, or category if from category
 
 *Need to allow edit button if there is categories on list and pantry page
 
 * grey dots in top left of add items with multi items, (found while creating a multi item from a single item after single item has been edited)
 
+*if all items are deleted in add items, delete function is still active
+
+*Need to convert userData, into a thingy, not pass through props
+
+*when there is a server error, alerts dont always pop up.
+
+*When you add another sub Item, all subItem Text Disapears - CREATE ITEM
+
 *screen has a grey tint after adding text to subItem in Create Item and Edit Item
 
-*if all items are deleted in add items, delete function is still active
+
+
+
 
 
 ```

@@ -23,6 +23,7 @@ import Items_Container from "./Items_Container";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Picker from "../../components/Picker";
 import AddItemScreen from "../../components/AddItemScreen";
+import AddCategoryScreen from "../../components/AddCategoryScreen";
 
 const Add_Items = ({ route, navigation }) => {
   const { OriginRoute, recipe, userData } = route.params; // grab oridinal page for DB post
@@ -283,7 +284,12 @@ const Add_Items = ({ route, navigation }) => {
         />
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
-      {Items.length === 0 ? (
+      {categories.length === 0 ? (
+        <AddCategoryScreen
+          navigation={navigation}
+          passProps={{ userData: userData, OriginRoute: OriginRoute }}
+        />
+      ) : Items.length === 0 ? (
         <AddItemScreen
           BodyText="Please create an Item"
           ButtonNavigation={navigation}
