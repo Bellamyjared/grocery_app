@@ -7,9 +7,9 @@ import {
   View,
   TextInput,
   Alert,
-  TouchableWithoutFeedback,
+  Pressable,
 } from "react-native";
-import { Button } from "react-native-elements";
+import Button from "../../components/Button";
 
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
@@ -17,13 +17,14 @@ import { PostItem } from "../../dbRequests/Item";
 import SubItemForm from "../../components/SubItemForm";
 import ChangeNavStack from "../../components/ChangeNavStack";
 import Picker from "../../components/Picker";
+import Icon from "../../assets/icons/icon";
 
 const Create_Item = ({ route, navigation }) => {
   const { categories, OriginRoute, userData } = route.params; // grab props from route
 
   const [item, setItem] = useState();
   const [categoryId, setCategoryId] = useState();
-  const [categoryText, setCategoryText] = useState();
+  const [categoryText, setCategoryText] = useState("");
   const [toggleDropDown, setToggleDropDown] = useState(false);
   const [subItems, setSubItems] = useState([]);
   const [subItemCount, setSubItemCount] = useState([]);
@@ -115,9 +116,16 @@ const Create_Item = ({ route, navigation }) => {
           </View>
           <View style={{ paddingTop: 15, width: 300 }}>
             <Text style={styles.form_Lable}>Category</Text>
-            <TouchableWithoutFeedback onPress={() => setToggleDropDown(true)}>
-              <Text style={styles.form_Input}>{categoryText}</Text>
-            </TouchableWithoutFeedback>
+            <Pressable onPress={() => setToggleDropDown(true)}>
+              <View style={styles.CategoryTextContainer}>
+                {categoryText.length === 0 ? (
+                  <Text style={styles.CategoryText}>Please Holder Text</Text>
+                ) : (
+                  <Text style={styles.CategoryText}>{categoryText}</Text>
+                )}
+                <Icon name={"drop_down"} size={12} />
+              </View>
+            </Pressable>
           </View>
           <View style={{ paddingTop: 15, paddingBottom: 30, width: 300 }}>
             <Text style={styles.form_Lable}>Sub Item</Text>
@@ -133,19 +141,12 @@ const Create_Item = ({ route, navigation }) => {
             ))}
 
             <Button
-              style={{ borderRadius: 20 }}
-              onPress={() => handleAddButton()}
-              title="Add"
-              buttonStyle={{
-                backgroundColor: "#97FFDA",
-                borderRadius: 15,
-                width: 115,
-                height: 50,
-              }}
-              titleStyle={{
-                color: "black",
-                fontSize: 25,
-              }}
+              buttonFuction={handleAddButton}
+              text="Add"
+              width={80}
+              height={40}
+              fontSize={20}
+              fontColor="black"
             />
           </View>
         </View>
@@ -192,10 +193,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  form_Lable: { margin: 10, fontSize: 20 },
+  form_Lable: { margin: 10, fontSize: 24 },
 
   form_Input: {
-    fontSize: 24,
+    fontSize: 20,
     height: 45,
     width: 300,
     borderWidth: 1,
@@ -204,6 +205,21 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingRight: 10,
     borderRadius: 15,
+  },
+
+  CategoryTextContainer: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgrey",
+  },
+  CategoryText: {
+    maxWidth: "85%",
+    paddingLeft: 20,
+    fontSize: 18,
   },
 
   buttonBar: {

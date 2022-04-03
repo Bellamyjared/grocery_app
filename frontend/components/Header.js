@@ -34,7 +34,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
           {icons.map((icon) => (
             <View
               key={Math.floor(Math.random() * 100) + icon[0]}
-              style={{ paddingLeft: 20 }}
+              style={{ paddingLeft: 30 }}
             >
               <Icon
                 name={icon[0]}
@@ -49,7 +49,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
             </View>
           ))}
           {userData != undefined ? (
-            <View style={{ paddingLeft: 20 }}>
+            <View style={{ paddingLeft: 30 }}>
               <Pressable
                 onPress={() => {
                   if (!disabled) {

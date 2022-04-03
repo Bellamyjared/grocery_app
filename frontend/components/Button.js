@@ -2,6 +2,8 @@ import { View, Text, Pressable } from "react-native";
 
 const Button = ({
   text,
+  width,
+  height,
   fontSize,
   fontColor,
   borderColor,
@@ -9,20 +11,31 @@ const Button = ({
   navigation,
   navigate,
   passProps,
+  buttonFuction,
 }) => {
   const FontSize = fontSize ? fontSize : 20;
   const FontColor = fontColor ? fontColor : "black";
   const BorderColor = borderColor ? borderColor : "black";
   const BackgroundColor = backgroundColor ? backgroundColor : "#fff";
+  const Width = width ? width : 100;
+  const Height = height ? height : 50;
+
+  const buttonPress = () => {
+    if (typeof buttonFuction != "undefined") {
+      buttonFuction();
+    } else {
+      navigation.navigate(navigate, passProps);
+    }
+  };
 
   return (
-    <Pressable onPress={() => navigation.navigate(navigate, passProps)}>
+    <Pressable onPress={() => buttonPress()}>
       <View
         style={{
           justifyContent: "center",
           alignItems: "center",
-          width: 100,
-          height: 50,
+          width: Width,
+          height: Height,
           borderRadius: 15,
           borderWidth: 2,
           borderColor: BorderColor,

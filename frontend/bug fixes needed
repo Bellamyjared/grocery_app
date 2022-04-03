@@ -1,4 +1,6 @@
-```future features to add  ~~~~~~~~~~~~~~~~~~~~
+```
+~~~~~~~~~~~~~~~~~~~~ future features to add  ~~~~~~~~~~~~~~~~~~~~
+
 *category page - need to add category order
 
 *need to edit pantry to add pantry features. just a stripped mimic of list right now
@@ -21,7 +23,6 @@
 
 *MoveABleList needs to change the height to be based off how large the component is, or I need to remove it altogether.
 
-
 *Need to change moveAbleList to just a button based one or something else.
 
 *add error pop up
@@ -30,15 +31,18 @@
 
 *need to add loading screen to landing screen, as it will just show a white screen if it cant connect
 
+*if signout button is out, if you click anywhere (not only on the header) the signout button should be disabled, unless you click the signout button
 
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 *If category is deleted, items with that category need to be deleted from all use cases.
 
-*Create Item Category selection needs to be changed from an input box to something else, looks dumb
+*Create Item Category selection needs to be changed from an input box to something else, looks dumb - CREATE ITEM
 
 *Need to convert userData, into a thingy, not pass through props
 
-*Sign Out button, doesnt go away if you click anywhere other than the screen
-
 *when there is a server error, alerts dont always pop up.
+
+*When add another sub Item, the previous subItem Disapears - CREATE ITEM
+
+
 ```
