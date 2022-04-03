@@ -11,7 +11,7 @@ import {
   Alert,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Button } from "react-native-elements";
+import Button from "../../components/Button";
 
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
@@ -145,19 +145,12 @@ const Edit_Item = ({ route, navigation }) => {
             ))}
 
             <Button
-              style={{ borderRadius: 20 }}
-              onPress={() => handleAddButton()}
-              title="Add"
-              buttonStyle={{
-                backgroundColor: "#97FFDA",
-                borderRadius: 15,
-                width: 115,
-                height: 50,
-              }}
-              titleStyle={{
-                color: "black",
-                fontSize: 25,
-              }}
+              buttonFuction={handleAddButton}
+              text="Add"
+              width={80}
+              height={40}
+              fontSize={20}
+              fontColor="black"
             />
           </View>
         </View>

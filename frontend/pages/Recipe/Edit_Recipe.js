@@ -9,7 +9,7 @@ import {
   Alert,
   Pressable,
 } from "react-native";
-import { Button } from "react-native-elements";
+import Button from "../../components/Button";
 
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
@@ -199,25 +199,14 @@ const Edit_Recipe = ({ route, navigation }) => {
             )}
 
             <Button
-              onPress={() =>
-                navigation.navigate("Add_Items", {
-                  OriginRoute: "recipe_Edit",
-                  recipe: recipe,
-                  userData: userData,
-                })
-              }
-              title="Add"
-              buttonStyle={{
-                backgroundColor: "#97FFDA",
-                borderRadius: 15,
-                width: 100,
-                height: 45,
-                marginTop: 15,
-              }}
-              titleStyle={{
-                color: "black",
-                fontSize: 20,
-              }}
+              navigation={navigation}
+              navigate={"Add_Items"}
+              passProps={{ OriginRoute: "recipe_Add", userData: userData }}
+              text="Add"
+              width={80}
+              height={40}
+              fontSize={20}
+              fontColor="black"
             />
           </View>
           <View style={{ paddingTop: 15 }}>

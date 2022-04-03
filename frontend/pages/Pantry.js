@@ -14,6 +14,7 @@ import {
 import CategoryDropDown from "../components/CategoryDropDown";
 import { DeleteValidation } from "../components/DeleteValidation";
 import AddItemScreen from "../components/AddItemScreen";
+import AddCategoryScreen from "../components/AddCategoryScreen";
 
 const Pantry = ({ navigation, route }) => {
   const [categories, setCategories] = useState([]);
@@ -195,11 +196,9 @@ const Pantry = ({ navigation, route }) => {
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       {categories.length === 0 ? (
-        <AddItemScreen
-          BodyText="Please add a Category"
-          ButtonNavigation={navigation}
-          ButtonNavigate="Category"
-          ButtonPassProps={{ userData: userData }}
+        <AddCategoryScreen
+          navigation={navigation}
+          passProps={{ userData: userData }}
         />
       ) : pantry.length === 0 ? (
         <AddItemScreen

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Alert, Text } from "react-native";
 import Icon from "../../assets/icons/icon";
 import AppLoading from "expo-app-loading";
-import { Button } from "react-native-elements";
+import AddItemScreen from "../../components/AddItemScreen";
 
 import { GetCategory } from "../../dbRequests/Category";
 import { DeleteCategory } from "../../dbRequests/Category";
@@ -26,7 +26,6 @@ const Category = ({ navigation, route }) => {
 
   useEffect(() => {
     handleGetItems();
-    console.log(userData);
   }, []);
 
   const handleGetItems = async () => {
@@ -127,31 +126,11 @@ const Category = ({ navigation, route }) => {
       <>
         <View style={styles.AddCategoryContainer}>
           <Header title={["Category", 50]} />
-          <View style={styles.AddCategoryBody}>
-            <Text style={{ fontSize: 25, paddingBottom: 40 }}>
-              Please Add A Category
-            </Text>
-            <Button
-              style={{ borderRadius: 20 }}
-              onPress={() =>
-                navigation.navigate("Create_Category", {
-                  categoryOrder: 0,
-                  userData: userData,
-                })
-              }
-              title="Add"
-              buttonStyle={{
-                backgroundColor: "#97FFDA",
-                borderRadius: 15,
-                width: 115,
-                height: 50,
-              }}
-              titleStyle={{
-                color: "black",
-                fontSize: 25,
-              }}
-            />
-          </View>
+
+          <AddCategoryScreen
+            navigation={navigation}
+            passProps={{ userData: userData }}
+          />
         </View>
         {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.buttonBar}>

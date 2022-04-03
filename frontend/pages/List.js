@@ -7,6 +7,7 @@ import NavBar from "../components/NavBar";
 import Header from "../components/Header";
 import ButtonBar from "../components/ButtonBar";
 import AddItemScreen from "../components/AddItemScreen";
+import AddCategoryScreen from "../components/AddCategoryScreen";
 import { GetCategory } from "../dbRequests/Category";
 import { GetList, UpdateListItem, DeleteListItem } from "../dbRequests/List";
 import CategoryDropDown from "../components/CategoryDropDown";
@@ -263,11 +264,9 @@ const List = ({ navigation, route }) => {
       </View>
       {/* ~~~~~~~~~~~~~~~~   BODY  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
       {categories.length === 0 ? (
-        <AddItemScreen
-          BodyText="Please add a Category"
-          ButtonNavigation={navigation}
-          ButtonNavigate="Category"
-          ButtonPassProps={{ userData: userData }}
+        <AddCategoryScreen
+          navigation={navigation}
+          passProps={{ userData: userData }}
         />
       ) : list.length === 0 ? (
         <AddItemScreen
