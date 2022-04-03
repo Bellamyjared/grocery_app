@@ -201,7 +201,11 @@ const Edit_Recipe = ({ route, navigation }) => {
             <Button
               navigation={navigation}
               navigate={"Add_Items"}
-              passProps={{ OriginRoute: "recipe_Add", userData: userData }}
+              passProps={{
+                OriginRoute: "recipe_Edit",
+                userData: userData,
+                recipe: recipe,
+              }}
               text="Add"
               width={80}
               height={40}
