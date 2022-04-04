@@ -249,7 +249,6 @@ const List = ({ navigation, route }) => {
         <Header
           navigation={navigation}
           userData={userData}
-          deviceId={userData}
           title={["List", 50]}
           icons={
             categories.length === 0 || list.length === 0

@@ -59,6 +59,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
                   }
                 }}
               >
+                {/* user profile picture */}
                 <Image
                   style={
                     disabled

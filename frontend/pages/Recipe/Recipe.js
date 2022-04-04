@@ -75,6 +75,7 @@ const Recipe = ({ navigation, route }) => {
       <View style={styles.header}>
         <Header
           navigation={navigation}
+          userData={userData}
           title={["Recipe", 50]}
           disabled={disableHeader}
           icons={
@@ -255,7 +256,7 @@ const RecipeDropDown = ({
           {toggleEdit ? (
             <Icon
               name={"edit_arrow"}
-              size={25}
+              size={30}
               onPress={() => handleEdit(recipe)}
             />
           ) : toggleDelete ? (
