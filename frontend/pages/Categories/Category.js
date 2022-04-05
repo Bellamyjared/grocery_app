@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { StyleSheet, View, Alert, Text } from "react-native";
 import Icon from "../../assets/icons/icon";
 import AppLoading from "expo-app-loading";
-import AddItemScreen from "../../components/AddItemScreen";
+import AddCategoryScreen from "../../components/AddCategoryScreen";
 
 import { GetCategory } from "../../dbRequests/Category";
 import { DeleteCategory } from "../../dbRequests/Category";
@@ -35,7 +35,7 @@ const Category = ({ navigation, route }) => {
   };
 
   const handleDelete = async (id) => {
-    let deleteStatus = await DeleteCategory(id);
+    let deleteStatus = await DeleteCategory(id, userData.id);
     if ((await deleteStatus) != undefined) {
       handleGetItems();
       return true;
@@ -134,10 +134,7 @@ const Category = ({ navigation, route }) => {
         </View>
         {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
         <View style={styles.buttonBar}>
-          <ButtonBar
-            navigation={navigation}
-            buttonInfo={[["back_circle", "buttonFunction", handleBack]]}
-          />
+          <ButtonBar navigation={navigation} buttonInfo={handleButtomBar()} />
         </View>
       </>
     );

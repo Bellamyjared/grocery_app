@@ -184,8 +184,10 @@ const Pantry = ({ navigation, route }) => {
           userData={userData}
           title={["Pantry", 50]}
           icons={
-            categories.length === 0 || pantry.length === 0
+            categories.length === 0
               ? []
+              : pantry.length === 0
+              ? [["edit", "Category", "passProps", { userData: userData }]]
               : [
                   ["edit", "Category", "passProps", { userData: userData }],
                   ["trash", "buttonFunction", headerTrash],

@@ -30,9 +30,12 @@ export async function UpdateCategory(id, category) {
   return result.data;
 }
 
-export async function DeleteCategory(id) {
-  const result = await axios.delete(`${ip}/category/${id}`).catch((error) => {
-    console.log(error);
-  });
+export async function DeleteCategory(id, userId) {
+  console.log(userId);
+  const result = await axios
+    .post(`${ip}/category/delete/`, { id: id, userId: userId })
+    .catch((error) => {
+      console.log(error);
+    });
   return result.data;
 }

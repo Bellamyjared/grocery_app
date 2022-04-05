@@ -251,8 +251,10 @@ const List = ({ navigation, route }) => {
           userData={userData}
           title={["List", 50]}
           icons={
-            categories.length === 0 || list.length === 0
+            categories.length === 0
               ? []
+              : list.length === 0
+              ? [["edit", "Category", "passProps", { userData: userData }]]
               : [
                   ["edit", "Category", "passProps", { userData: userData }],
                   ["trash", "buttonFunction", headerTrash],

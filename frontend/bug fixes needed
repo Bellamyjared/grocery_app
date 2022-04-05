@@ -36,7 +36,6 @@
 *make a different icon for categories
 
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
-*Recipe does not have user icon
 
 *If category is deleted, items with that category need to be deleted from all use cases.
 
@@ -59,6 +58,8 @@
 *When you add another sub Item, all subItem Text Disapears - CREATE ITEM
 
 *screen has a grey tint after adding text to subItem in Create Item and Edit Item
+
+* Item looks cranked when the name is to long
 
 
 
