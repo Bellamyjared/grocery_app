@@ -5,6 +5,7 @@ import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
 import { GetGoogleAuth, AddUser, UpdateUser } from "../dbRequests/UserData";
 import { GetUserData } from "../dbRequests/UserData";
+import AlertBox from "../components/AlertBox";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -81,6 +82,10 @@ const Login = ({ navigation, route }) => {
           <Text style={styles.Font}> Sign in with Google</Text>
         </View>
       </Pressable>
+      <AlertBox
+        title="title test"
+        message="this is the message sent to the alertbox"
+      />
     </View>
   );
 };
