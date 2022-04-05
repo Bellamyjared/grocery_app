@@ -40,8 +40,6 @@
 *Should add loading screen for when the pages are getting info from database, if not they appear with Please add whatever
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 
-* grey dots in top left of add items with multi items, (found while creating a multi item from a single item after single item has been edited)
-
 *if all items are deleted in add items, delete function is still active
 
 *Need to convert userData, into a thingy, not pass through props
