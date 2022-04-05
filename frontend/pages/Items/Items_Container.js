@@ -30,6 +30,7 @@ const Items_Container = ({
   const [itemCount, setItemCount] = useState(initiateItemCount());
   const [toggleSubItemDropDown, setToggleSubItemDropDown] = useState(false);
   const [ChangeMultiItemBorder, setChangeMultiItemBorder] = useState(0);
+  const [itemHeight, setItemHeight] = useState(0);
 
   useEffect(() => {
     handleSelectedItemList(item.item, itemCount, index);
@@ -123,6 +124,8 @@ const Items_Container = ({
     if (subItemText === item.item) {
       if (itemCount[subItemText] > 0) {
         return {
+          height: itemHeight,
+          position: "absolute",
           borderTopRightRadius: 18,
           borderBottomRightRadius: 18,
           borderColor: "#66B99B",
@@ -134,6 +137,8 @@ const Items_Container = ({
       if (toggleSubItemDropDown) {
         if (itemCount[item.item][subItemText] > 0) {
           return {
+            height: itemHeight,
+            position: "absolute",
             borderTopRightRadius: 18,
             borderBottomRightRadius: 18,
             borderColor: "#66B99B",
@@ -207,9 +212,16 @@ const Items_Container = ({
     } else return true;
   };
 
+  const onLayout = (event) => {
+    const { height } = event.nativeEvent.layout;
+    setItemHeight(height);
+  };
   const singleItem = () => {
     return (
-      <View style={[styles.ItemView, ChangeBorderColor(item.item)]}>
+      <View
+        style={[styles.ItemView, ChangeBorderColor(item.item)]}
+        onLayout={onLayout}
+      >
         <View style={styles.ItemTextContainer}>
           <Text style={styles.Font}>{item.item}</Text>
           <View style={HideAndShow(styles.ItemCountContainer, item.item)}>
@@ -228,7 +240,7 @@ const Items_Container = ({
             {handleIcons(item.item)}
           </View>
 
-          <View style={HideAndShow(styles.RandomPlaceHolder, item.item)}>
+          <View style={HideAndShow(styles.MinusButton, item.item)}>
             <Icon
               name="minus"
               size={20}
@@ -270,6 +282,7 @@ const Items_Container = ({
                   styles.ItemView,
                   ChangeBorderColor(subItemText, subIndex),
                 ]}
+                onLayout={onLayout}
               >
                 <View style={styles.ItemTextContainer}>
                   <Text style={styles.Font}>{subItemText}</Text>
@@ -302,7 +315,7 @@ const Items_Container = ({
 
                   <View
                     style={HideAndShow(
-                      styles.RandomPlaceHolder,
+                      styles.MinusButton,
                       subItemText,
                       subIndex
                     )}
@@ -338,34 +351,38 @@ const styles = StyleSheet.create({
   ItemView: {
     flexDirection: "row",
     alignItems: "center",
+    minHeight: 45,
     marginTop: 10,
     marginBottom: 10,
-    height: 45,
     paddingLeft: 25,
     borderRadius: 18,
   },
   ItemTextContainer: {
-    flex: 2,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+    width: "70%",
   },
   ItemCountContainer: {
     flexDirection: "row",
     paddingRight: 15,
   },
   Icons: {
-    flex: 1,
     flexDirection: "row-reverse",
     alignItems: "center",
-    height: "100%",
+    width: "30%",
   },
   PlusIconContainer: {
     justifyContent: "center",
     alignItems: "center",
-    height: "110%",
     width: "60%",
     marginRight: -2,
     marginLeft: 10,
+  },
+
+  MinusButton: {
+    width: "100%",
+    alignItems: "flex-start",
   },
 
   Disabled: {
