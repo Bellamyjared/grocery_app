@@ -35,6 +35,8 @@
 
 *make a different icon for categories
 
+* change all pass props, that are passed through many hooks to useContext
+
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 
 *If you edit or add a new item, when you are adding items to recipe, they dont pass recipe to edit or add and back so it errors out when you go back to recipe.

@@ -61,6 +61,7 @@ const Add_Items = ({ route, navigation }) => {
     navigation.push("Edit_Item", {
       OriginRoute: OriginRoute,
       categories: categories,
+      recipe: recipe,
       item: item,
       userData: userData,
     });
@@ -247,6 +248,7 @@ const Add_Items = ({ route, navigation }) => {
               {
                 categories: categories,
                 OriginRoute: OriginRoute,
+                recipe: recipe,
                 userData: userData,
               },
             ],
@@ -301,6 +303,7 @@ const Add_Items = ({ route, navigation }) => {
           ButtonPassProps={{
             categories: categories,
             OriginRoute: OriginRoute,
+            recipe: recipe,
             userData: userData,
           }}
         />

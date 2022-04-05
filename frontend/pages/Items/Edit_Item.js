@@ -21,7 +21,7 @@ import ChangeNavStack from "../../components/ChangeNavStack";
 import Picker from "../../components/Picker";
 
 const Edit_Item = ({ route, navigation }) => {
-  const { categories, item, OriginRoute, userData } = route.params; // grab props from route
+  const { categories, item, OriginRoute, userData, recipe } = route.params; // grab props from route
   console.log(item);
 
   const [itemText, setItemText] = useState(item.item);
@@ -29,7 +29,7 @@ const Edit_Item = ({ route, navigation }) => {
   const [categoryText, setCategoryText] = useState(
     categories.filter((cat) => cat._id === item.categoryId)[0].category
   );
-  const [subItems, setSubItems] = useState([item.subItems]);
+  const [subItems, setSubItems] = useState(item.subItems);
   const [subItemCount, setSubItemCount] = useState(
     item.subItems.map((e, index) => {
       return index;
@@ -85,8 +85,26 @@ const Edit_Item = ({ route, navigation }) => {
         newItem = { ...newItem, subItems: final };
         console.log("test");
       } else {
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+
+        console.log(subItems);
+        console.log(subItems.length);
+
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+        console.log("test");
+
         Alert.alert("ERROR", "format issue sub Item");
-        test = false;
       }
     }
     if ((await UpdateItem(item._id, newItem)) === undefined) {
@@ -101,6 +119,7 @@ const Edit_Item = ({ route, navigation }) => {
       navigation.push("Add_Items", {
         OriginRoute: OriginRoute,
         userData: userData,
+        recipe: recipe,
       });
     }
   };

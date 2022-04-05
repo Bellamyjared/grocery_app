@@ -20,7 +20,7 @@ import Picker from "../../components/Picker";
 import Icon from "../../assets/icons/icon";
 
 const Create_Item = ({ route, navigation }) => {
-  const { categories, OriginRoute, userData } = route.params; // grab props from route
+  const { categories, OriginRoute, userData, recipe } = route.params; // grab props from route
 
   const [item, setItem] = useState();
   const [categoryId, setCategoryId] = useState();
@@ -90,6 +90,7 @@ const Create_Item = ({ route, navigation }) => {
       navigation.push("Add_Items", {
         categories: categories,
         OriginRoute: OriginRoute,
+        recipe: recipe,
         userData: userData,
       });
     }
