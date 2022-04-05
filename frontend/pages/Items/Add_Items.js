@@ -97,6 +97,10 @@ const Add_Items = ({ route, navigation }) => {
   const handleGetItems = async () => {
     data = await GetItem(userData.id);
     setItems(data);
+    if (data.length === 0) {
+      setHeaderStatus(null);
+      setDisableHeader(false);
+    }
   };
 
   const handleGetCategory = async () => {

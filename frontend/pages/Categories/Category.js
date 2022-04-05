@@ -32,13 +32,15 @@ const Category = ({ navigation, route }) => {
     data = await GetCategory(userData.id);
     setCategories([...data]);
     setCategoryOrder(data.length);
+    if (data.length === 0) {
+      setDisableHeader(false);
+    }
   };
 
   const handleDelete = async (id) => {
     let deleteStatus = await DeleteCategory(id, userData.id);
     if ((await deleteStatus) != undefined) {
       handleGetItems();
-      return true;
     } else {
       Alert.alert("ERROR", "format issue sub Item");
     }
