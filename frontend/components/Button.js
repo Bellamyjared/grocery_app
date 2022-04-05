@@ -29,7 +29,7 @@ const Button = ({
   };
 
   return (
-    <Pressable onPress={() => buttonPress()}>
+    <Pressable style={{ maxWidth: Width }} onPress={() => buttonPress()}>
       <View
         style={{
           justifyContent: "center",
