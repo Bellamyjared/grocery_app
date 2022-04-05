@@ -37,13 +37,8 @@
 
 * change all pass props, that are passed through many hooks to useContext
 
-~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
-
-*If you edit or add a new item, when you are adding items to recipe, they dont pass recipe to edit or add and back so it errors out when you go back to recipe.
-
 *Should add loading screen for when the pages are getting info from database, if not they appear with Please add whatever
-
-*After Creating item from Pages, List or Item, it should redirect you back to either one of those pages, or category if from category
+~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 
 * grey dots in top left of add items with multi items, (found while creating a multi item from a single item after single item has been edited)
 

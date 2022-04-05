@@ -293,7 +293,11 @@ const Add_Items = ({ route, navigation }) => {
       {categories.length === 0 ? (
         <AddCategoryScreen
           navigation={navigation}
-          passProps={{ userData: userData, OriginRoute: OriginRoute }}
+          passProps={{
+            userData: userData,
+            OriginRoute: OriginRoute,
+            CreateCategoryRoute: "Add_Items",
+          }}
         />
       ) : Items.length === 0 ? (
         <AddItemScreen

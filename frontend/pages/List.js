@@ -267,7 +267,7 @@ const List = ({ navigation, route }) => {
       {categories.length === 0 ? (
         <AddCategoryScreen
           navigation={navigation}
-          passProps={{ userData: userData }}
+          passProps={{ userData: userData, CreateCategoryRoute: "List" }}
         />
       ) : list.length === 0 ? (
         <AddItemScreen

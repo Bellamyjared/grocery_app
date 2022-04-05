@@ -7,10 +7,12 @@ import ButtonBar from "../../components/ButtonBar";
 import ChangeNavStack from "../../components/ChangeNavStack";
 
 const Create_Category = ({ route, navigation }) => {
-  const { categoryOrder, userData } = route.params; // grab props from route
+  const { categoryOrder, userData, OriginRoute, CreateCategoryRoute } =
+    route.params; // grab props from route
   const [categoryText, setCategoryText] = useState();
 
   const handleBack = () => navigation.goBack();
+
   const handleSubmit = async () => {
     // validation ~~~ NEEDS TO BE REPLACES WITH IN-APP ALERT AND UNDERLINE-TEXT ALERT
     if (categoryText === undefined) {
@@ -27,7 +29,10 @@ const Create_Category = ({ route, navigation }) => {
       };
       if ((await PostCategory(newCategory)) != undefined) {
         ChangeNavStack(navigation, ["Category", "Create_Category"]);
-        navigation.push("Category", { userData: userData });
+        navigation.push(CreateCategoryRoute, {
+          userData: userData,
+          OriginRoute: OriginRoute,
+        });
       } else {
         Alert.alert("ERROR", "format issue sub Item");
       }

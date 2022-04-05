@@ -88,6 +88,12 @@ const Login = ({ navigation, route }) => {
 export default Login;
 
 const styles = StyleSheet.create({
+  LoginContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
   Titlte: {
     fontFamily: "Poppins-Regular",
     fontSize: 35,
@@ -95,7 +101,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: "#d3d3d3d3",
   },
-  LoginContainer: { flex: 1, justifyContent: "center", alignItems: "center" },
   LoginButton: {
     flexDirection: "row",
     alignItems: "center",

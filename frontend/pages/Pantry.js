@@ -200,7 +200,7 @@ const Pantry = ({ navigation, route }) => {
       {categories.length === 0 ? (
         <AddCategoryScreen
           navigation={navigation}
-          passProps={{ userData: userData }}
+          passProps={{ userData: userData, CreateCategoryRoute: "Pantry" }}
         />
       ) : pantry.length === 0 ? (
         <AddItemScreen

@@ -72,7 +72,11 @@ const Category = ({ navigation, route }) => {
           "plus_circle",
           "Create_Category",
           "passProps",
-          { userData: userData, categoryOrder: categoryOrder },
+          {
+            userData: userData,
+            categoryOrder: categoryOrder,
+            CreateCategoryRoute: "Category",
+          },
         ],
         ["back_circle", "buttonFunction", handleBack],
       ];
@@ -131,7 +135,7 @@ const Category = ({ navigation, route }) => {
 
           <AddCategoryScreen
             navigation={navigation}
-            passProps={{ userData: userData }}
+            passProps={{ userData: userData, CreateCategoryRoute: "Category" }}
           />
         </View>
         {/* ~~~~~~~~~~~~~~~~   BUTTONBAR  ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */}
