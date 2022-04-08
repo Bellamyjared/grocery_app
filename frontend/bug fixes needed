@@ -40,8 +40,6 @@
 *Should add loading screen for when the pages are getting info from database, if not they appear with Please add whatever
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 
-test
-
 *when there is a server error, alerts dont always pop up.
 
 *When you add another sub Item, all subItem Text Disapears - CREATE ITEM

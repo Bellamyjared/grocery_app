@@ -28,12 +28,6 @@ router.route("/add").post((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.route("/:id").delete((req, res) => {
-  Item.findByIdAndDelete(req.params.id)
-    .then((itemInfo) => res.json("item deleted"))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
-
 router.route("/update/:id").post((req, res) => {
   Item.findById(req.params.id)
     .then((item) => {
@@ -47,6 +41,12 @@ router.route("/update/:id").post((req, res) => {
         .then(() => res.json("item updated: " + item))
         .catch((err) => res.status(400).json("Error: " + err));
     })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/:id").delete((req, res) => {
+  Item.findByIdAndDelete(req.params.id)
+    .then((itemInfo) => res.json("item deleted"))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 

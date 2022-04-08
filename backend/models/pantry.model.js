@@ -6,7 +6,7 @@ const pantrySchema = new Schema(
   {
     userId: { type: String },
     item: { type: String, trim: true },
-    categoryId: { type: mongoose.Schema.Types.ObjectId },
+    categoryId: { type: String },
     quantity: { type: Number, trim: true },
     subItem: { type: Object },
   },

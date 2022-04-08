@@ -1,5 +1,9 @@
 const router = require("express").Router();
 let Category = require("../models/category.model");
+// for deleting items with category, if category is deleted
+let List = require("../models/list.model");
+let Pantry = require("../models/pantry.model");
+let Item = require("../models/item.model");
 
 //GET ALL CATEGORIES
 router.route("/").post((req, res) => {
@@ -44,12 +48,84 @@ router.route("/update/:id").post((req, res) => {
 });
 
 //DELETE CATEGORY BASED OFF ID
-router.route("/:id").delete((req, res) => {
-  Category.findByIdAndDelete(req.params.id)
-    .then((deletedCategory) => {
-      res.json(deletedCategory);
+router.route("/delete/").post((req, res) => {
+  // find all items with category and delete it
+
+  let Errors = [];
+
+  List.find()
+    .then((list) => {
+      const listItem = list.filter(
+        (item) =>
+          item.userId === req.body.userId && item.categoryId === req.body.id
+      );
+      console.log(listItem);
+      if (listItem.length != 0) {
+        listItem.forEach((item) => {
+          List.findByIdAndDelete(item._id)
+            .then((i) => {
+              console.log(`${i} deleted`);
+            })
+            .catch((err) => console.log(`${err}`));
+        });
+      }
     })
-    .catch((err) => res.json("Error: " + err));
+    .catch((err) => Errors.append(err));
+
+  Pantry.find()
+    .then((list) => {
+      const listItem = list.filter(
+        (item) =>
+          item.userId === req.body.userId && item.categoryId === req.body.id
+      );
+      console.log(listItem);
+      if (listItem.length != 0) {
+        listItem.forEach((item) => {
+          Pantry.findByIdAndDelete(item._id)
+            .then((i) => {
+              console.log(`${i} deleted`);
+            })
+            .catch((err) => console.log(`${err}`));
+        });
+      }
+    })
+    .catch((err) => Errors.append(err));
+
+  Item.find()
+    .then((list) => {
+      const listItem = list.filter(
+        (item) =>
+          item.userId === req.body.userId && item.categoryId === req.body.id
+      );
+      console.log(listItem);
+
+      if (listItem.length != 0) {
+        listItem.forEach((item) => {
+          Item.findByIdAndDelete(item._id)
+            .then((i) => {
+              console.log(`${i} deleted`);
+            })
+            .catch((err) => console.log(`${err}`));
+        });
+      }
+    })
+    .catch((err) => Errors.append(err));
+
+  Category.findByIdAndDelete(req.body.id)
+    .then((i) => {
+      res.json(`success, ${i} deleted`);
+    })
+    .catch((err) => {
+      res.status(400).json(`error ${err}`);
+    });
 });
+
+// delete category
+//   Category.findByIdAndDelete(req.params.id)
+//     .then((deletedCategory) => {
+//       res.json(deletedCategory);
+//     })
+//     .catch((err) => res.json("Error: " + err));
+// });
 
 module.exports = router;

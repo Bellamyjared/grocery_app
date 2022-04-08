@@ -82,10 +82,11 @@ const Login = ({ navigation, route }) => {
           <Text style={styles.Font}> Sign in with Google</Text>
         </View>
       </Pressable>
-      <AlertBox
+      {/* redacted for beta launch */}
+      {/* <AlertBox
         title="title test"
         message="this is the message sent to the alertbox"
-      />
+      /> */}
     </View>
   );
 };

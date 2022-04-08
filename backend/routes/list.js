@@ -2,6 +2,7 @@ const router = require("express").Router();
 let List = require("../models/list.model");
 
 router.route("/").post((req, res) => {
+  // this only works if there arent that many list items in db, needs to be changed eventually
   List.find()
     .then((list) => {
       res.json(list.filter((e) => e.userId === req.body.userId));
