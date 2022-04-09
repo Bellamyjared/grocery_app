@@ -1,8 +1,8 @@
 {
   "expo": {
-    "scheme": "mycoolredirect",
-    "name": "grocery_app",
-    "slug": "grocery_app",
+    "scheme": "com.groceryapp",
+    "name": "groceryapp",
+    "slug": "groceryapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -17,10 +17,10 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "groceryApp.bundleIdentifier.Bellamy"
+      "bundleIdentifier": "com.groceryapp"
     },
     "android": {
-      "package": "groceryApp.android.package.Bellamy",
+      "package": "com.groceryapp",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",

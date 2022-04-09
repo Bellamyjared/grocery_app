@@ -10,7 +10,7 @@ import { useIsFocused } from "@react-navigation/native";
 
 const RedirectLoggedInUsers = ({ navigation, route }) => {
   const [deviceId, setDeviceId] = useState(
-    Device.osInternalBuildId + Device.deviceName
+    Device.osInternalBuildId + Device.deviceName + 1
   );
   const isFocused = useIsFocused();
 
