@@ -14,12 +14,7 @@
 //   const [udata, setudata] = useState(null);
 
 //   const [request, response, promptAsync] = Google.useAuthRequest({
-//     expoClientId:
-//       "743190281722-p9gtr2203t866jkb0b8lvnfnbjaroo0f.apps.googleusercontent.com",
-//     iosClientId:
-//       "743190281722-humk6onapotcd7gl2fn1dqf8svoul8im.apps.googleusercontent.com",
-//     androidClientId:
-//       "743190281722-vnkomjfleidbtfh8ds2sdapag7d8553t.apps.googleusercontent.com",
+
 //   });
 
 //   useEffect(() => {
@@ -117,14 +112,29 @@
 //   },
 // });
 import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Pressable, Alert } from "react-native";
+import Icon from "../assets/icons/icon";
 
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
 import axios from "axios";
 import * as WebBrowser from "expo-web-browser";
 import * as Google from "expo-auth-session/providers/google";
+import * as SecureStore from "expo-secure-store";
 
 WebBrowser.maybeCompleteAuthSession();
+
+async function save(key, value) {
+  await SecureStore.setItemAsync(key, value);
+}
+
+async function getValueFor(key) {
+  let result = await SecureStore.getItemAsync(key);
+  if (result) {
+    alert("🔐 Here's your value 🔐 \n" + result);
+  } else {
+    alert("No values stored under that key.");
+  }
+}
 
 export default function Login({ navigation, route }) {
   const [gUser, setGUser] = useState(null);
@@ -132,11 +142,11 @@ export default function Login({ navigation, route }) {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId:
-      "743190281722-p9gtr2203t866jkb0b8lvnfnbjaroo0f.apps.googleusercontent.com",
+
     iosClientId:
-      "743190281722-humk6onapotcd7gl2fn1dqf8svoul8im.apps.googleusercontent.com",
+
     androidClientId:
-      "743190281722-vnkomjfleidbtfh8ds2sdapag7d8553t.apps.googleusercontent.com",
+
   });
 
   useEffect(() => {
@@ -173,40 +183,63 @@ export default function Login({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      {reqError !== "" && (
-        <View>
-          <Text>There was an error</Text>
-          <Text>{JSON.stringify(reqError, "reqEr", 4)}</Text>
-        </View>
-      )}
-
-      <Text
-        style={{
-          fontWeight: "bold",
-        }}
-      >
-        Signed user
-      </Text>
-
-      {gUser === null && <Text>No user</Text>}
-
       {gUser !== null && <Text>{JSON.stringify(gUser, null, 4)}</Text>}
 
-      <Button
-        disabled={!request}
-        title="Sign in"
-        onPress={() => promptAsync()}
-      />
-
-      <StatusBar style="auto" />
+      <View style={styles.LoginContainer}>
+        {gUser !== null && <Text>{JSON.stringify(gUser, null, 4)}</Text>}
+        <Text style={styles.Titlte}>Account Login</Text>
+        <Pressable onPress={() => promptAsync({ useProxy: true })}>
+          <View style={styles.LoginButton}>
+            <Icon
+              name={"google_icon"}
+              size={25}
+              style={{ color: "white", paddingBottom: 5, paddingRight: 5 }}
+            />
+            <Text style={styles.Font}> Sign in with Google</Text>
+          </View>
+        </Pressable>
+        {/* redacted for beta launch */}
+        {/* <AlertBox
+         title="title test"
+        message="this is the message sent to the alertbox"
+     /> */}
+      </View>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
+  },
+  LoginContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  Titlte: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 35,
+    marginBottom: 50,
+    borderBottomWidth: 2,
+    borderColor: "#d3d3d3d3",
+  },
+  LoginButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 20,
+    paddingRight: 20,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#157efb",
+  },
+  Font: {
+    fontFamily: "Poppins-Regular",
+    color: "white",
+    fontSize: 16,
   },
 });
