@@ -1,33 +1,8 @@
 import axios from "axios";
 import { GetIp } from "./GetIp";
-const ip = GetIp();
+import * as SecureStore from "expo-secure-store";
 
-export async function CheckIfUserExists(deviceId) {
-  const result = await axios.post(`${ip}/loggeddeviceandtoken/`, {
-    deviceId: deviceId,
-  });
-  if (result.data.length > 0) {
-    return result.data;
-  } else {
-    return undefined;
-  }
-}
-export async function AddUser(userInfo) {
-  const result = await axios
-    .post(`${ip}/loggeddeviceandtoken/add`, userInfo)
-    .catch((error) => {
-      console.log(error);
-    });
-  return result.data;
-}
-export async function UpdateUser(userInfo) {
-  const result = await axios
-    .post(`${ip}/loggeddeviceandtoken/update`, userInfo)
-    .catch((error) => {
-      console.log(error);
-    });
-  return result.data;
-}
+const ip = GetIp();
 
 export async function GetGoogleAuth() {
   const result = await axios(`${ip}/googlecredential`);
@@ -44,8 +19,22 @@ export async function GetUserData(accessToken) {
 
   const result = await axios(url, config).catch((error) => {});
   if (typeof result === "undefined") {
-    return undefined;
+    return null;
   } else {
     return result.data;
+  }
+}
+
+// STORAGE USER TOKEN
+export async function SaveToken(value) {
+  await SecureStore.setItemAsync("grocery_app_user", value);
+}
+
+export async function GetToken() {
+  let result = await SecureStore.getItemAsync("grocery_app_user");
+  if (result) {
+    return result;
+  } else {
+    return null;
   }
 }

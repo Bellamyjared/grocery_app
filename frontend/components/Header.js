@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import Icon from "../assets/icons/icon";
 import IconOnPress from "./IconOnPress";
 import { CommonActions } from "@react-navigation/native";
+import { SaveToken } from "../dbRequests/UserData";
 
 const Header = ({ navigation, title, icons, disabled, userData }) => {
   const [SignOutToggle, setSignOutToggle] = useState(false);
@@ -92,13 +93,13 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
   };
 
   const signOut = () => {
+    SaveToken("null");
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
         routes: [
           {
-            name: "RedirectLoggedInUsers",
-            params: { signOut: true },
+            name: "Login",
           },
         ],
       })
