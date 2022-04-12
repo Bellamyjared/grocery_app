@@ -182,7 +182,6 @@ const styles = StyleSheet.create({
   AddCategoryContainer: {
     flex: 1,
     backgroundColor: "#fff",
-    paddingTop: 30,
     paddingLeft: 25,
     paddingRight: 25,
   },
@@ -195,12 +194,9 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
     backgroundColor: "#fff",
-    paddingTop: 30,
     paddingLeft: 25,
     paddingRight: 25,
   },
-
-  header: {},
 
   container: {
     flexDirection: "row",

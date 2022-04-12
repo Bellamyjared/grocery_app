@@ -23,7 +23,7 @@ export default function MoveAbleList({
   const positions = useSharedValue(listToObject(categories));
   const scrollY = useSharedValue(0);
   const scrollViewRef = useAnimatedRef();
-  const HEADER_HEIGHT = 100;
+  const HEADER_HEIGHT = 120;
 
   useEffect(() => {
     positions.value = listToObject(categories);

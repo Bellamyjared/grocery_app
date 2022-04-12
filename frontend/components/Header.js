@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   header: {
     justifyContent: "flex-end",
     backgroundColor: "#fff",
-    paddingTop: 45,
+    height: 120,
     paddingLeft: 20,
     paddingRight: 20,
   },
