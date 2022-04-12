@@ -108,7 +108,6 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
 
   return (
     <>
-      {/* <StatusBar barStyle="dark-content" backgroundColor="#fff" /> */}
       <View style={styles.header}>
         <View
           style={{
@@ -150,7 +149,7 @@ const Header = ({ navigation, title, icons, disabled, userData }) => {
                 alignItems: "center",
                 width: "100%",
                 height: "100%",
-                paddingLeft: 45,
+                paddingLeft: 60,
               }}
             >
               <Pressable onPress={() => signOut()} style={{}}>
@@ -183,9 +182,11 @@ export default Header;
 
 const styles = StyleSheet.create({
   header: {
-    marginTop: 0,
-    paddingLeft: "5%",
-    paddingRight: "5%",
+    justifyContent: "flex-end",
+    backgroundColor: "#fff",
+    paddingTop: 45,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 
   disbaledIcon: {

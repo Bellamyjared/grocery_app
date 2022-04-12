@@ -200,11 +200,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
 
-  header: {
-    justifyContent: "flex-end",
-    backgroundColor: "#fff",
-    height: 115,
-  },
+  header: {},
 
   container: {
     flexDirection: "row",

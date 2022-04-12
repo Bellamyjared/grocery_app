@@ -290,11 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
 
-  header: {
-    height: 100,
-    justifyContent: "flex-end",
-    backgroundColor: "#fff",
-  },
+  header: {},
   text: { fontFamily: "Poppins-Regular", fontSize: 50 },
 
   buttonBar: {

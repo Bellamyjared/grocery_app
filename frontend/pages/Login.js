@@ -71,7 +71,13 @@ export default function Login({ navigation, route }) {
   };
 
   const redirect = (userData) => {
+    setLoading(false);
     navigation.navigate("List", { userData: userData });
+  };
+
+  const handleButton = () => {
+    setLoading(true);
+    promptAsync();
   };
 
   return loading ? (
@@ -81,13 +87,16 @@ export default function Login({ navigation, route }) {
   ) : (
     <View style={styles.container}>
       <View style={styles.LoginContainer}>
+        {/* ~~~~~~~~~ Title ~~~~~~~~~~~~~~~~ */}
         <Text style={styles.Titlte}>Account Login</Text>
+        {/* ~~~~~~~~~~~ Error message ~~~~~~~~~~~~~~~~ */}
         {reqError != null && (
           <Text style={styles.ErrorText}>
             An Error has occured. Please try again later
           </Text>
         )}
-        <Pressable onPress={() => promptAsync()}>
+        {/* ~~~~~~~~~~~~ Google Button ~~~~~~~~~~~~~~~~*/}
+        <Pressable onPress={() => handleButton()}>
           <View style={styles.LoginButton}>
             <Icon
               name={"google_icon"}

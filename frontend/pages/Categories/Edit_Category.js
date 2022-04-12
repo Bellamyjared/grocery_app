@@ -77,11 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  header: {
-    justifyContent: "flex-end",
-    backgroundColor: "#fff",
-    height: 115,
-  },
+  header: {},
 
   form_Lable: { margin: 10, fontSize: 20 },
 

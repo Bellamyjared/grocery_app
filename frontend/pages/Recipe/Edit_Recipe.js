@@ -249,11 +249,7 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
   },
-  header: {
-    justifyContent: "flex-end",
-    backgroundColor: "#fff",
-    height: 115,
-  },
+  header: {},
 
   body: {
     flex: 1,

@@ -372,11 +372,7 @@ const Add_Items = ({ route, navigation }) => {
 export default Add_Items;
 
 const styles = StyleSheet.create({
-  header: {
-    justifyContent: "flex-end",
-    backgroundColor: "#fff",
-    height: 115,
-  },
+  header: {},
 
   body: {
     flexGrow: 1,

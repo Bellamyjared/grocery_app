@@ -31,6 +31,7 @@ const Items_Container = ({
   const [toggleSubItemDropDown, setToggleSubItemDropDown] = useState(false);
   const [ChangeMultiItemBorder, setChangeMultiItemBorder] = useState(0);
   const [itemHeight, setItemHeight] = useState(0);
+  const [subItemHeight, setSubItemHeight] = useState([]);
 
   useEffect(() => {
     handleSelectedItemList(item.item, itemCount, index);
@@ -120,12 +121,10 @@ const Items_Container = ({
     }
   };
 
-  const ChangePlusBackgound = (subItemText, subItemIndex) => {
-    if (subItemText === item.item) {
-      if (itemCount[subItemText] > 0) {
+  const ChangePlusBackgound = (ItemText, subItemIndex, subItemHeight) => {
+    if (ItemText === item.item) {
+      if (itemCount[ItemText] > 0) {
         return {
-          height: itemHeight,
-          position: "absolute",
           borderTopRightRadius: 18,
           borderBottomRightRadius: 18,
           borderColor: "#66B99B",
@@ -135,9 +134,9 @@ const Items_Container = ({
       }
     } else {
       if (toggleSubItemDropDown) {
-        if (itemCount[item.item][subItemText] > 0) {
+        if (itemCount[item.item][ItemText] > 0) {
           return {
-            height: itemHeight,
+            height: subItemHeight[subItemIndex],
             position: "absolute",
             borderTopRightRadius: 18,
             borderBottomRightRadius: 18,
@@ -145,9 +144,17 @@ const Items_Container = ({
             borderWidth: 2,
             backgroundColor: "#97FFDA",
           };
+        } else {
+          return {
+            width: 50,
+          };
         }
       }
     }
+  };
+
+  const ChangeItemHeight = (height) => {
+    return { height: height, position: "absolute" };
   };
 
   const handleIcons = (subItem, subIndex, multiItem) => {
@@ -216,26 +223,52 @@ const Items_Container = ({
     const { height } = event.nativeEvent.layout;
     setItemHeight(height);
   };
+  const onSubItemLayout = (event, index) => {
+    const { height } = event.nativeEvent.layout;
+    let tempList = subItemHeight;
+    tempList[index] = height;
+    setSubItemHeight(tempList);
+  };
+
   const singleItem = () => {
     return (
       <View
         style={[styles.ItemView, ChangeBorderColor(item.item)]}
         onLayout={onLayout}
       >
-        <View style={styles.ItemTextContainer}>
-          <Text style={styles.Font}>{item.item}</Text>
+        <View
+          style={
+            itemCount[item.item] === 0
+              ? styles.ItemTextContainer
+              : [styles.ItemTextContainer, { width: "70%" }]
+          }
+        >
+          <View style={itemCount[item.item] != 0 && { width: "70%" }}>
+            <Text style={styles.Font}>{item.item}</Text>
+          </View>
           <View style={HideAndShow(styles.ItemCountContainer, item.item)}>
             <Icon
               style={{ paddingTop: 12, paddingRight: 10 }}
               name="x"
               size={10}
             />
-            <Text style={{ fontSize: 20 }}> {itemCount[item.item]}</Text>
+
+            <Text style={styles.Font}> {itemCount[item.item]}</Text>
           </View>
         </View>
-        <View style={styles.Icons}>
+        <View
+          style={
+            itemCount[item.item] === 0
+              ? styles.Icons
+              : [styles.Icons, { width: "30%" }]
+          }
+        >
           <View
-            style={[styles.PlusIconContainer, ChangePlusBackgound(item.item)]}
+            style={[
+              styles.PlusIconContainer,
+              ChangePlusBackgound(item.item),
+              ChangeItemHeight(itemHeight),
+            ]}
           >
             {handleIcons(item.item)}
           </View>
@@ -256,15 +289,21 @@ const Items_Container = ({
     return (
       <>
         <View
-          style={[
+          style={
             ChangeMultiItemBorder != 0
               ? styles.HighLightedMultiItemContainer
-              : styles.MultiItemContainer,
-          ]}
+              : styles.MultiItemContainer
+          }
+          onLayout={onLayout}
         >
-          <TouchableWithoutFeedback onPress={() => showSubItems()}>
-            <View style={[styles.MultiItemTitle]}>
-              <Text style={styles.Font}>{item.item}</Text>
+          <TouchableWithoutFeedback
+            style={ChangeItemHeight(itemHeight)}
+            onPress={() => showSubItems()}
+          >
+            <View style={styles.MultiItemTitleContainer}>
+              <View style={styles.MultiItemTitle}>
+                <Text style={styles.Font}>{item.item}</Text>
+              </View>
               {handleMultiItemIcon()}
             </View>
           </TouchableWithoutFeedback>
@@ -282,10 +321,31 @@ const Items_Container = ({
                   styles.ItemView,
                   ChangeBorderColor(subItemText, subIndex),
                 ]}
-                onLayout={onLayout}
+                onLayout={(event) => {
+                  onSubItemLayout(event, subIndex);
+                }}
               >
-                <View style={styles.ItemTextContainer}>
-                  <Text style={styles.Font}>{subItemText}</Text>
+                <View
+                  style={
+                    itemCount[item.item][subItemText] > 0
+                      ? [
+                          styles.ItemTextContainer,
+                          {
+                            width: "70%",
+                          },
+                        ]
+                      : [styles.ItemTextContainer]
+                  }
+                >
+                  <View
+                    style={
+                      itemCount[item.item][subItemText] > 0
+                        ? { maxWidth: "70%" }
+                        : { maxWidth: "100%" }
+                    }
+                  >
+                    <Text style={styles.Font}>{subItemText}</Text>
+                  </View>
                   <View
                     style={HideAndShow(
                       styles.ItemCountContainer,
@@ -303,11 +363,22 @@ const Items_Container = ({
                     </Text>
                   </View>
                 </View>
-                <View style={styles.Icons}>
+                <View
+                  style={
+                    itemCount[item.item][subItemText] > 0
+                      ? [
+                          styles.Icons,
+                          {
+                            width: "30%",
+                          },
+                        ]
+                      : [styles.Icons]
+                  }
+                >
                   <View
                     style={[
                       styles.PlusIconContainer,
-                      ChangePlusBackgound(subItemText, subIndex),
+                      ChangePlusBackgound(subItemText, subIndex, subItemHeight),
                     ]}
                   >
                     {handleIcons(subItemText, subIndex, "multiItem")}
@@ -348,6 +419,7 @@ const Items_Container = ({
 };
 
 const styles = StyleSheet.create({
+  // Single Item
   ItemView: {
     flexDirection: "row",
     alignItems: "center",
@@ -355,13 +427,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     paddingLeft: 25,
+    paddingTop: 10,
+    paddingBottom: 10,
     borderRadius: 18,
+    maxWidth: "100%",
   },
   ItemTextContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "70%",
+    width: "80%",
   },
   ItemCountContainer: {
     flexDirection: "row",
@@ -370,7 +445,7 @@ const styles = StyleSheet.create({
   Icons: {
     flexDirection: "row-reverse",
     alignItems: "center",
-    width: "30%",
+    width: "15%",
   },
   PlusIconContainer: {
     justifyContent: "center",
@@ -392,9 +467,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
+  // Multi Items
   HighLightedMultiItemContainer: {
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingTop: 5,
+    paddingBottom: 5,
     alignItems: "center",
     borderWidth: 2,
     borderRadius: 18,
@@ -403,8 +479,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   MultiItemContainer: {
-    paddingLeft: 20,
-    paddingRight: 20,
+    justifyContent: "center",
+    minHeight: 45,
+    paddingTop: 5,
+    paddingBottom: 5,
     alignItems: "center",
     borderWidth: 1,
     borderColor: "#C4C4C4",
@@ -412,13 +490,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
   },
-  MultiItemTitle: {
+  MultiItemTitleContainer: {
+    paddingLeft: 20,
+    paddingRight: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
     width: "100%",
-    height: 40,
+  },
+  MultiItemTitle: {
+    maxWidth: "85%",
   },
   SubItemContainer: {
     alignItems: "center",
