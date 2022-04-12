@@ -120,7 +120,7 @@ const Create_Item = ({ route, navigation }) => {
             <Pressable onPress={() => setToggleDropDown(true)}>
               <View style={styles.CategoryTextContainer}>
                 {categoryText.length === 0 ? (
-                  <Text style={styles.CategoryText}>Please Holder Text</Text>
+                  <Text style={styles.CategoryText}>Select Category</Text>
                 ) : (
                   <Text style={styles.CategoryText}>{categoryText}</Text>
                 )}
@@ -130,9 +130,10 @@ const Create_Item = ({ route, navigation }) => {
           </View>
           <View style={{ paddingTop: 15, paddingBottom: 30, width: 300 }}>
             <Text style={styles.form_Lable}>Sub Item</Text>
-            {subItemCount.map((count) => (
+            {subItemCount.map((count, index) => (
               <SubItemForm
                 key={Math.floor(Math.random() * 100)}
+                ItemText={subItems[index]}
                 subItems={subItems}
                 setSubItems={setSubItems}
                 subItemCount={subItemCount}

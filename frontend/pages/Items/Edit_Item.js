@@ -37,7 +37,6 @@ const Edit_Item = ({ route, navigation }) => {
   );
   const [toggleDropDown, setToggleDropDown] = useState(false);
   const [count, setCount] = useState(item.subItems.length);
-  console.log(subItemCount);
 
   // ************ HANDLE SUBITEM BUTTON *****************
 
@@ -83,27 +82,7 @@ const Edit_Item = ({ route, navigation }) => {
     if (subItems.length != 0) {
       if (final.length != 0 && final != [""]) {
         newItem = { ...newItem, subItems: final };
-        console.log("test");
       } else {
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-
-        console.log(subItems);
-        console.log(subItems.length);
-
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-        console.log("test");
-
         Alert.alert("ERROR", "format issue sub Item");
       }
     }
