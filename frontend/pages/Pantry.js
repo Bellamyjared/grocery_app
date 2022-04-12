@@ -187,9 +187,9 @@ const Pantry = ({ navigation, route }) => {
             categories.length === 0
               ? []
               : pantry.length === 0
-              ? [["edit", "Category", "passProps", { userData: userData }]]
+              ? [["category", "Category", "passProps", { userData: userData }]]
               : [
-                  ["edit", "Category", "passProps", { userData: userData }],
+                  ["category", "Category", "passProps", { userData: userData }],
                   ["trash", "buttonFunction", headerTrash],
                 ]
           }

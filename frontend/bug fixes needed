@@ -35,12 +35,8 @@
 
 *make a different icon for categories
 
-* change all pass props, that are passed through many hooks to useContext
-
 *Should add loading screen for when the pages are getting info from database, if not they appear with Please add whatever
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
-
-* Category header looks really bad
 
 *when there is a server error, alerts dont always pop up.
 
@@ -48,7 +44,6 @@
 
 *screen has a grey tint after adding text to subItem in Create Item and Edit Item
 
-* Item looks cranked when the name is to long
 
 
 
