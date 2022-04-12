@@ -14,7 +14,7 @@ import { DeleteCategory } from "../../dbRequests/Category";
 import { DeleteValidation } from "../../components/DeleteValidation";
 import Header from "../../components/Header";
 import ButtonBar from "../../components/ButtonBar";
-import MoveAbleList from "../MoveAbleList/MoveAbleList";
+import MoveAbleList from "../../components/MoveAbleList/MoveAbleList";
 
 const Category = ({ navigation, route }) => {
   const { userData } = route.params;

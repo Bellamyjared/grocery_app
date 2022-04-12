@@ -20,7 +20,6 @@ import Edit_Item from "./pages/Items/Edit_Item";
 import Category from "./pages/Categories/Category";
 import Create_Category from "./pages/Categories/Create_Category";
 import Edit_Category from "./pages/Categories/Edit_Category";
-import MoveAbleList from "./pages/MoveAbleList/MoveAbleList";
 
 export default function App() {
   let [fontsLoaded, error] = useFonts({
@@ -72,11 +71,6 @@ export default function App() {
         <Stack.Screen
           name="Edit_Category"
           component={Edit_Category}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="MoveAbleList"
-          component={MoveAbleList}
           options={{ headerShown: false }}
         />
         <Stack.Screen
