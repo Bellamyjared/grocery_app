@@ -138,7 +138,7 @@ const Edit_Item = ({ route, navigation }) => {
                 subItemCount={subItemCount}
                 handleSubItemText={handleSubItemText}
                 count={count}
-                ItemText={item.subItems[index]}
+                ItemText={subItems[index]}
               />
             ))}
 
