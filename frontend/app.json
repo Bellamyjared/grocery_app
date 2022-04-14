@@ -1,7 +1,7 @@
 {
   "expo": {
-    "scheme": "com.groceryapp",
-    "name": "groceryapp",
+    "scheme": "com.jaredbellamy.groceryapp",
+    "name": "Grocery App",
     "slug": "groceryapp",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,10 +17,11 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.groceryapp"
+      "bundleIdentifier": "com.jaredbellamy.groceryapp"
     },
     "android": {
-      "package": "com.groceryapp",
+      "permissions": [],
+      "package": "com.jaredbellamy.groceryapp",
       "softwareKeyboardLayoutMode": "pan",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
