@@ -34,6 +34,12 @@
 *if signout button is out, if you click anywhere (not only on the header) the signout button should be disabled, unless you click the signout button
 
 *Should add loading screen for when the pages are getting info from database, if not they appear with Please add whatever
+
+* items first five items are most used
+
+* items list should be alphebtical order
+
+
 ~~~~~~~~~~~~~~~   BUGS  ~~~~~~~~~~~~~~~~~~~~
 
 *when there is a server error, alerts dont always pop up.
