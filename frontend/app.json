@@ -1,8 +1,9 @@
 {
   "expo": {
     "scheme": "com.jaredbellamy.groceryapp",
-    "name": "Grocery App",
-    "slug": "groceryapp",
+    "name": "Bell's Grocery App",
+    "slug": "bellsgroceryapp",
+    "privacry": "pubblic",
     "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +22,7 @@
       "buildNumber": "1.0.1"
     },
     "android": {
-      "versionCode": 2,
+      "versionCode": 3,
       "permissions": [],
       "package": "com.jaredbellamy.groceryapp",
       "softwareKeyboardLayoutMode": "pan",
@@ -33,6 +34,6 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": ""
+    "description": "A simple to use grocery app"
   }
 }
